@@ -20,11 +20,21 @@ builds:
       - -X github.com/ctfer-io/pulumi-ctfd/provider/pkg/version.Version={{.Tag }}
     main: ./cmd/pulumi-resource-ctfd/
 changelog:
-  sort: asc
+  skip: true
+  use: github
   filters:
     exclude:
-      - '^docs:'
-      - '^test:'
+      - '^docs'
+      - '^chore'
+  groups:	
+    - title: 'New Features'	
+      regexp: "^.*feat[(\\w)]*:+.*$"	
+      order: 0	
+    - title: 'Bugfixes'	
+      regexp: "^.*fix[(\\w)]*:+.*$"	
+      order: 10	
+    - title: Other Work	
+      order: 999
 sboms:
   - artifacts: source
 release:

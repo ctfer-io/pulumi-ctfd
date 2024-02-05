@@ -1,4 +1,4 @@
-name: release
+name: Release
 
 on:
   push:
@@ -7,89 +7,89 @@ on:
 
 permissions:
   contents: read
-
-env:
-  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
-  NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
-  NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
-  PUBLISH_NPM: true
-  NPM_REGISTRY_URL: https://registry.npmjs.org
-
-  NUGET_PUBLISH_KEY: ${{ secrets.NUGET_TOKEN }}
-  NUGET_FEED_URL: https://api.nuget.org/v3/index.json
-  PUBLISH_NUGET: true
-
-  PYPI_PASSWORD: ${{ secrets.PYPI_TOKEN }}
-  PYPI_USERNAME: "ctfer-io"
-  PYPI_REPOSITORY_URL: ""
-  PUBLISH_PYPI: true
+  pull-requests: read
 
 jobs:
-  publish_binary:
-    name: publish
+  release:
+    runs-on: ubuntu-latest
+    name: Release
+    outputs:
+      release_created: ${{ steps.release.outputs.release_created }}
+    permissions:
+      contents: write
+      pull-requests: write
+
+    steps:
+      - uses: google-github-actions/release-please-action@v4
+        id: release
+
+  publish_provider:
+    if: needs.release.outputs.release_created
+    runs-on: ubuntu-latest
+    name: Publish Provider
     outputs:
       hashes: ${{ steps.hash.outputs.hashes }}
     permissions:
+      id-token: write
       contents: write  # for goreleaser/goreleaser-action to create a GitHub release
-    runs-on: ubuntu-latest
+    needs: [release]
     strategy:
       fail-fast: true
       matrix:
-        goversion:
-        - 1.21.x
+        goversion: [1.21.x]
     steps:
-    - name: Checkout Repo
-      uses: actions/checkout@v4
-    - name: Unshallow clone for tags
-      run: git fetch --prune --unshallow --tags
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
 
-    - name: Install Go
-      uses: actions/setup-go@v5
-      with:
-        go-version: ${{ matrix.goversion }}
+      - name: Install Go
+        uses: actions/setup-go@v5
+        with:
+          go-version: ${{ matrix.goversion }}
 
-    - name: Install Syft
-      run: |
-        curl -sSfL https://raw.githubusercontent.com/anchore/syft/main/install.sh | sh -s -- -b /usr/local/bin
+      - name: Download Syft
+        uses: anchore/sbom-action/download-syft@v0.15.8
 
-    - name: Install pulumictl
-      uses: jaxxstorm/action-install-gh-release@v1.10.0
-      with:
-        repo: pulumi/pulumictl
+      - name: Install pulumictl
+        uses: jaxxstorm/action-install-gh-release@v1.10.0
+        with:
+          repo: pulumi/pulumictl
 
-    - name: Set PreRelease Version
-      run: echo "GORELEASER_CURRENT_TAG=v$(pulumictl get version --language generic)" >> $GITHUB_ENV
+      - name: Set PreRelease Version
+        run: echo "GORELEASER_CURRENT_TAG=v$(pulumictl get version --language generic)" >> $GITHUB_ENV
 
-    - name: Run GoReleaser
-      id: run-goreleaser
-      uses: goreleaser/goreleaser-action@v5
-      with:
-        args: -p 3 release --clean
-        version: latest
+      - name: Run GoReleaser
+        id: run-goreleaser
+        uses: goreleaser/goreleaser-action@v5
+        with:
+          args: -p 3 release --clean --timeout 60m0s
+          version: latest
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-    - name: Generate subject
-      id: hash
-      env:
-        ARTIFACTS: "${{ steps.run-goreleaser.outputs.artifacts }}"
-      run: |
-        set -euo pipefail
+      - name: Generate subject
+        id: hash
+        env:
+          ARTIFACTS: "${{ steps.run-goreleaser.outputs.artifacts }}"
+        run: |
+          set -euo pipefail
 
-        checksum_file=$(echo "$ARTIFACTS" | jq -r '.[] | select (.type=="Checksum") | .path')
-        echo "hashes=$(cat $checksum_file | base64 -w0)" >> "$GITHUB_OUTPUT"
+          checksum_file=$(echo "$ARTIFACTS" | jq -r '.[] | select (.type=="Checksum") | .path')
+          echo "hashes=$(cat $checksum_file | base64 -w0)" >> "$GITHUB_OUTPUT"
 
   provenance:
-    needs: [publish_binary]
+    needs: [publish_provider]
     permissions:
       actions: read # To read the workflow path.
       id-token: write # To sign the provenance.
       contents: write # To add assets to a release.
     uses: slsa-framework/slsa-github-generator/.github/workflows/generator_generic_slsa3.yml@v1.9.0
     with:
-      base64-subjects: "${{ needs.publish_binary.outputs.hashes }}"
+      base64-subjects: "${{ needs.publish_provider.outputs.hashes }}"
       upload-assets: true # upload to a new release
   verification:
-    needs: [publish_binary, provenance]
+    needs: [publish_provider, provenance]
     runs-on: ubuntu-latest
     permissions: read-all
     steps:
@@ -122,25 +122,122 @@ jobs:
           done <<<"$checksums"
 
   publish_sdk:
-    name: Publish SDKs
+    if: needs.release.outputs.release_created
     runs-on: ubuntu-latest
-    needs: publish_binary
-    steps:
-    - name: Publish SDKs
-      uses: pulumi/pulumi-package-publisher@v0.0.13
+    name: Publish SDK
+    permissions:
+      id-token: write
+      contents: read
+    needs: [release, publish_provider]
     strategy:
-      fail-fast: true
+      max-parallel: 10
       matrix:
-        dotnetversion:
-          - 3.1.301
-        goversion:
-          - 1.21.x
+        go-version: [1.21.x]
+        node-version: [18.x]
+        dotnet-version: [3.1.301]
+        python-version: [3.9]
         language:
+          - go
           - nodejs
           - python
           - dotnet
-          - go
-        nodeversion:
-          - 14.x
-        pythonversion:
-          - "3.9"
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Install Go
+        uses: actions/setup-go@v5
+        with:
+          go-version: "${{ matrix.go-version }}"
+
+      - name: Install pulumictl
+        uses: jaxxstorm/action-install-gh-release@v1.10.0
+        with:
+          repo: pulumi/pulumictl
+      - name: Install Pulumi CLI
+        uses: pulumi/actions@v5
+
+      - name: Setup DotNet
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: "${{ matrix.dotnet-version }}"
+        if: matrix.language == 'dotnet'
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "${{ matrix.python-version }}"
+        if: matrix.language == 'python'
+      - name: Use Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "${{ matrix.node-version }}"
+        if: matrix.language == 'nodejs'
+
+      - name: Install Plugins
+        run: make install_plugins
+      - name: Update Path
+        run: echo "${{ github.workspace }}/bin" >> $GITHUB_PATH
+
+      - name: Build SDK
+        run: make build_${{ matrix.language }}
+
+      - name: Publish .NET SDK
+        run: |
+          dotnet nuget push -s "${{ env.NUGET_FEED_URL }}" -k "${{ secrets.NUGET_PUBLISH_KEY }}" ${{github.workspace}}/sdk/dotnet/bin/Debug/*.nupkg
+        env:
+          NUGET_PUBLISH_KEY: ${{ secrets.NUGET_TOKEN }}
+          NUGET_FEED_URL: https://api.nuget.org/v3/index.json
+        if: matrix.language == 'dotnet'
+
+      - name: Publish Python SDK
+        uses: pypa/gh-action-pypi-publish@release/v1
+        with:
+          user: ctfer-io
+          password: ${{ secrets.PYPI_TOKEN }}
+          skip-existing: true
+          packages-dir: "${{ github.workspace }}/sdk/python/bin/dist/"
+        if: matrix.language == 'python'
+
+      - name: Publish NodeJS SDK
+        uses: JS-DevTools/npm-publish@v3
+        with:
+          package: ./sdk/nodejs/bin/package.json
+          access: public
+          token: ${{ secrets.NPM_TOKEN }}
+          provenance: true
+        if: matrix.language == 'nodejs'
+
+  tag_sdk:
+    if: needs.release.outputs.release_created
+    runs-on: ubuntu-latest
+    name: Tag SDK Release
+    permissions:
+      id-token: write
+      contents: write
+    needs:
+      - release
+      - publish_sdk
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Setup Git
+        run: |
+          git config --local user.email "${{ env.GITHUB_ACTION }}+github-actions[bot]@users.noreply.github.com"
+          git config --local user.name "github-actions[bot]"
+
+      - name: Get Tag Name
+        run: |
+          REF_NAME=`git describe --abbrev=0 --tags`
+          echo "REF_NAME=${REF_NAME}" >> $GITHUB_ENV
+
+      - name: Tag SDK Version
+        run: |
+          git tag -a sdk/${{ env.REF_NAME }} -m sdk/${{ env.REF_NAME }}
+      - name: Push to Repository
+        run: |
+          git push origin sdk/${{ env.REF_NAME }}
