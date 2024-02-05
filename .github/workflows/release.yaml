@@ -3,11 +3,10 @@ name: Release
 on:
   push:
     tags:
-      - v*.*.*
+      - "v*"
 
 permissions:
   contents: read
-  pull-requests: read
 
 jobs:
   publish_provider:
@@ -31,7 +30,7 @@ jobs:
         with:
           go-version: ${{ matrix.goversion }}
 
-      - name: Download Syft
+      - name: Install Syft
         uses: anchore/sbom-action/download-syft@v0.15.8
 
       - name: Install pulumictl
@@ -173,8 +172,6 @@ jobs:
       - name: Publish Python SDK
         uses: pypa/gh-action-pypi-publish@release/v1
         with:
-          user: ctfer-io
-          password: ${{ secrets.PYPI_TOKEN }}
           skip-existing: true
           packages-dir: "${{ github.workspace }}/sdk/python/bin/dist/"
         if: matrix.language == 'python'
