@@ -18,7 +18,7 @@ builds:
       - linux
     ldflags:
       - -X github.com/ctfer-io/pulumi-ctfd/provider/pkg/version.Version={{.Tag }}
-    main: ./provider/cmd/pulumi-resource-ctfd/
+    main: ./cmd/pulumi-resource-ctfd/
 changelog:
   sort: asc
   filters:
