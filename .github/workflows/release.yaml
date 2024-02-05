@@ -89,7 +89,7 @@ jobs:
           gh -R "$GITHUB_REPOSITORY" release download "$GITHUB_REF_NAME" -p "$PROVENANCE"
       - name: Verify assets
         env:
-          CHECKSUMS: ${{ needs.goreleaser.outputs.hashes }}
+          CHECKSUMS: ${{ needs.publish_provider.outputs.hashes }}
           PROVENANCE: "${{ needs.provenance.outputs.provenance-name }}"
         run: |
           set -euo pipefail
