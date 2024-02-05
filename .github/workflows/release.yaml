@@ -28,6 +28,10 @@ env:
 jobs:
   publish_binary:
     name: publish
+    outputs:
+      hashes: ${{ steps.hash.outputs.hashes }}
+    permissions:
+      contents: write  # for goreleaser/goreleaser-action to create a GitHub release
     runs-on: ubuntu-latest
     strategy:
       fail-fast: true
@@ -52,10 +56,64 @@ jobs:
       run: echo "GORELEASER_CURRENT_TAG=v$(pulumictl get version --language generic)" >> $GITHUB_ENV
 
     - name: Run GoReleaser
+      id: run-goreleaser
       uses: goreleaser/goreleaser-action@v5
       with:
         args: -p 3 release --clean
         version: latest
+
+    - name: Generate subject
+      id: hash
+      env:
+        ARTIFACTS: "${{ steps.run-goreleaser.outputs.artifacts }}"
+      run: |
+        set -euo pipefail
+
+        checksum_file=$(echo "$ARTIFACTS" | jq -r '.[] | select (.type=="Checksum") | .path')
+        echo "hashes=$(cat $checksum_file | base64 -w0)" >> "$GITHUB_OUTPUT"
+
+  provenance:
+    needs: [goreleaser]
+    permissions:
+      actions: read # To read the workflow path.
+      id-token: write # To sign the provenance.
+      contents: write # To add assets to a release.
+    uses: slsa-framework/slsa-github-generator/.github/workflows/generator_generic_slsa3.yml@v1.9.0
+    with:
+      base64-subjects: "${{ needs.goreleaser.outputs.hashes }}"
+      upload-assets: true # upload to a new release
+  verification:
+    needs: [goreleaser, provenance]
+    runs-on: ubuntu-latest
+    permissions: read-all
+    steps:
+      - name: Install the verifier
+        uses: slsa-framework/slsa-verifier/actions/installer@v2.4.1
+
+      - name: Download assets
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          PROVENANCE: "${{ needs.provenance.outputs.provenance-name }}"
+        run: |
+          set -euo pipefail
+          gh -R "$GITHUB_REPOSITORY" release download "$GITHUB_REF_NAME" -p "*.tar.gz"
+          gh -R "$GITHUB_REPOSITORY" release download "$GITHUB_REF_NAME" -p "*.sbom"
+          gh -R "$GITHUB_REPOSITORY" release download "$GITHUB_REF_NAME" -p "$PROVENANCE"
+      - name: Verify assets
+        env:
+          CHECKSUMS: ${{ needs.goreleaser.outputs.hashes }}
+          PROVENANCE: "${{ needs.provenance.outputs.provenance-name }}"
+        run: |
+          set -euo pipefail
+          checksums=$(echo "$CHECKSUMS" | base64 -d)
+          while read -r line; do
+              fn=$(echo $line | cut -d ' ' -f2)
+              echo "Verifying $fn"
+              slsa-verifier verify-artifact --provenance-path "$PROVENANCE" \
+                                            --source-uri "github.com/$GITHUB_REPOSITORY" \
+                                            --source-tag "$GITHUB_REF_NAME" \
+                                            "$fn"
+          done <<<"$checksums"
 
   publish_sdk:
     name: Publish SDKs
