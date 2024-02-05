@@ -6,9 +6,6 @@ before:
   hooks:
     - make tfgen
 
-gomod:
-  proxy: true
-
 builds:
   - binary: pulumi-resource-ctfd
     dir: provider
