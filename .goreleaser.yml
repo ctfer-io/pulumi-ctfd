@@ -1,9 +1,14 @@
 archives:
   - id: archive
     name_template: '{{ .Binary }}-{{ .Tag }}-{{ .Os }}-{{ .Arch }}'
+
 before:
   hooks:
     - make tfgen
+
+gomod:
+  proxy: true
+
 builds:
   - binary: pulumi-resource-ctfd
     dir: provider
@@ -19,6 +24,7 @@ builds:
     ldflags:
       - -X github.com/ctfer-io/pulumi-ctfd/provider/pkg/version.Version={{.Tag }}
     main: ./cmd/pulumi-resource-ctfd/
+
 changelog:
   use: github
   filters:
@@ -34,10 +40,15 @@ changelog:
       order: 10	
     - title: Other Work	
       order: 999
+
+checksum: {}
+
 sboms:
-  - artifacts: source
+  - artifacts: archive
+
 release:
   disable: false
   prerelease: auto
+
 snapshot:
   name_template: '{{ .Tag }}-SNAPSHOT'
