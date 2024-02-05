@@ -1,0 +1,31 @@
+version: 2
+updates:
+  # Github actions
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+  
+  # Provider Go module
+  - package-ecosystem: "gomod"
+    directory: "./provider"
+    schedule:
+      interval: "weekly"
+    assignees:
+      - "pandatix"
+
+  # SDK Go module
+  - package-ecosystem: "gomod"
+    directory: "./sdk"
+    schedule:
+      interval: "weekly"
+    assignees:
+      - "pandatix"
+
+  # Examples Go module
+  - package-ecosystem: "gomod"
+    directory: "./examples"
+    schedule:
+      interval: "weekly"
+    assignees:
+      - "pandatix"

@@ -1,0 +1,5 @@
+{
+  "resource": true,
+  "name": "ctfd",
+  "server": "https://github.com/ctfer-io/pulumi-ctfd/releases/"
+}

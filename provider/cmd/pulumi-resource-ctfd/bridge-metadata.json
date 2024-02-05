@@ -1,0 +1,108 @@
+{
+    "auto-aliasing": {
+        "resources": {
+            "ctfd_challenge": {
+                "current": "ctfd:index/challenge:Challenge",
+                "fields": {
+                    "files": {
+                        "maxItemsOne": false
+                    },
+                    "flags": {
+                        "maxItemsOne": false
+                    },
+                    "hints": {
+                        "maxItemsOne": false,
+                        "elem": {
+                            "fields": {
+                                "requirements": {
+                                    "maxItemsOne": false
+                                }
+                            }
+                        }
+                    },
+                    "requirements": {
+                        "fields": {
+                            "prerequisites": {
+                                "maxItemsOne": false
+                            }
+                        }
+                    },
+                    "tags": {
+                        "maxItemsOne": false
+                    },
+                    "topics": {
+                        "maxItemsOne": false
+                    }
+                }
+            }
+        },
+        "datasources": {
+            "ctfd_challenges": {
+                "current": "ctfd:index/getChallenges:getChallenges",
+                "fields": {
+                    "challenges": {
+                        "maxItemsOne": false,
+                        "elem": {
+                            "fields": {
+                                "files": {
+                                    "maxItemsOne": false
+                                },
+                                "flags": {
+                                    "maxItemsOne": false
+                                },
+                                "hints": {
+                                    "maxItemsOne": false,
+                                    "elem": {
+                                        "fields": {
+                                            "requirements": {
+                                                "maxItemsOne": false
+                                            }
+                                        }
+                                    }
+                                },
+                                "requirements": {
+                                    "fields": {
+                                        "prerequisites": {
+                                            "maxItemsOne": false
+                                        }
+                                    }
+                                },
+                                "tags": {
+                                    "maxItemsOne": false
+                                },
+                                "topics": {
+                                    "maxItemsOne": false
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "auto-settings": {},
+    "renames": {
+        "resources": {
+            "ctfd:index/challenge:Challenge": "ctfd_challenge"
+        },
+        "functions": {
+            "ctfd:index/getChallenges:getChallenges": "ctfd_challenges"
+        },
+        "renamedProperties": {
+            "ctfd:index/challenge:Challenge": {
+                "connectionInfo": "connection_info",
+                "maxAttempts": "max_attempts"
+            },
+            "ctfd:index/getChallengesChallenge:getChallengesChallenge": {
+                "connectionInfo": "connection_info",
+                "maxAttempts": "max_attempts"
+            },
+            "ctfd:index:Provider": {
+                "apiKey": "api_key"
+            }
+        },
+        "renamedConfigProperties": {
+            "apiKey": "api_key"
+        }
+    }
+}

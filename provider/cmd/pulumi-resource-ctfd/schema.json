@@ -1,0 +1,809 @@
+{
+    "name": "ctfd",
+    "displayName": "CTFd",
+    "description": "The [CTFd](https://ctfd.io) provider for Pulumi, to manage its resources as code.",
+    "keywords": [
+        "pulumi",
+        "ctfd",
+        "category/cloud"
+    ],
+    "homepage": "https://ctfer.io",
+    "license": "Apache-2.0",
+    "attribution": "This Pulumi package is based on the [`ctfd` Terraform Provider](https://github.com/ctfer-io/terraform-provider-ctfd).",
+    "repository": "https://github.com/ctfer-io/pulumi-ctfd",
+    "pluginDownloadURL": "https://github.com/ctfer-io/pulumi-ctfd/releases/",
+    "publisher": "CTFer.io",
+    "meta": {
+        "moduleFormat": "(.*)(?:/[^/]*)"
+    },
+    "language": {
+        "csharp": {
+            "packageReferences": {
+                "Pulumi": "3.*"
+            },
+            "compatibility": "tfbridge20"
+        },
+        "go": {
+            "importBasePath": "github.com/ctfer-io/pulumi-ctfd/sdk/go/ctfd",
+            "generateResourceContainerTypes": true,
+            "generateExtraInputTypes": true
+        },
+        "nodejs": {
+            "packageDescription": "The [CTFd](https://ctfd.io) provider for Pulumi, to manage its resources as code.",
+            "readme": "\u003e This provider is a derived work of the [Terraform Provider](https://github.com/ctfer-io/terraform-provider-ctfd)\n\u003e distributed under [MPL 2.0](https://www.mozilla.org/en-US/MPL/2.0/). If you encounter a bug or missing feature,\n\u003e first check the [`pulumi-ctfd` repo](https://github.com/ctfer-io/pulumi-ctfd/issues); however, if that doesn't turn up anything,\n\u003e please consult the source [`terraform-provider-ctfd` repo](https://github.com/ctfer-io/terraform-provider-ctfd/issues).",
+            "dependencies": {
+                "@pulumi/pulumi": "^3.0.0"
+            },
+            "devDependencies": {
+                "@types/mime": "^2.0.0",
+                "@types/node": "^10.0.0"
+            },
+            "compatibility": "tfbridge20",
+            "disableUnionOutputTypes": true
+        },
+        "python": {
+            "requires": {
+                "pulumi": "\u003e=3.0.0,\u003c4.0.0"
+            },
+            "readme": "\u003e This provider is a derived work of the [Terraform Provider](https://github.com/ctfer-io/terraform-provider-ctfd)\n\u003e distributed under [MPL 2.0](https://www.mozilla.org/en-US/MPL/2.0/). If you encounter a bug or missing feature,\n\u003e first check the [`pulumi-ctfd` repo](https://github.com/ctfer-io/pulumi-ctfd/issues); however, if that doesn't turn up anything,\n\u003e please consult the source [`terraform-provider-ctfd` repo](https://github.com/ctfer-io/terraform-provider-ctfd/issues).",
+            "compatibility": "tfbridge20",
+            "pyproject": {}
+        }
+    },
+    "config": {
+        "variables": {
+            "apiKey": {
+                "type": "string",
+                "description": "User API key. Could use `CTFD_API_KEY` environment variable instead. Despite being the most convenient way to\nauthenticate yourself, we do not recommend it as you will probably generate a long-live token without any rotation\npolicy.\n",
+                "secret": true
+            },
+            "nonce": {
+                "type": "string",
+                "description": "User session nonce, comes with session. Could use `CTFD_NONCE` environment variable instead.\n",
+                "secret": true
+            },
+            "session": {
+                "type": "string",
+                "description": "User session token, comes with nonce. Could use `CTFD_SESSION` environment variable instead.\n",
+                "secret": true
+            },
+            "url": {
+                "type": "string",
+                "description": "CTFd base URL (e.g. `https://my-ctf.lan`). Could use `CTFD_URL` environment variable instead.\n"
+            }
+        }
+    },
+    "types": {
+        "ctfd:index/ChallengeFile:ChallengeFile": {
+            "properties": {
+                "content": {
+                    "type": "string",
+                    "description": "Raw content of the file, perfectly fit the use-cases of a .txt document or anything with a simple binary content. You could provide it from the file-system using `file(\"${path.module}/...\")`.\n",
+                    "secret": true
+                },
+                "contentb64": {
+                    "type": "string",
+                    "description": "Base 64 content of the file, perfectly fit the use-cases of complex binaries. You could provide it from the file-system using `filebase64(\"${path.module}/...\")`.\n",
+                    "secret": true
+                },
+                "id": {
+                    "type": "string",
+                    "description": "Identifier of the file, used internally to handle the CTFd corresponding object.\n"
+                },
+                "location": {
+                    "type": "string",
+                    "description": "Location where the file is stored on the CTFd instance, for download purposes.\n"
+                },
+                "name": {
+                    "type": "string",
+                    "description": "Name of the file as displayed to end-users.\n"
+                }
+            },
+            "type": "object",
+            "required": [
+                "name"
+            ],
+            "language": {
+                "nodejs": {
+                    "requiredOutputs": [
+                        "content",
+                        "contentb64",
+                        "id",
+                        "location",
+                        "name"
+                    ]
+                }
+            }
+        },
+        "ctfd:index/ChallengeFlag:ChallengeFlag": {
+            "properties": {
+                "content": {
+                    "type": "string",
+                    "description": "The actual flag to match. Consider using the convention `MYCTF{value}` with `MYCTF` being the shortcode of your event's name and `value` depending on each challenge.\n",
+                    "secret": true
+                },
+                "data": {
+                    "type": "string",
+                    "description": "The flag sensitivity information, either case*sensitive or case*insensitive\n"
+                },
+                "id": {
+                    "type": "string",
+                    "description": "Identifier of the flag, used internally to handle the CTFd corresponding object.\n"
+                },
+                "type": {
+                    "type": "string",
+                    "description": "The type of the flag, could be either static or regex\n"
+                }
+            },
+            "type": "object",
+            "required": [
+                "content"
+            ],
+            "language": {
+                "nodejs": {
+                    "requiredOutputs": [
+                        "content",
+                        "data",
+                        "id",
+                        "type"
+                    ]
+                }
+            }
+        },
+        "ctfd:index/ChallengeHint:ChallengeHint": {
+            "properties": {
+                "content": {
+                    "type": "string",
+                    "description": "Content of the hint as displayed to the end-user.\n"
+                },
+                "cost": {
+                    "type": "integer",
+                    "description": "Cost of the hint, and if any specified, the end-user will consume its own (or team) points to get it.\n"
+                },
+                "id": {
+                    "type": "string",
+                    "description": "Identifier of the hint, used internally to handle the CTFd corresponding object.\n"
+                },
+                "requirements": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    },
+                    "description": "Other hints required to be consumed before getting this one. Useful for cost-increasing hint strategies with more and more help.\n"
+                }
+            },
+            "type": "object",
+            "required": [
+                "content"
+            ],
+            "language": {
+                "nodejs": {
+                    "requiredOutputs": [
+                        "content",
+                        "cost",
+                        "id",
+                        "requirements"
+                    ]
+                }
+            }
+        },
+        "ctfd:index/ChallengeRequirements:ChallengeRequirements": {
+            "properties": {
+                "behavior": {
+                    "type": "string",
+                    "description": "Behavior if not unlocked, either hidden or anonymized.\n"
+                },
+                "prerequisites": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    },
+                    "description": "List of the challenges ID.\n"
+                }
+            },
+            "type": "object",
+            "language": {
+                "nodejs": {
+                    "requiredOutputs": [
+                        "behavior"
+                    ]
+                }
+            }
+        },
+        "ctfd:index/getChallengesChallenge:getChallengesChallenge": {
+            "properties": {
+                "category": {
+                    "type": "string",
+                    "description": "Category of the challenge that CTFd groups by on the web UI.\n"
+                },
+                "connectionInfo": {
+                    "type": "string",
+                    "description": "Connection Information to connect to the challenge instance, useful for pwn or web pentest.\n"
+                },
+                "decay": {
+                    "type": "integer"
+                },
+                "description": {
+                    "type": "string",
+                    "description": "Description of the challenge, consider using multiline descriptions for better style.\n"
+                },
+                "files": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/types/ctfd:index/getChallengesChallengeFile:getChallengesChallengeFile"
+                    },
+                    "description": "List of files given to players to flag the challenge.\n"
+                },
+                "flags": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/types/ctfd:index/getChallengesChallengeFlag:getChallengesChallengeFlag"
+                    },
+                    "description": "List of challenge flags that solves it.\n"
+                },
+                "function": {
+                    "type": "string",
+                    "description": "Decay function to define how the challenge value evolve through solves, either linear or logarithmic.\n"
+                },
+                "hints": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/types/ctfd:index/getChallengesChallengeHint:getChallengesChallengeHint"
+                    },
+                    "description": "List of hints about the challenge displayed to the end-user.\n"
+                },
+                "id": {
+                    "type": "string",
+                    "description": "Identifier of the challenge.\n"
+                },
+                "initial": {
+                    "type": "integer"
+                },
+                "maxAttempts": {
+                    "type": "integer",
+                    "description": "Maximum amount of attempts before being unable to flag the challenge.\n"
+                },
+                "minimum": {
+                    "type": "integer"
+                },
+                "name": {
+                    "type": "string",
+                    "description": "Name of the challenge, displayed as it.\n"
+                },
+                "requirements": {
+                    "$ref": "#/types/ctfd:index/getChallengesChallengeRequirements:getChallengesChallengeRequirements",
+                    "description": "List of required challenges that needs to get flagged before this one being accessible. Useful for skill-trees-like strategy CTF.\n"
+                },
+                "state": {
+                    "type": "string",
+                    "description": "State of the challenge, either hidden or visible.\n"
+                },
+                "tags": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    },
+                    "description": "List of challenge tags that will be displayed to the end-user. You could use them to give some quick insights of what a challenge involves.\n"
+                },
+                "topics": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    },
+                    "description": "List of challenge topics that are displayed to the administrators for maintenance and planification.\n"
+                },
+                "type": {
+                    "type": "string",
+                    "description": "Type of the challenge defining its layout, either standard or dynamic.\n"
+                },
+                "value": {
+                    "type": "integer"
+                }
+            },
+            "type": "object",
+            "required": [
+                "category",
+                "connectionInfo",
+                "decay",
+                "description",
+                "files",
+                "flags",
+                "function",
+                "hints",
+                "id",
+                "initial",
+                "maxAttempts",
+                "minimum",
+                "name",
+                "requirements",
+                "state",
+                "tags",
+                "topics",
+                "type",
+                "value"
+            ],
+            "language": {
+                "nodejs": {
+                    "requiredInputs": []
+                }
+            }
+        },
+        "ctfd:index/getChallengesChallengeFile:getChallengesChallengeFile": {
+            "properties": {
+                "content": {
+                    "type": "string"
+                },
+                "contentb64": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "string"
+                },
+                "location": {
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
+                }
+            },
+            "type": "object",
+            "required": [
+                "content",
+                "contentb64",
+                "id",
+                "location",
+                "name"
+            ],
+            "language": {
+                "nodejs": {
+                    "requiredInputs": []
+                }
+            }
+        },
+        "ctfd:index/getChallengesChallengeFlag:getChallengesChallengeFlag": {
+            "properties": {
+                "content": {
+                    "type": "string"
+                },
+                "data": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "string"
+                },
+                "type": {
+                    "type": "string"
+                }
+            },
+            "type": "object",
+            "required": [
+                "content",
+                "data",
+                "id",
+                "type"
+            ],
+            "language": {
+                "nodejs": {
+                    "requiredInputs": []
+                }
+            }
+        },
+        "ctfd:index/getChallengesChallengeHint:getChallengesChallengeHint": {
+            "properties": {
+                "content": {
+                    "type": "string"
+                },
+                "cost": {
+                    "type": "integer"
+                },
+                "id": {
+                    "type": "string"
+                },
+                "requirements": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                }
+            },
+            "type": "object",
+            "required": [
+                "content",
+                "cost",
+                "id",
+                "requirements"
+            ],
+            "language": {
+                "nodejs": {
+                    "requiredInputs": []
+                }
+            }
+        },
+        "ctfd:index/getChallengesChallengeRequirements:getChallengesChallengeRequirements": {
+            "properties": {
+                "behavior": {
+                    "type": "string",
+                    "description": "Behavior if not unlocked, either hidden or anonymized.\n"
+                },
+                "prerequisites": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    },
+                    "description": "List of the challenges ID.\n"
+                }
+            },
+            "type": "object",
+            "required": [
+                "behavior",
+                "prerequisites"
+            ],
+            "language": {
+                "nodejs": {
+                    "requiredInputs": []
+                }
+            }
+        }
+    },
+    "provider": {
+        "description": "The provider type for the ctfd package. By default, resources use package-wide configuration\nsettings, however an explicit `Provider` instance may be created and passed during resource\nconstruction to achieve fine-grained programmatic control over provider settings. See the\n[documentation](https://www.pulumi.com/docs/reference/programming-model/#providers) for more information.\n",
+        "properties": {
+            "apiKey": {
+                "type": "string",
+                "description": "User API key. Could use `CTFD_API_KEY` environment variable instead. Despite being the most convenient way to\nauthenticate yourself, we do not recommend it as you will probably generate a long-live token without any rotation\npolicy.\n",
+                "secret": true
+            },
+            "nonce": {
+                "type": "string",
+                "description": "User session nonce, comes with session. Could use `CTFD_NONCE` environment variable instead.\n",
+                "secret": true
+            },
+            "session": {
+                "type": "string",
+                "description": "User session token, comes with nonce. Could use `CTFD_SESSION` environment variable instead.\n",
+                "secret": true
+            },
+            "url": {
+                "type": "string",
+                "description": "CTFd base URL (e.g. `https://my-ctf.lan`). Could use `CTFD_URL` environment variable instead.\n"
+            }
+        },
+        "inputProperties": {
+            "apiKey": {
+                "type": "string",
+                "description": "User API key. Could use `CTFD_API_KEY` environment variable instead. Despite being the most convenient way to\nauthenticate yourself, we do not recommend it as you will probably generate a long-live token without any rotation\npolicy.\n",
+                "secret": true
+            },
+            "nonce": {
+                "type": "string",
+                "description": "User session nonce, comes with session. Could use `CTFD_NONCE` environment variable instead.\n",
+                "secret": true
+            },
+            "session": {
+                "type": "string",
+                "description": "User session token, comes with nonce. Could use `CTFD_SESSION` environment variable instead.\n",
+                "secret": true
+            },
+            "url": {
+                "type": "string",
+                "description": "CTFd base URL (e.g. `https://my-ctf.lan`). Could use `CTFD_URL` environment variable instead.\n"
+            }
+        }
+    },
+    "resources": {
+        "ctfd:index/challenge:Challenge": {
+            "description": "{{% examples %}}\n## Example Usage\n{{% example %}}\n\n```java\npackage generated_program;\n\nimport com.pulumi.Context;\nimport com.pulumi.Pulumi;\nimport com.pulumi.core.Output;\nimport com.pulumi.ctfd.Challenge;\nimport com.pulumi.ctfd.ChallengeArgs;\nimport com.pulumi.ctfd.inputs.ChallengeFlagArgs;\nimport com.pulumi.ctfd.inputs.ChallengeHintArgs;\nimport com.pulumi.ctfd.inputs.ChallengeFileArgs;\nimport java.util.List;\nimport java.util.ArrayList;\nimport java.util.Map;\nimport java.io.File;\nimport java.nio.file.Files;\nimport java.nio.file.Paths;\n\npublic class App {\n    public static void main(String[] args) {\n        Pulumi.run(App::stack);\n    }\n\n    public static void stack(Context ctx) {\n        var http = new Challenge(\"http\", ChallengeArgs.builder()        \n            .category(\"network\")\n            .description(\"\"\"\nOh no ! I did not see my connection was no encrypted !\nI hope no one spied me...\n\nAuthors:\n- NicolasFgrx\n            \"\"\")\n            .value(500)\n            .initial(500)\n            .decay(17)\n            .minimum(50)\n            .state(\"visible\")\n            .function(\"logarithmic\")\n            .flags(ChallengeFlagArgs.builder()\n                .content(\"24HIUT{Http_1s_n0t_s3cuR3}\")\n                .build())\n            .topics(\"Network\")\n            .tags(            \n                \"network\",\n                \"http\")\n            .hints(            \n                ChallengeHintArgs.builder()\n                    .content(\"HTTP exchanges are not ciphered.\")\n                    .cost(50)\n                    .build(),\n                ChallengeHintArgs.builder()\n                    .content(\"Content is POSTed in HTTP :)\")\n                    .cost(50)\n                    .build())\n            .files(ChallengeFileArgs.builder()\n                .name(\"capture.pcapng\")\n                .contentb64(Base64.getEncoder().encodeToString(Files.readAllBytes(Paths.get(String.format(\"%s/capture.pcapng\", path.module())))))\n                .build())\n            .build());\n\n    }\n}\n```\n{{% /example %}}\n{{% /examples %}}\n\n## Import\n\nChallenge can be imported by the CTFd ID (check URLs)\n\n```sh\n $ pulumi import ctfd:index/challenge:Challenge http 1\n```\n\n ",
+            "properties": {
+                "category": {
+                    "type": "string",
+                    "description": "Category of the challenge that CTFd groups by on the web UI.\n"
+                },
+                "connectionInfo": {
+                    "type": "string",
+                    "description": "Connection Information to connect to the challenge instance, useful for pwn, web and infrastructure pentests.\n"
+                },
+                "decay": {
+                    "type": "integer",
+                    "description": "The decay defines from each number of solves does the decay function triggers until reaching minimum. This function is defined by CTFd and could be configured through `.function`.\n"
+                },
+                "description": {
+                    "type": "string",
+                    "description": "Description of the challenge, consider using multiline descriptions for better style.\n"
+                },
+                "files": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/types/ctfd:index/ChallengeFile:ChallengeFile"
+                    },
+                    "description": "List of files given to players to flag the challenge.\n"
+                },
+                "flags": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/types/ctfd:index/ChallengeFlag:ChallengeFlag"
+                    },
+                    "description": "List of challenge flags that solves it.\n"
+                },
+                "function": {
+                    "type": "string",
+                    "description": "Decay function to define how the challenge value evolve through solves, either linear or logarithmic.\n"
+                },
+                "hints": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/types/ctfd:index/ChallengeHint:ChallengeHint"
+                    },
+                    "description": "List of hints about the challenge displayed to the end-user.\n"
+                },
+                "maxAttempts": {
+                    "type": "integer",
+                    "description": "Maximum amount of attempts before being unable to flag the challenge.\n"
+                },
+                "minimum": {
+                    "type": "integer",
+                    "description": "The minimum points for a dynamic-score challenge to reach with the decay function. Once there, no solve could have more value.\n"
+                },
+                "name": {
+                    "type": "string",
+                    "description": "Name of the file as displayed to end-users.\n"
+                },
+                "next": {
+                    "type": "integer",
+                    "description": "Suggestion for the end-user as next challenge to work on.\n"
+                },
+                "requirements": {
+                    "$ref": "#/types/ctfd:index/ChallengeRequirements:ChallengeRequirements",
+                    "description": "Other hints required to be consumed before getting this one. Useful for cost-increasing hint strategies with more and more help.\n"
+                },
+                "state": {
+                    "type": "string",
+                    "description": "State of the challenge, either hidden or visible.\n"
+                },
+                "tags": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    },
+                    "description": "List of challenge tags that will be displayed to the end-user. You could use them to give some quick insights of what a challenge involves.\n"
+                },
+                "topics": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    },
+                    "description": "List of challenge topics that are displayed to the administrators for maintenance and planification.\n"
+                },
+                "type": {
+                    "type": "string",
+                    "description": "The type of the flag, could be either static or regex\n"
+                },
+                "value": {
+                    "type": "integer",
+                    "description": "The value (points) of the challenge once solved. Internally, the provider will handle what target is legitimate depending on the `.type` value, i.e. either `value` for \"standard\" or `initial` for \"dynamic\".\n"
+                }
+            },
+            "required": [
+                "category",
+                "connectionInfo",
+                "description",
+                "function",
+                "maxAttempts",
+                "name",
+                "state",
+                "type",
+                "value"
+            ],
+            "inputProperties": {
+                "category": {
+                    "type": "string",
+                    "description": "Category of the challenge that CTFd groups by on the web UI.\n"
+                },
+                "connectionInfo": {
+                    "type": "string",
+                    "description": "Connection Information to connect to the challenge instance, useful for pwn, web and infrastructure pentests.\n"
+                },
+                "decay": {
+                    "type": "integer",
+                    "description": "The decay defines from each number of solves does the decay function triggers until reaching minimum. This function is defined by CTFd and could be configured through `.function`.\n"
+                },
+                "description": {
+                    "type": "string",
+                    "description": "Description of the challenge, consider using multiline descriptions for better style.\n"
+                },
+                "files": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/types/ctfd:index/ChallengeFile:ChallengeFile"
+                    },
+                    "description": "List of files given to players to flag the challenge.\n"
+                },
+                "flags": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/types/ctfd:index/ChallengeFlag:ChallengeFlag"
+                    },
+                    "description": "List of challenge flags that solves it.\n"
+                },
+                "function": {
+                    "type": "string",
+                    "description": "Decay function to define how the challenge value evolve through solves, either linear or logarithmic.\n"
+                },
+                "hints": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/types/ctfd:index/ChallengeHint:ChallengeHint"
+                    },
+                    "description": "List of hints about the challenge displayed to the end-user.\n"
+                },
+                "maxAttempts": {
+                    "type": "integer",
+                    "description": "Maximum amount of attempts before being unable to flag the challenge.\n"
+                },
+                "minimum": {
+                    "type": "integer",
+                    "description": "The minimum points for a dynamic-score challenge to reach with the decay function. Once there, no solve could have more value.\n"
+                },
+                "name": {
+                    "type": "string",
+                    "description": "Name of the file as displayed to end-users.\n"
+                },
+                "next": {
+                    "type": "integer",
+                    "description": "Suggestion for the end-user as next challenge to work on.\n"
+                },
+                "requirements": {
+                    "$ref": "#/types/ctfd:index/ChallengeRequirements:ChallengeRequirements",
+                    "description": "Other hints required to be consumed before getting this one. Useful for cost-increasing hint strategies with more and more help.\n"
+                },
+                "state": {
+                    "type": "string",
+                    "description": "State of the challenge, either hidden or visible.\n"
+                },
+                "tags": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    },
+                    "description": "List of challenge tags that will be displayed to the end-user. You could use them to give some quick insights of what a challenge involves.\n"
+                },
+                "topics": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    },
+                    "description": "List of challenge topics that are displayed to the administrators for maintenance and planification.\n"
+                },
+                "type": {
+                    "type": "string",
+                    "description": "The type of the flag, could be either static or regex\n"
+                },
+                "value": {
+                    "type": "integer",
+                    "description": "The value (points) of the challenge once solved. Internally, the provider will handle what target is legitimate depending on the `.type` value, i.e. either `value` for \"standard\" or `initial` for \"dynamic\".\n"
+                }
+            },
+            "requiredInputs": [
+                "category",
+                "description",
+                "value"
+            ],
+            "stateInputs": {
+                "description": "Input properties used for looking up and filtering Challenge resources.\n",
+                "properties": {
+                    "category": {
+                        "type": "string",
+                        "description": "Category of the challenge that CTFd groups by on the web UI.\n"
+                    },
+                    "connectionInfo": {
+                        "type": "string",
+                        "description": "Connection Information to connect to the challenge instance, useful for pwn, web and infrastructure pentests.\n"
+                    },
+                    "decay": {
+                        "type": "integer",
+                        "description": "The decay defines from each number of solves does the decay function triggers until reaching minimum. This function is defined by CTFd and could be configured through `.function`.\n"
+                    },
+                    "description": {
+                        "type": "string",
+                        "description": "Description of the challenge, consider using multiline descriptions for better style.\n"
+                    },
+                    "files": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/types/ctfd:index/ChallengeFile:ChallengeFile"
+                        },
+                        "description": "List of files given to players to flag the challenge.\n"
+                    },
+                    "flags": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/types/ctfd:index/ChallengeFlag:ChallengeFlag"
+                        },
+                        "description": "List of challenge flags that solves it.\n"
+                    },
+                    "function": {
+                        "type": "string",
+                        "description": "Decay function to define how the challenge value evolve through solves, either linear or logarithmic.\n"
+                    },
+                    "hints": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/types/ctfd:index/ChallengeHint:ChallengeHint"
+                        },
+                        "description": "List of hints about the challenge displayed to the end-user.\n"
+                    },
+                    "maxAttempts": {
+                        "type": "integer",
+                        "description": "Maximum amount of attempts before being unable to flag the challenge.\n"
+                    },
+                    "minimum": {
+                        "type": "integer",
+                        "description": "The minimum points for a dynamic-score challenge to reach with the decay function. Once there, no solve could have more value.\n"
+                    },
+                    "name": {
+                        "type": "string",
+                        "description": "Name of the file as displayed to end-users.\n"
+                    },
+                    "next": {
+                        "type": "integer",
+                        "description": "Suggestion for the end-user as next challenge to work on.\n"
+                    },
+                    "requirements": {
+                        "$ref": "#/types/ctfd:index/ChallengeRequirements:ChallengeRequirements",
+                        "description": "Other hints required to be consumed before getting this one. Useful for cost-increasing hint strategies with more and more help.\n"
+                    },
+                    "state": {
+                        "type": "string",
+                        "description": "State of the challenge, either hidden or visible.\n"
+                    },
+                    "tags": {
+                        "type": "array",
+                        "items": {
+                            "type": "string"
+                        },
+                        "description": "List of challenge tags that will be displayed to the end-user. You could use them to give some quick insights of what a challenge involves.\n"
+                    },
+                    "topics": {
+                        "type": "array",
+                        "items": {
+                            "type": "string"
+                        },
+                        "description": "List of challenge topics that are displayed to the administrators for maintenance and planification.\n"
+                    },
+                    "type": {
+                        "type": "string",
+                        "description": "The type of the flag, could be either static or regex\n"
+                    },
+                    "value": {
+                        "type": "integer",
+                        "description": "The value (points) of the challenge once solved. Internally, the provider will handle what target is legitimate depending on the `.type` value, i.e. either `value` for \"standard\" or `initial` for \"dynamic\".\n"
+                    }
+                },
+                "type": "object"
+            }
+        }
+    },
+    "functions": {
+        "ctfd:index/getChallenges:getChallenges": {
+            "outputs": {
+                "description": "A collection of values returned by getChallenges.\n",
+                "properties": {
+                    "challenges": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/types/ctfd:index/getChallengesChallenge:getChallengesChallenge"
+                        }
+                    },
+                    "id": {
+                        "type": "string",
+                        "description": "The ID of this resource.\n"
+                    }
+                },
+                "type": "object",
+                "required": [
+                    "challenges",
+                    "id"
+                ]
+            }
+        }
+    }
+}
