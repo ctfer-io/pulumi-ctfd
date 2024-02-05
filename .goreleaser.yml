@@ -20,12 +20,11 @@ builds:
       - -X github.com/ctfer-io/pulumi-ctfd/provider/pkg/version.Version={{.Tag }}
     main: ./cmd/pulumi-resource-ctfd/
 changelog:
-  skip: true
   use: github
   filters:
     exclude:
       - '^docs'
-      - '^chore'
+      - '^tests'
   groups:	
     - title: 'New Features'	
       regexp: "^.*feat[(\\w)]*:+.*$"	

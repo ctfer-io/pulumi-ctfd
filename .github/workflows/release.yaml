@@ -10,31 +10,14 @@ permissions:
   pull-requests: read
 
 jobs:
-  release:
-    runs-on: ubuntu-latest
-    name: Release
-    outputs:
-      release_created: ${{ steps.release.outputs.release_created }}
-    permissions:
-      contents: write
-      pull-requests: write
-
-    steps:
-      - uses: google-github-actions/release-please-action@v4
-        id: release
-
   publish_provider:
-    if: needs.release.outputs.release_created
     runs-on: ubuntu-latest
     name: Publish Provider
     outputs:
       hashes: ${{ steps.hash.outputs.hashes }}
     permissions:
-      id-token: write
       contents: write  # for goreleaser/goreleaser-action to create a GitHub release
-    needs: [release]
     strategy:
-      fail-fast: true
       matrix:
         goversion: [1.21.x]
     steps:
@@ -122,13 +105,9 @@ jobs:
           done <<<"$checksums"
 
   publish_sdk:
-    if: needs.release.outputs.release_created
     runs-on: ubuntu-latest
     name: Publish SDK
-    permissions:
-      id-token: write
-      contents: read
-    needs: [release, publish_provider]
+    needs: [publish_provider]
     strategy:
       max-parallel: 10
       matrix:
@@ -210,14 +189,12 @@ jobs:
         if: matrix.language == 'nodejs'
 
   tag_sdk:
-    if: needs.release.outputs.release_created
     runs-on: ubuntu-latest
     name: Tag SDK Release
     permissions:
       id-token: write
       contents: write
     needs:
-      - release
       - publish_sdk
 
     steps:
