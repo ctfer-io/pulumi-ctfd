@@ -73,17 +73,17 @@ jobs:
         echo "hashes=$(cat $checksum_file | base64 -w0)" >> "$GITHUB_OUTPUT"
 
   provenance:
-    needs: [goreleaser]
+    needs: [publish_binary]
     permissions:
       actions: read # To read the workflow path.
       id-token: write # To sign the provenance.
       contents: write # To add assets to a release.
     uses: slsa-framework/slsa-github-generator/.github/workflows/generator_generic_slsa3.yml@v1.9.0
     with:
-      base64-subjects: "${{ needs.goreleaser.outputs.hashes }}"
+      base64-subjects: "${{ needs.publish_binary.outputs.hashes }}"
       upload-assets: true # upload to a new release
   verification:
-    needs: [goreleaser, provenance]
+    needs: [publish_binary, provenance]
     runs-on: ubuntu-latest
     permissions: read-all
     steps:
