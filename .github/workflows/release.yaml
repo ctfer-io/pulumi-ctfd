@@ -41,11 +41,17 @@ jobs:
     steps:
     - name: Checkout Repo
       uses: actions/checkout@v4
+    - name: Unshallow clone for tags
+      run: git fetch --prune --unshallow --tags
 
     - name: Install Go
       uses: actions/setup-go@v5
       with:
         go-version: ${{ matrix.goversion }}
+
+    - name: Install Syft
+      run: |
+        curl -sSfL https://raw.githubusercontent.com/anchore/syft/main/install.sh | sh -s -- -b /usr/local/bin
 
     - name: Install pulumictl
       uses: jaxxstorm/action-install-gh-release@v1.10.0

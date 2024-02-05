@@ -25,6 +25,8 @@ changelog:
     exclude:
       - '^docs:'
       - '^test:'
+sboms:
+  - artifacts: source
 release:
   disable: false
   prerelease: auto
