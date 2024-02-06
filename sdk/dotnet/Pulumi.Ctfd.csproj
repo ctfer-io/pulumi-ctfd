@@ -4,7 +4,7 @@
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <Authors>CTFer.io</Authors>
     <Company>CTFer.io</Company>
-    <Description>The [CTFd](https://ctfd.io) provider for Pulumi, to manage its resources as code.</Description>
+    <Description>The CTFd provider for Pulumi, to manage its resources as code.</Description>
     <PackageLicenseExpression>Apache-2.0</PackageLicenseExpression>
     <PackageProjectUrl>https://ctfer.io</PackageProjectUrl>
     <RepositoryUrl>https://github.com/ctfer-io/pulumi-ctfd</RepositoryUrl>

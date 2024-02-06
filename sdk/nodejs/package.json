@@ -1,7 +1,7 @@
 {
     "name": "@ctfer-io/pulumi-ctfd",
     "version": "${VERSION}",
-    "description": "The [CTFd](https://ctfd.io) provider for Pulumi, to manage its resources as code.",
+    "description": "The CTFd provider for Pulumi, to manage its resources as code.",
     "keywords": [
         "pulumi",
         "ctfd",

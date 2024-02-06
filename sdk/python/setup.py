@@ -21,7 +21,7 @@ def readme():
 setup(name='pulumi_ctfd',
       python_requires='>=3.7',
       version=VERSION,
-      description="The [CTFd](https://ctfd.io) provider for Pulumi, to manage its resources as code.",
+      description="The CTFd provider for Pulumi, to manage its resources as code.",
       long_description=readme(),
       long_description_content_type='text/markdown',
       keywords='pulumi ctfd category/cloud',
