@@ -31,6 +31,7 @@ func Provider() tfbridge.ProviderInfo {
 		PluginDownloadURL: "https://github.com/ctfer-io/pulumi-ctfd/releases/",
 		Description:       "The CTFd provider for Pulumi, to manage its resources as code.",
 		Keywords:          []string{"pulumi", "ctfd", "category/cloud"},
+		LogoURL:           "https://raw.githubusercontent.com/ctfer-io/pulumi-ctfd/main/res/ctfd.png",
 		License:           "Apache-2.0",
 		Homepage:          "https://ctfer.io",
 		Repository:        "https://github.com/ctfer-io/pulumi-ctfd",
