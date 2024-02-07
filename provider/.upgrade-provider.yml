@@ -1,0 +1,4 @@
+upstream-provider-org: ctfer-io
+upstream-provider-name: terraform-provider-ctfd
+pr-reviewers:
+  - pandatix
