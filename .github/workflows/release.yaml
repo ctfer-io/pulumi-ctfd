@@ -34,7 +34,7 @@ jobs:
         uses: anchore/sbom-action/download-syft@v0.15.8
 
       - name: Install pulumictl
-        uses: jaxxstorm/action-install-gh-release@v1.10.0
+        uses: jaxxstorm/action-install-gh-release@v1.11.0
         with:
           repo: pulumi/pulumictl
 
@@ -134,7 +134,7 @@ jobs:
           go-version: "${{ matrix.go-version }}"
 
       - name: Install pulumictl
-        uses: jaxxstorm/action-install-gh-release@v1.10.0
+        uses: jaxxstorm/action-install-gh-release@v1.11.0
         with:
           repo: pulumi/pulumictl
       - name: Install Pulumi CLI
