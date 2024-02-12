@@ -6,7 +6,7 @@ replace github.com/hashicorp/terraform-plugin-sdk/v2 => github.com/pulumi/terraf
 
 require (
 	github.com/ctfer-io/terraform-provider-ctfd v0.1.4-0.20240205101424-030fc30d773f
-	github.com/pulumi/pulumi-terraform-bridge/pf v0.26.0
+	github.com/pulumi/pulumi-terraform-bridge/pf v0.27.0
 	github.com/pulumi/pulumi-terraform-bridge/v3 v3.74.0
 )
 
