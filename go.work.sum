@@ -136,6 +136,10 @@ github.com/charmbracelet/harmonica v0.2.0/go.mod h1:KSri/1RMQOZLbw7AHqgcBycp8pgJ
 github.com/cncf/udpa/go v0.0.0-20220112060539-c52dc94e7fbe/go.mod h1:6pvJx4me5XPnfI9Z40ddWsdw2W/uZgQLFXToKeRcDiI=
 github.com/cncf/xds/go v0.0.0-20231109132714-523115ebc101/go.mod h1:eXthEFrGJvWHgFFCl3hGmgk+/aYT6PnTQLykKQRLhEs=
 github.com/creack/pty v1.1.17/go.mod h1:MOBLtS5ELjhRRrroQr9kyvTxUAFNvYEK993ew/Vr4O4=
+github.com/ctfer-io/go-ctfd v0.3.9-0.20240208144901-ce8fb93f5d9a h1:IphOQPPuF4BuiUC/Ms3oC2LWcuUEZ3XocELGiLmvSpQ=
+github.com/ctfer-io/go-ctfd v0.3.9-0.20240208144901-ce8fb93f5d9a/go.mod h1:kBBj+UfQM9v6fuOtK+C2SRWPkq8SYUa3KkxusvOeq/s=
+github.com/ctfer-io/terraform-provider-ctfd v0.1.5 h1:hu98TsIgDn+UdwLlYTT6sVZB8B01K+qo+J5wJD0Pm3g=
+github.com/ctfer-io/terraform-provider-ctfd v0.1.5/go.mod h1:xvStbxtbZDev12RV02lq+LMj6hqu1olNvOxNisz5mxs=
 github.com/dlclark/regexp2 v1.4.0/go.mod h1:2pZnwuY/m+8K6iRw6wQdMtk+rH5tNGR1i55kozfMjCc=
 github.com/dustin/go-humanize v1.0.1/go.mod h1:Mu1zIs6XwVuF/gI1OepvI0qD18qycQx+mFykh5fBlto=
 github.com/envoyproxy/go-control-plane v0.11.1/go.mod h1:uhMcXKCQMEJHiAb0w+YGefQLaTEw+YhGluxZkrTmD0g=

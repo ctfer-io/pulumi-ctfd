@@ -1,11 +1,11 @@
 module github.com/ctfer-io/pulumi-ctfd/provider
 
-go 1.21.5
+go 1.22
 
 replace github.com/hashicorp/terraform-plugin-sdk/v2 => github.com/pulumi/terraform-plugin-sdk/v2 v2.0.0-20230912190043-e6d96b3b8f7e
 
 require (
-	github.com/ctfer-io/terraform-provider-ctfd v0.1.4-0.20240205101424-030fc30d773f
+	github.com/ctfer-io/terraform-provider-ctfd v0.1.5
 	github.com/pulumi/pulumi-terraform-bridge/pf v0.27.0
 	github.com/pulumi/pulumi-terraform-bridge/v3 v3.74.0
 )
@@ -66,7 +66,7 @@ require (
 	github.com/cheggaaa/pb v1.0.29 // indirect
 	github.com/cloudflare/circl v1.3.7 // indirect
 	github.com/containerd/console v1.0.4-0.20230313162750-1ae8d489ac81 // indirect
-	github.com/ctfer-io/go-ctfd v0.3.8 // indirect
+	github.com/ctfer-io/go-ctfd v0.3.9-0.20240208144901-ce8fb93f5d9a // indirect
 	github.com/cyphar/filepath-securejoin v0.2.4 // indirect
 	github.com/davecgh/go-spew v1.1.1 // indirect
 	github.com/deckarep/golang-set/v2 v2.5.0 // indirect
