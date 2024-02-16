@@ -1,4 +1,5 @@
 name: Upgrade provider
+
 on:
   push:
     branches: [ "main" ]
@@ -7,12 +8,21 @@ on:
     - opened
   schedule:
     - cron: '0 5 * * *'
-env:
-  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+  
 jobs:
   upgrade_provider:
     name: upgrade-provider
     runs-on: ubuntu-latest
     steps:
+      - uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11 # v4.1.1
+        with:
+          # Allow goreleaser to access older tag information.
+          fetch-depth: 0
+      - uses: actions/setup-go@0c52d547c9bc32b1aa3301fd7a9cb496313a4491 # v5.0.0
+        with:
+          go-version-file: 'go.work'
+          cache: true
       - name: Call upgrade provider action
         uses: pulumi/pulumi-upgrade-provider-action@v0.0.11
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
