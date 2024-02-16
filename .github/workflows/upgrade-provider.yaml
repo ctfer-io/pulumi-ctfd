@@ -1,5 +1,7 @@
 name: Upgrade provider
 on:
+  push:
+    branches: [ "main" ]
   issues:
     types:
     - opened
@@ -7,11 +9,10 @@ on:
     - cron: '0 5 * * *'
 env:
   GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-  REPO: github.com/ctfer-io/terraform-provider-ctfd
 jobs:
   upgrade_provider:
     name: upgrade-provider
     runs-on: ubuntu-latest
     steps:
-    - name: Call upgrade provider action
-      uses: pulumi/pulumi-upgrade-provider-action@v0.0.11
+      - name: Call upgrade provider action
+        uses: pulumi/pulumi-upgrade-provider-action@v0.0.11
