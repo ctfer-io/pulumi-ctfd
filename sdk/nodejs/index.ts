@@ -15,10 +15,30 @@ export const getChallenges: typeof import("./getChallenges").getChallenges = nul
 export const getChallengesOutput: typeof import("./getChallenges").getChallengesOutput = null as any;
 utilities.lazyLoad(exports, ["getChallenges","getChallengesOutput"], () => require("./getChallenges"));
 
+export { GetTeamsResult } from "./getTeams";
+export const getTeams: typeof import("./getTeams").getTeams = null as any;
+export const getTeamsOutput: typeof import("./getTeams").getTeamsOutput = null as any;
+utilities.lazyLoad(exports, ["getTeams","getTeamsOutput"], () => require("./getTeams"));
+
+export { GetUsersResult } from "./getUsers";
+export const getUsers: typeof import("./getUsers").getUsers = null as any;
+export const getUsersOutput: typeof import("./getUsers").getUsersOutput = null as any;
+utilities.lazyLoad(exports, ["getUsers","getUsersOutput"], () => require("./getUsers"));
+
 export { ProviderArgs } from "./provider";
 export type Provider = import("./provider").Provider;
 export const Provider: typeof import("./provider").Provider = null as any;
 utilities.lazyLoad(exports, ["Provider"], () => require("./provider"));
+
+export { TeamArgs, TeamState } from "./team";
+export type Team = import("./team").Team;
+export const Team: typeof import("./team").Team = null as any;
+utilities.lazyLoad(exports, ["Team"], () => require("./team"));
+
+export { UserArgs, UserState } from "./user";
+export type User = import("./user").User;
+export const User: typeof import("./user").User = null as any;
+utilities.lazyLoad(exports, ["User"], () => require("./user"));
 
 
 // Export sub-modules:
@@ -36,12 +56,18 @@ const _module = {
         switch (type) {
             case "ctfd:index/challenge:Challenge":
                 return new Challenge(name, <any>undefined, { urn })
+            case "ctfd:index/team:Team":
+                return new Team(name, <any>undefined, { urn })
+            case "ctfd:index/user:User":
+                return new User(name, <any>undefined, { urn })
             default:
                 throw new Error(`unknown resource type ${type}`);
         }
     },
 };
 pulumi.runtime.registerResourceModule("ctfd", "index/challenge", _module)
+pulumi.runtime.registerResourceModule("ctfd", "index/team", _module)
+pulumi.runtime.registerResourceModule("ctfd", "index/user", _module)
 pulumi.runtime.registerResourcePackage("ctfd", {
     version: utilities.getVersion(),
     constructProvider: (name: string, type: string, urn: string): pulumi.ProviderResource => {

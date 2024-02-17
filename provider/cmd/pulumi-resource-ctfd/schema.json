@@ -11,6 +11,7 @@
     "license": "Apache-2.0",
     "attribution": "This Pulumi package is based on the [`ctfd` Terraform Provider](https://github.com/ctfer-io/terraform-provider-ctfd).",
     "repository": "https://github.com/ctfer-io/pulumi-ctfd",
+    "logoUrl": "https://raw.githubusercontent.com/ctfer-io/pulumi-ctfd/main/res/ctfd.png",
     "pluginDownloadURL": "https://github.com/ctfer-io/pulumi-ctfd/releases/",
     "publisher": "CTFer.io",
     "meta": {
@@ -257,9 +258,6 @@
                     "type": "string",
                     "description": "Identifier of the challenge.\n"
                 },
-                "initial": {
-                    "type": "integer"
-                },
                 "maxAttempts": {
                     "type": "integer",
                     "description": "Maximum amount of attempts before being unable to flag the challenge.\n"
@@ -270,6 +268,10 @@
                 "name": {
                     "type": "string",
                     "description": "Name of the challenge, displayed as it.\n"
+                },
+                "next": {
+                    "type": "integer",
+                    "description": "Suggestion for the end-user as next challenge to work on.\n"
                 },
                 "requirements": {
                     "$ref": "#/types/ctfd:index/getChallengesChallengeRequirements:getChallengesChallengeRequirements",
@@ -312,10 +314,10 @@
                 "function",
                 "hints",
                 "id",
-                "initial",
                 "maxAttempts",
                 "minimum",
                 "name",
+                "next",
                 "requirements",
                 "state",
                 "tags",
@@ -493,7 +495,7 @@
     },
     "resources": {
         "ctfd:index/challenge:Challenge": {
-            "description": "{{% examples %}}\n## Example Usage\n{{% example %}}\n\n```java\npackage generated_program;\n\nimport com.pulumi.Context;\nimport com.pulumi.Pulumi;\nimport com.pulumi.core.Output;\nimport com.pulumi.ctfd.Challenge;\nimport com.pulumi.ctfd.ChallengeArgs;\nimport com.pulumi.ctfd.inputs.ChallengeFlagArgs;\nimport com.pulumi.ctfd.inputs.ChallengeHintArgs;\nimport com.pulumi.ctfd.inputs.ChallengeFileArgs;\nimport java.util.List;\nimport java.util.ArrayList;\nimport java.util.Map;\nimport java.io.File;\nimport java.nio.file.Files;\nimport java.nio.file.Paths;\n\npublic class App {\n    public static void main(String[] args) {\n        Pulumi.run(App::stack);\n    }\n\n    public static void stack(Context ctx) {\n        var http = new Challenge(\"http\", ChallengeArgs.builder()        \n            .category(\"network\")\n            .description(\"\"\"\nOh no ! I did not see my connection was no encrypted !\nI hope no one spied me...\n\nAuthors:\n- NicolasFgrx\n            \"\"\")\n            .value(500)\n            .initial(500)\n            .decay(17)\n            .minimum(50)\n            .state(\"visible\")\n            .function(\"logarithmic\")\n            .flags(ChallengeFlagArgs.builder()\n                .content(\"24HIUT{Http_1s_n0t_s3cuR3}\")\n                .build())\n            .topics(\"Network\")\n            .tags(            \n                \"network\",\n                \"http\")\n            .hints(            \n                ChallengeHintArgs.builder()\n                    .content(\"HTTP exchanges are not ciphered.\")\n                    .cost(50)\n                    .build(),\n                ChallengeHintArgs.builder()\n                    .content(\"Content is POSTed in HTTP :)\")\n                    .cost(50)\n                    .build())\n            .files(ChallengeFileArgs.builder()\n                .name(\"capture.pcapng\")\n                .contentb64(Base64.getEncoder().encodeToString(Files.readAllBytes(Paths.get(String.format(\"%s/capture.pcapng\", path.module())))))\n                .build())\n            .build());\n\n    }\n}\n```\n{{% /example %}}\n{{% /examples %}}\n\n## Import\n\nChallenge can be imported by the CTFd ID (check URLs)\n\n```sh\n $ pulumi import ctfd:index/challenge:Challenge http 1\n```\n\n ",
+            "description": "CTFd is built around the Challenge resource, which contains all the attributes to define a part of the Capture The Flag event.\n\nThis provider builds a cleaner API on top of CTFd's one to improve its adoption and lifecycle management.\n\n{{% examples %}}\n## Example Usage\n{{% example %}}\n\n```java\npackage generated_program;\n\nimport com.pulumi.Context;\nimport com.pulumi.Pulumi;\nimport com.pulumi.core.Output;\nimport com.pulumi.ctfd.Challenge;\nimport com.pulumi.ctfd.ChallengeArgs;\nimport com.pulumi.ctfd.inputs.ChallengeFlagArgs;\nimport com.pulumi.ctfd.inputs.ChallengeHintArgs;\nimport com.pulumi.ctfd.inputs.ChallengeFileArgs;\nimport java.util.List;\nimport java.util.ArrayList;\nimport java.util.Map;\nimport java.io.File;\nimport java.nio.file.Files;\nimport java.nio.file.Paths;\n\npublic class App {\n    public static void main(String[] args) {\n        Pulumi.run(App::stack);\n    }\n\n    public static void stack(Context ctx) {\n        var http = new Challenge(\"http\", ChallengeArgs.builder()        \n            .category(\"network\")\n            .description(\"\"\"\nOh no ! I did not see my connection was no encrypted !\nI hope no one spied me...\n\nAuthors:\n- NicolasFgrx\n            \"\"\")\n            .value(500)\n            .initial(500)\n            .decay(17)\n            .minimum(50)\n            .state(\"visible\")\n            .function(\"logarithmic\")\n            .flags(ChallengeFlagArgs.builder()\n                .content(\"24HIUT{Http_1s_n0t_s3cuR3}\")\n                .build())\n            .topics(\"Network\")\n            .tags(            \n                \"network\",\n                \"http\")\n            .hints(            \n                ChallengeHintArgs.builder()\n                    .content(\"HTTP exchanges are not ciphered.\")\n                    .cost(50)\n                    .build(),\n                ChallengeHintArgs.builder()\n                    .content(\"Content is POSTed in HTTP :)\")\n                    .cost(50)\n                    .build())\n            .files(ChallengeFileArgs.builder()\n                .name(\"capture.pcapng\")\n                .contentb64(Base64.getEncoder().encodeToString(Files.readAllBytes(Paths.get(String.format(\"%s/capture.pcapng\", path.module())))))\n                .build())\n            .build());\n\n    }\n}\n```\n{{% /example %}}\n{{% /examples %}}\n\n## Import\n\nChallenge can be imported by the CTFd ID (check URLs)\n\n ```sh\n $ pulumi import ctfd:index/challenge:Challenge http 1\n```\n\n ",
             "properties": {
                 "category": {
                     "type": "string",
@@ -781,6 +783,327 @@
                 },
                 "type": "object"
             }
+        },
+        "ctfd:index/team:Team": {
+            "description": "CTFd defines a Team as a group of Users who will attend the Capture The Flag event.\n\n{{% examples %}}\n## Example Usage\n{{% example %}}\n\n```typescript\nimport * as pulumi from \"@pulumi/pulumi\";\nimport * as ctfd from \"@ctfer-io/pulumi-ctfd\";\n\nconst ctfer = new ctfd.User(\"ctfer\", {\n    email: \"ctfer-io@protonmail.com\",\n    password: \"password\",\n});\nconst cybercombattants = new ctfd.Team(\"cybercombattants\", {\n    email: \"lucastesson@protonmail.com\",\n    password: \"password\",\n    members: [ctfer.id],\n    captain: ctfer.id,\n});\n```\n```python\nimport pulumi\nimport pulumi_ctfd as ctfd\n\nctfer = ctfd.User(\"ctfer\",\n    email=\"ctfer-io@protonmail.com\",\n    password=\"password\")\ncybercombattants = ctfd.Team(\"cybercombattants\",\n    email=\"lucastesson@protonmail.com\",\n    password=\"password\",\n    members=[ctfer.id],\n    captain=ctfer.id)\n```\n```csharp\nusing System.Collections.Generic;\nusing System.Linq;\nusing Pulumi;\nusing Ctfd = Pulumi.Ctfd;\n\nreturn await Deployment.RunAsync(() =\u003e \n{\n    var ctfer = new Ctfd.User(\"ctfer\", new()\n    {\n        Email = \"ctfer-io@protonmail.com\",\n        Password = \"password\",\n    });\n\n    var cybercombattants = new Ctfd.Team(\"cybercombattants\", new()\n    {\n        Email = \"lucastesson@protonmail.com\",\n        Password = \"password\",\n        Members = new[]\n        {\n            ctfer.Id,\n        },\n        Captain = ctfer.Id,\n    });\n\n});\n```\n```go\npackage main\n\nimport (\n\t\"github.com/ctfer-io/pulumi-ctfd/sdk/go/ctfd\"\n\t\"github.com/pulumi/pulumi/sdk/v3/go/pulumi\"\n)\n\nfunc main() {\n\tpulumi.Run(func(ctx *pulumi.Context) error {\n\t\tctfer, err := ctfd.NewUser(ctx, \"ctfer\", \u0026ctfd.UserArgs{\n\t\t\tEmail:    pulumi.String(\"ctfer-io@protonmail.com\"),\n\t\t\tPassword: pulumi.String(\"password\"),\n\t\t})\n\t\tif err != nil {\n\t\t\treturn err\n\t\t}\n\t\t_, err = ctfd.NewTeam(ctx, \"cybercombattants\", \u0026ctfd.TeamArgs{\n\t\t\tEmail:    pulumi.String(\"lucastesson@protonmail.com\"),\n\t\t\tPassword: pulumi.String(\"password\"),\n\t\t\tMembers: pulumi.StringArray{\n\t\t\t\tctfer.ID(),\n\t\t\t},\n\t\t\tCaptain: ctfer.ID(),\n\t\t})\n\t\tif err != nil {\n\t\t\treturn err\n\t\t}\n\t\treturn nil\n\t})\n}\n```\n```java\npackage generated_program;\n\nimport com.pulumi.Context;\nimport com.pulumi.Pulumi;\nimport com.pulumi.core.Output;\nimport com.pulumi.ctfd.User;\nimport com.pulumi.ctfd.UserArgs;\nimport com.pulumi.ctfd.Team;\nimport com.pulumi.ctfd.TeamArgs;\nimport java.util.List;\nimport java.util.ArrayList;\nimport java.util.Map;\nimport java.io.File;\nimport java.nio.file.Files;\nimport java.nio.file.Paths;\n\npublic class App {\n    public static void main(String[] args) {\n        Pulumi.run(App::stack);\n    }\n\n    public static void stack(Context ctx) {\n        var ctfer = new User(\"ctfer\", UserArgs.builder()        \n            .email(\"ctfer-io@protonmail.com\")\n            .password(\"password\")\n            .build());\n\n        var cybercombattants = new Team(\"cybercombattants\", TeamArgs.builder()        \n            .email(\"lucastesson@protonmail.com\")\n            .password(\"password\")\n            .members(ctfer.id())\n            .captain(ctfer.id())\n            .build());\n\n    }\n}\n```\n```yaml\nresources:\n  ctfer:\n    type: ctfd:User\n    properties:\n      email: ctfer-io@protonmail.com\n      password: password\n  cybercombattants:\n    type: ctfd:Team\n    properties:\n      email: lucastesson@protonmail.com\n      password: password\n      members:\n        - ${ctfer.id}\n      captain: ${ctfer.id}\n```\n{{% /example %}}\n{{% /examples %}}\n\n## Import\n\nUser can be imported by the CTFd ID (check URLs)\n\n ```sh\n $ pulumi import ctfd:index/team:Team cybercombattants 1\n```\n\n ",
+            "properties": {
+                "affiliation": {
+                    "type": "string",
+                    "description": "Affiliation to a company or agency.\n"
+                },
+                "banned": {
+                    "type": "boolean",
+                    "description": "Is true if the team is banned from the CTF.\n"
+                },
+                "captain": {
+                    "type": "string",
+                    "description": "Member who is captain of the team. Must be part of the members too.\n"
+                },
+                "country": {
+                    "type": "string",
+                    "description": "Country the team represent or is hail from.\n"
+                },
+                "email": {
+                    "type": "string",
+                    "description": "Email of the team.\n"
+                },
+                "hidden": {
+                    "type": "boolean",
+                    "description": "Is true if the team is hidden to the participants.\n"
+                },
+                "members": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    },
+                    "description": "List of members (User), defined by their IDs.\n"
+                },
+                "name": {
+                    "type": "string",
+                    "description": "Name of the team.\n"
+                },
+                "password": {
+                    "type": "string",
+                    "description": "Password of the team. Notice that during a CTF you may not want to update those to avoid defaulting team accesses.\n"
+                },
+                "website": {
+                    "type": "string",
+                    "description": "Website, blog, or anything similar (displayed to other participants).\n"
+                }
+            },
+            "required": [
+                "banned",
+                "captain",
+                "email",
+                "hidden",
+                "members",
+                "name",
+                "password"
+            ],
+            "inputProperties": {
+                "affiliation": {
+                    "type": "string",
+                    "description": "Affiliation to a company or agency.\n"
+                },
+                "banned": {
+                    "type": "boolean",
+                    "description": "Is true if the team is banned from the CTF.\n"
+                },
+                "captain": {
+                    "type": "string",
+                    "description": "Member who is captain of the team. Must be part of the members too.\n"
+                },
+                "country": {
+                    "type": "string",
+                    "description": "Country the team represent or is hail from.\n"
+                },
+                "email": {
+                    "type": "string",
+                    "description": "Email of the team.\n"
+                },
+                "hidden": {
+                    "type": "boolean",
+                    "description": "Is true if the team is hidden to the participants.\n"
+                },
+                "members": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    },
+                    "description": "List of members (User), defined by their IDs.\n"
+                },
+                "name": {
+                    "type": "string",
+                    "description": "Name of the team.\n"
+                },
+                "password": {
+                    "type": "string",
+                    "description": "Password of the team. Notice that during a CTF you may not want to update those to avoid defaulting team accesses.\n"
+                },
+                "website": {
+                    "type": "string",
+                    "description": "Website, blog, or anything similar (displayed to other participants).\n"
+                }
+            },
+            "requiredInputs": [
+                "captain",
+                "email",
+                "members",
+                "password"
+            ],
+            "stateInputs": {
+                "description": "Input properties used for looking up and filtering Team resources.\n",
+                "properties": {
+                    "affiliation": {
+                        "type": "string",
+                        "description": "Affiliation to a company or agency.\n"
+                    },
+                    "banned": {
+                        "type": "boolean",
+                        "description": "Is true if the team is banned from the CTF.\n"
+                    },
+                    "captain": {
+                        "type": "string",
+                        "description": "Member who is captain of the team. Must be part of the members too.\n"
+                    },
+                    "country": {
+                        "type": "string",
+                        "description": "Country the team represent or is hail from.\n"
+                    },
+                    "email": {
+                        "type": "string",
+                        "description": "Email of the team.\n"
+                    },
+                    "hidden": {
+                        "type": "boolean",
+                        "description": "Is true if the team is hidden to the participants.\n"
+                    },
+                    "members": {
+                        "type": "array",
+                        "items": {
+                            "type": "string"
+                        },
+                        "description": "List of members (User), defined by their IDs.\n"
+                    },
+                    "name": {
+                        "type": "string",
+                        "description": "Name of the team.\n"
+                    },
+                    "password": {
+                        "type": "string",
+                        "description": "Password of the team. Notice that during a CTF you may not want to update those to avoid defaulting team accesses.\n"
+                    },
+                    "website": {
+                        "type": "string",
+                        "description": "Website, blog, or anything similar (displayed to other participants).\n"
+                    }
+                },
+                "type": "object"
+            }
+        },
+        "ctfd:index/user:User": {
+            "description": "CTFd defines a User as someone who will either play or administrate the Capture The Flag event.\n\n{{% examples %}}\n## Example Usage\n{{% example %}}\n\n```java\npackage generated_program;\n\nimport com.pulumi.Context;\nimport com.pulumi.Pulumi;\nimport com.pulumi.core.Output;\nimport com.pulumi.ctfd.User;\nimport com.pulumi.ctfd.UserArgs;\nimport java.util.List;\nimport java.util.ArrayList;\nimport java.util.Map;\nimport java.io.File;\nimport java.nio.file.Files;\nimport java.nio.file.Paths;\n\npublic class App {\n    public static void main(String[] args) {\n        Pulumi.run(App::stack);\n    }\n\n    public static void stack(Context ctx) {\n        var ctfer = new User(\"ctfer\", UserArgs.builder()        \n            .email(\"ctfer-io@protonmail.com\")\n            .hidden(true)\n            .password(\"password\")\n            .type(\"admin\")\n            .username(\"CTFer\")\n            .verified(true)\n            .build());\n\n    }\n}\n```\n```yaml\nresources:\n  ctfer:\n    type: ctfd:User\n    properties:\n      email: ctfer-io@protonmail.com\n      hidden: true\n      password: password\n      # Define as an administration account\n      type: admin\n      username: CTFer\n      verified: true\n```\n{{% /example %}}\n{{% /examples %}}\n\n## Import\n\nUser can be imported by the CTFd ID (check URLs)\n\n ```sh\n $ pulumi import ctfd:index/user:User ctfer 1\n```\n\n ",
+            "properties": {
+                "affiliation": {
+                    "type": "string",
+                    "description": "Affiliation to a team, company or agency.\n"
+                },
+                "banned": {
+                    "type": "boolean",
+                    "description": "Is true if the user is banned from the CTF.\n"
+                },
+                "country": {
+                    "type": "string",
+                    "description": "Country the user represent or is native from.\n"
+                },
+                "email": {
+                    "type": "string",
+                    "description": "Email of the user, may be used to verify the account.\n",
+                    "secret": true
+                },
+                "hidden": {
+                    "type": "boolean",
+                    "description": "Is true if the user is hidden to the participants.\n"
+                },
+                "language": {
+                    "type": "string",
+                    "description": "Language the user is fluent in.\n"
+                },
+                "name": {
+                    "type": "string",
+                    "description": "Name or pseudo of the user.\n"
+                },
+                "password": {
+                    "type": "string",
+                    "description": "Password of the user. Notice than during a CTF you may not want to update those to avoid defaulting user accesses.\n",
+                    "secret": true
+                },
+                "type": {
+                    "type": "string",
+                    "description": "Generic type for RBAC purposes.\n"
+                },
+                "verified": {
+                    "type": "boolean",
+                    "description": "Is true if the user has verified its account by email, or if set by an admin.\n"
+                },
+                "website": {
+                    "type": "string",
+                    "description": "Website, blog, or anything similar (displayed to other participants).\n"
+                }
+            },
+            "required": [
+                "banned",
+                "email",
+                "hidden",
+                "name",
+                "password",
+                "type",
+                "verified"
+            ],
+            "inputProperties": {
+                "affiliation": {
+                    "type": "string",
+                    "description": "Affiliation to a team, company or agency.\n"
+                },
+                "banned": {
+                    "type": "boolean",
+                    "description": "Is true if the user is banned from the CTF.\n"
+                },
+                "country": {
+                    "type": "string",
+                    "description": "Country the user represent or is native from.\n"
+                },
+                "email": {
+                    "type": "string",
+                    "description": "Email of the user, may be used to verify the account.\n",
+                    "secret": true
+                },
+                "hidden": {
+                    "type": "boolean",
+                    "description": "Is true if the user is hidden to the participants.\n"
+                },
+                "language": {
+                    "type": "string",
+                    "description": "Language the user is fluent in.\n"
+                },
+                "name": {
+                    "type": "string",
+                    "description": "Name or pseudo of the user.\n"
+                },
+                "password": {
+                    "type": "string",
+                    "description": "Password of the user. Notice than during a CTF you may not want to update those to avoid defaulting user accesses.\n",
+                    "secret": true
+                },
+                "type": {
+                    "type": "string",
+                    "description": "Generic type for RBAC purposes.\n"
+                },
+                "verified": {
+                    "type": "boolean",
+                    "description": "Is true if the user has verified its account by email, or if set by an admin.\n"
+                },
+                "website": {
+                    "type": "string",
+                    "description": "Website, blog, or anything similar (displayed to other participants).\n"
+                }
+            },
+            "requiredInputs": [
+                "email",
+                "password"
+            ],
+            "stateInputs": {
+                "description": "Input properties used for looking up and filtering User resources.\n",
+                "properties": {
+                    "affiliation": {
+                        "type": "string",
+                        "description": "Affiliation to a team, company or agency.\n"
+                    },
+                    "banned": {
+                        "type": "boolean",
+                        "description": "Is true if the user is banned from the CTF.\n"
+                    },
+                    "country": {
+                        "type": "string",
+                        "description": "Country the user represent or is native from.\n"
+                    },
+                    "email": {
+                        "type": "string",
+                        "description": "Email of the user, may be used to verify the account.\n",
+                        "secret": true
+                    },
+                    "hidden": {
+                        "type": "boolean",
+                        "description": "Is true if the user is hidden to the participants.\n"
+                    },
+                    "language": {
+                        "type": "string",
+                        "description": "Language the user is fluent in.\n"
+                    },
+                    "name": {
+                        "type": "string",
+                        "description": "Name or pseudo of the user.\n"
+                    },
+                    "password": {
+                        "type": "string",
+                        "description": "Password of the user. Notice than during a CTF you may not want to update those to avoid defaulting user accesses.\n",
+                        "secret": true
+                    },
+                    "type": {
+                        "type": "string",
+                        "description": "Generic type for RBAC purposes.\n"
+                    },
+                    "verified": {
+                        "type": "boolean",
+                        "description": "Is true if the user has verified its account by email, or if set by an admin.\n"
+                    },
+                    "website": {
+                        "type": "string",
+                        "description": "Website, blog, or anything similar (displayed to other participants).\n"
+                    }
+                },
+                "type": "object"
+            }
         }
     },
     "functions": {
@@ -803,6 +1126,144 @@
                 "required": [
                     "challenges",
                     "id"
+                ]
+            }
+        },
+        "ctfd:index/getTeams:getTeams": {
+            "outputs": {
+                "description": "A collection of values returned by getTeams.\n",
+                "properties": {
+                    "affiliation": {
+                        "type": "string",
+                        "description": "Affiliation to a company or agency.\n"
+                    },
+                    "banned": {
+                        "type": "boolean",
+                        "description": "Is true if the team is banned from the CTF.\n"
+                    },
+                    "captain": {
+                        "type": "string",
+                        "description": "Member who is captain of the team. Must be part of the members too.\n"
+                    },
+                    "country": {
+                        "type": "string",
+                        "description": "Country the team represent or is hail from.\n"
+                    },
+                    "email": {
+                        "type": "string",
+                        "description": "Email of the team.\n"
+                    },
+                    "hidden": {
+                        "type": "boolean",
+                        "description": "Is true if the team is hidden to the participants.\n"
+                    },
+                    "id": {
+                        "type": "string",
+                        "description": "Identifier of the user.\n"
+                    },
+                    "members": {
+                        "type": "array",
+                        "items": {
+                            "type": "string"
+                        },
+                        "description": "List of members (User), defined by their IDs.\n"
+                    },
+                    "name": {
+                        "type": "string",
+                        "description": "Name of the team.\n"
+                    },
+                    "password": {
+                        "type": "string",
+                        "description": "Password of the team. Notice that during a CTF you may not want to update those to avoid defaulting team accesses.\n"
+                    },
+                    "website": {
+                        "type": "string",
+                        "description": "Website, blog, or anything similar (displayed to other participants).\n"
+                    }
+                },
+                "type": "object",
+                "required": [
+                    "affiliation",
+                    "banned",
+                    "captain",
+                    "country",
+                    "email",
+                    "hidden",
+                    "id",
+                    "members",
+                    "name",
+                    "password",
+                    "website"
+                ]
+            }
+        },
+        "ctfd:index/getUsers:getUsers": {
+            "outputs": {
+                "description": "A collection of values returned by getUsers.\n",
+                "properties": {
+                    "affiliation": {
+                        "type": "string",
+                        "description": "Affiliation to a team, company or agency.\n"
+                    },
+                    "banned": {
+                        "type": "boolean",
+                        "description": "Is true if the user is banned from the CTF.\n"
+                    },
+                    "country": {
+                        "type": "string",
+                        "description": "Country the user represent or is native from.\n"
+                    },
+                    "email": {
+                        "type": "string",
+                        "description": "Email of the user, may be used to verify the account.\n"
+                    },
+                    "hidden": {
+                        "type": "boolean",
+                        "description": "Is true if the user is hidden to the participants.\n"
+                    },
+                    "id": {
+                        "type": "string",
+                        "description": "Identifier of the user.\n"
+                    },
+                    "language": {
+                        "type": "string",
+                        "description": "Language the user is fluent in.\n"
+                    },
+                    "name": {
+                        "type": "string",
+                        "description": "Name or pseudo of the user.\n"
+                    },
+                    "password": {
+                        "type": "string",
+                        "description": "Password of the user. Notice that during a CTF you may not want to update those to avoid defaulting user accesses.\n"
+                    },
+                    "type": {
+                        "type": "string",
+                        "description": "Generic type for RBAC purposes.\n"
+                    },
+                    "verified": {
+                        "type": "boolean",
+                        "description": "Is true if the user has verified its account by email, or if set by an admin.\n"
+                    },
+                    "website": {
+                        "type": "string",
+                        "description": "Website, blog, or anything similar (displayed to other participants).\n"
+                    }
+                },
+                "type": "object",
+                "required": [
+                    "affiliation",
+                    "banned",
+                    "country",
+                    "email",
+                    "hidden",
+                    "id",
+                    "language",
+                    "name",
+                    "password",
+                    "type",
+                    "verified",
+                    "website"
                 ]
             }
         }

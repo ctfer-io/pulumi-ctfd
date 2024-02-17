@@ -46,7 +46,6 @@ namespace Pulumi.Ctfd.Outputs
         /// Identifier of the challenge.
         /// </summary>
         public readonly string Id;
-        public readonly int Initial;
         /// <summary>
         /// Maximum amount of attempts before being unable to flag the challenge.
         /// </summary>
@@ -56,6 +55,10 @@ namespace Pulumi.Ctfd.Outputs
         /// Name of the challenge, displayed as it.
         /// </summary>
         public readonly string Name;
+        /// <summary>
+        /// Suggestion for the end-user as next challenge to work on.
+        /// </summary>
+        public readonly int Next;
         /// <summary>
         /// List of required challenges that needs to get flagged before this one being accessible. Useful for skill-trees-like strategy CTF.
         /// </summary>
@@ -98,13 +101,13 @@ namespace Pulumi.Ctfd.Outputs
 
             string id,
 
-            int initial,
-
             int maxAttempts,
 
             int minimum,
 
             string name,
+
+            int next,
 
             Outputs.GetChallengesChallengeRequirementsResult requirements,
 
@@ -127,10 +130,10 @@ namespace Pulumi.Ctfd.Outputs
             Function = function;
             Hints = hints;
             Id = id;
-            Initial = initial;
             MaxAttempts = maxAttempts;
             Minimum = minimum;
             Name = name;
+            Next = next;
             Requirements = requirements;
             State = state;
             Tags = tags;

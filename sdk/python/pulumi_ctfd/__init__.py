@@ -7,7 +7,11 @@ import typing
 # Export this package's modules as members:
 from .challenge import *
 from .get_challenges import *
+from .get_teams import *
+from .get_users import *
 from .provider import *
+from .team import *
+from .user import *
 from ._inputs import *
 from . import outputs
 
@@ -27,6 +31,22 @@ _utilities.register(
   "fqn": "pulumi_ctfd",
   "classes": {
    "ctfd:index/challenge:Challenge": "Challenge"
+  }
+ },
+ {
+  "pkg": "ctfd",
+  "mod": "index/team",
+  "fqn": "pulumi_ctfd",
+  "classes": {
+   "ctfd:index/team:Team": "Team"
+  }
+ },
+ {
+  "pkg": "ctfd",
+  "mod": "index/user",
+  "fqn": "pulumi_ctfd",
+  "classes": {
+   "ctfd:index/user:User": "User"
   }
  }
 ]

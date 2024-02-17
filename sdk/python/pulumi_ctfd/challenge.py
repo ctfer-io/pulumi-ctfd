@@ -627,12 +627,16 @@ class Challenge(pulumi.CustomResource):
                  value: Optional[pulumi.Input[int]] = None,
                  __props__=None):
         """
+        CTFd is built around the Challenge resource, which contains all the attributes to define a part of the Capture The Flag event.
+
+        This provider builds a cleaner API on top of CTFd's one to improve its adoption and lifecycle management.
+
         ## Import
 
         Challenge can be imported by the CTFd ID (check URLs)
 
         ```sh
-         $ pulumi import ctfd:index/challenge:Challenge http 1
+        $ pulumi import ctfd:index/challenge:Challenge http 1
         ```
 
         :param str resource_name: The name of the resource.
@@ -663,12 +667,16 @@ class Challenge(pulumi.CustomResource):
                  args: ChallengeArgs,
                  opts: Optional[pulumi.ResourceOptions] = None):
         """
+        CTFd is built around the Challenge resource, which contains all the attributes to define a part of the Capture The Flag event.
+
+        This provider builds a cleaner API on top of CTFd's one to improve its adoption and lifecycle management.
+
         ## Import
 
         Challenge can be imported by the CTFd ID (check URLs)
 
         ```sh
-         $ pulumi import ctfd:index/challenge:Challenge http 1
+        $ pulumi import ctfd:index/challenge:Challenge http 1
         ```
 
         :param str resource_name: The name of the resource.

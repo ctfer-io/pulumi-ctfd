@@ -34,6 +34,17 @@
                         "maxItemsOne": false
                     }
                 }
+            },
+            "ctfd_team": {
+                "current": "ctfd:index/team:Team",
+                "fields": {
+                    "members": {
+                        "maxItemsOne": false
+                    }
+                }
+            },
+            "ctfd_user": {
+                "current": "ctfd:index/user:User"
             }
         },
         "datasources": {
@@ -77,16 +88,31 @@
                         }
                     }
                 }
+            },
+            "ctfd_teams": {
+                "current": "ctfd:index/getTeams:getTeams",
+                "fields": {
+                    "members": {
+                        "maxItemsOne": false
+                    }
+                }
+            },
+            "ctfd_users": {
+                "current": "ctfd:index/getUsers:getUsers"
             }
         }
     },
     "auto-settings": {},
     "renames": {
         "resources": {
-            "ctfd:index/challenge:Challenge": "ctfd_challenge"
+            "ctfd:index/challenge:Challenge": "ctfd_challenge",
+            "ctfd:index/team:Team": "ctfd_team",
+            "ctfd:index/user:User": "ctfd_user"
         },
         "functions": {
-            "ctfd:index/getChallenges:getChallenges": "ctfd_challenges"
+            "ctfd:index/getChallenges:getChallenges": "ctfd_challenges",
+            "ctfd:index/getTeams:getTeams": "ctfd_teams",
+            "ctfd:index/getUsers:getUsers": "ctfd_users"
         },
         "renamedProperties": {
             "ctfd:index/challenge:Challenge": {

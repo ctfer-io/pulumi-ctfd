@@ -54,11 +54,26 @@ func Provider() tfbridge.ProviderInfo {
 			"ctfd_challenge": {
 				Tok: tfbridge.MakeResource(mainPkg, mainMod, "Challenge"),
 			},
+			"ctfd_team": {
+				Tok: tfbridge.MakeResource(mainPkg, mainMod, "Team"),
+			},
+			"ctfd_user": {
+				Tok: tfbridge.MakeResource(mainPkg, mainMod, "User"),
+			},
 		},
 		DataSources: map[string]*tfbridge.DataSourceInfo{
 			// Map each resource in the Terraform provider to a Pulumi function. An example
 			// is below.
 			// "aws_ami": {Tok: tfbridge.MakeDataSource(mainPkg, mainMod, "getAmi")},
+			"ctfd_challenges": {
+				Tok: tfbridge.MakeDataSource(mainPkg, mainMod, "getChallenges"),
+			},
+			"ctfd_teams": {
+				Tok: tfbridge.MakeDataSource(mainPkg, mainMod, "getTeams"),
+			},
+			"ctfd_users": {
+				Tok: tfbridge.MakeDataSource(mainPkg, mainMod, "getUsers"),
+			},
 		},
 		JavaScript: &tfbridge.JavaScriptInfo{
 			PackageName: "@ctfer-io/pulumi-ctfd",

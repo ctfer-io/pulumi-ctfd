@@ -239,10 +239,10 @@ class GetChallengesChallengeResult(dict):
                  function: str,
                  hints: Sequence['outputs.GetChallengesChallengeHintResult'],
                  id: str,
-                 initial: int,
                  max_attempts: int,
                  minimum: int,
                  name: str,
+                 next: int,
                  requirements: 'outputs.GetChallengesChallengeRequirementsResult',
                  state: str,
                  tags: Sequence[str],
@@ -260,6 +260,7 @@ class GetChallengesChallengeResult(dict):
         :param str id: Identifier of the challenge.
         :param int max_attempts: Maximum amount of attempts before being unable to flag the challenge.
         :param str name: Name of the challenge, displayed as it.
+        :param int next: Suggestion for the end-user as next challenge to work on.
         :param 'GetChallengesChallengeRequirementsArgs' requirements: List of required challenges that needs to get flagged before this one being accessible. Useful for skill-trees-like strategy CTF.
         :param str state: State of the challenge, either hidden or visible.
         :param Sequence[str] tags: List of challenge tags that will be displayed to the end-user. You could use them to give some quick insights of what a challenge involves.
@@ -275,10 +276,10 @@ class GetChallengesChallengeResult(dict):
         pulumi.set(__self__, "function", function)
         pulumi.set(__self__, "hints", hints)
         pulumi.set(__self__, "id", id)
-        pulumi.set(__self__, "initial", initial)
         pulumi.set(__self__, "max_attempts", max_attempts)
         pulumi.set(__self__, "minimum", minimum)
         pulumi.set(__self__, "name", name)
+        pulumi.set(__self__, "next", next)
         pulumi.set(__self__, "requirements", requirements)
         pulumi.set(__self__, "state", state)
         pulumi.set(__self__, "tags", tags)
@@ -356,11 +357,6 @@ class GetChallengesChallengeResult(dict):
         return pulumi.get(self, "id")
 
     @property
-    @pulumi.getter
-    def initial(self) -> int:
-        return pulumi.get(self, "initial")
-
-    @property
     @pulumi.getter(name="maxAttempts")
     def max_attempts(self) -> int:
         """
@@ -380,6 +376,14 @@ class GetChallengesChallengeResult(dict):
         Name of the challenge, displayed as it.
         """
         return pulumi.get(self, "name")
+
+    @property
+    @pulumi.getter
+    def next(self) -> int:
+        """
+        Suggestion for the end-user as next challenge to work on.
+        """
+        return pulumi.get(self, "next")
 
     @property
     @pulumi.getter

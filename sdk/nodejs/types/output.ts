@@ -111,7 +111,6 @@ export interface GetChallengesChallenge {
      * Identifier of the challenge.
      */
     id: string;
-    initial: number;
     /**
      * Maximum amount of attempts before being unable to flag the challenge.
      */
@@ -121,6 +120,10 @@ export interface GetChallengesChallenge {
      * Name of the challenge, displayed as it.
      */
     name: string;
+    /**
+     * Suggestion for the end-user as next challenge to work on.
+     */
+    next: number;
     /**
      * List of required challenges that needs to get flagged before this one being accessible. Useful for skill-trees-like strategy CTF.
      */

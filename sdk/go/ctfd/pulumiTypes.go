@@ -567,13 +567,14 @@ type GetChallengesChallenge struct {
 	// List of hints about the challenge displayed to the end-user.
 	Hints []GetChallengesChallengeHint `pulumi:"hints"`
 	// Identifier of the challenge.
-	Id      string `pulumi:"id"`
-	Initial int    `pulumi:"initial"`
+	Id string `pulumi:"id"`
 	// Maximum amount of attempts before being unable to flag the challenge.
 	MaxAttempts int `pulumi:"maxAttempts"`
 	Minimum     int `pulumi:"minimum"`
 	// Name of the challenge, displayed as it.
 	Name string `pulumi:"name"`
+	// Suggestion for the end-user as next challenge to work on.
+	Next int `pulumi:"next"`
 	// List of required challenges that needs to get flagged before this one being accessible. Useful for skill-trees-like strategy CTF.
 	Requirements GetChallengesChallengeRequirements `pulumi:"requirements"`
 	// State of the challenge, either hidden or visible.
@@ -615,13 +616,14 @@ type GetChallengesChallengeArgs struct {
 	// List of hints about the challenge displayed to the end-user.
 	Hints GetChallengesChallengeHintArrayInput `pulumi:"hints"`
 	// Identifier of the challenge.
-	Id      pulumi.StringInput `pulumi:"id"`
-	Initial pulumi.IntInput    `pulumi:"initial"`
+	Id pulumi.StringInput `pulumi:"id"`
 	// Maximum amount of attempts before being unable to flag the challenge.
 	MaxAttempts pulumi.IntInput `pulumi:"maxAttempts"`
 	Minimum     pulumi.IntInput `pulumi:"minimum"`
 	// Name of the challenge, displayed as it.
 	Name pulumi.StringInput `pulumi:"name"`
+	// Suggestion for the end-user as next challenge to work on.
+	Next pulumi.IntInput `pulumi:"next"`
 	// List of required challenges that needs to get flagged before this one being accessible. Useful for skill-trees-like strategy CTF.
 	Requirements GetChallengesChallengeRequirementsInput `pulumi:"requirements"`
 	// State of the challenge, either hidden or visible.
@@ -730,10 +732,6 @@ func (o GetChallengesChallengeOutput) Id() pulumi.StringOutput {
 	return o.ApplyT(func(v GetChallengesChallenge) string { return v.Id }).(pulumi.StringOutput)
 }
 
-func (o GetChallengesChallengeOutput) Initial() pulumi.IntOutput {
-	return o.ApplyT(func(v GetChallengesChallenge) int { return v.Initial }).(pulumi.IntOutput)
-}
-
 // Maximum amount of attempts before being unable to flag the challenge.
 func (o GetChallengesChallengeOutput) MaxAttempts() pulumi.IntOutput {
 	return o.ApplyT(func(v GetChallengesChallenge) int { return v.MaxAttempts }).(pulumi.IntOutput)
@@ -746,6 +744,11 @@ func (o GetChallengesChallengeOutput) Minimum() pulumi.IntOutput {
 // Name of the challenge, displayed as it.
 func (o GetChallengesChallengeOutput) Name() pulumi.StringOutput {
 	return o.ApplyT(func(v GetChallengesChallenge) string { return v.Name }).(pulumi.StringOutput)
+}
+
+// Suggestion for the end-user as next challenge to work on.
+func (o GetChallengesChallengeOutput) Next() pulumi.IntOutput {
+	return o.ApplyT(func(v GetChallengesChallenge) int { return v.Next }).(pulumi.IntOutput)
 }
 
 // List of required challenges that needs to get flagged before this one being accessible. Useful for skill-trees-like strategy CTF.

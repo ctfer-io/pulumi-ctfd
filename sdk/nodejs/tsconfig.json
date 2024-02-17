@@ -17,11 +17,15 @@
         "config/index.ts",
         "config/vars.ts",
         "getChallenges.ts",
+        "getTeams.ts",
+        "getUsers.ts",
         "index.ts",
         "provider.ts",
+        "team.ts",
         "types/index.ts",
         "types/input.ts",
         "types/output.ts",
+        "user.ts",
         "utilities.ts"
     ]
 }
