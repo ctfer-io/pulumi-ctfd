@@ -8,6 +8,9 @@ on:
   schedule:
     - cron: '0 6 * * 5'
 
+permissions:
+  contents: read
+
 jobs:
   analyze:
     name: Analyze
@@ -24,19 +27,20 @@ jobs:
 
     steps:
     - name: Checkout repository
-      uses: actions/checkout@v4
+      uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11 # v4.1.1
 
-    - uses: actions/setup-go@v5
+    - uses: actions/setup-go@0c52d547c9bc32b1aa3301fd7a9cb496313a4491 # v5.0.0
       with:
-        go-version: '1.21.0'
+        go-version-file: 'go.work'
+        cache: true
 
     - name: Initialize CodeQL
-      uses: github/codeql-action/init@v3
+      uses: github/codeql-action/init@e8893c57a1f3a2b659b6b55564fdfdbbd2982911 # v3.24.0
       with:
         languages: ${{ matrix.language }}
         
     - name: Autobuild
-      uses: github/codeql-action/autobuild@v3
+      uses: github/codeql-action/autobuild@e8893c57a1f3a2b659b6b55564fdfdbbd2982911 # v3.24.0
 
     - name: Perform CodeQL Analysis
-      uses: github/codeql-action/analyze@v3
+      uses: github/codeql-action/analyze@e8893c57a1f3a2b659b6b55564fdfdbbd2982911 # v3.24.0
