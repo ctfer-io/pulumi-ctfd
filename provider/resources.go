@@ -25,6 +25,7 @@ var metadata []byte
 func Provider() tfbridge.ProviderInfo {
 	prov := tfbridge.ProviderInfo{
 		P:                 pf.ShimProvider(ctfd.New(version.Version)()),
+		Version:           version.Version,
 		Name:              "ctfd",
 		DisplayName:       "CTFd",
 		Publisher:         "CTFer.io",
