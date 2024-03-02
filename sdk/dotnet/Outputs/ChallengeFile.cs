@@ -33,6 +33,10 @@ namespace Pulumi.Ctfd.Outputs
         /// Name of the file as displayed to end-users.
         /// </summary>
         public readonly string Name;
+        /// <summary>
+        /// The sha1 sum of the file.
+        /// </summary>
+        public readonly string? Sha1sum;
 
         [OutputConstructor]
         private ChallengeFile(
@@ -44,13 +48,16 @@ namespace Pulumi.Ctfd.Outputs
 
             string? location,
 
-            string name)
+            string name,
+
+            string? sha1sum)
         {
             Content = content;
             Contentb64 = contentb64;
             Id = id;
             Location = location;
             Name = name;
+            Sha1sum = sha1sum;
         }
     }
 }

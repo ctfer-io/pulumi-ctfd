@@ -62,6 +62,12 @@ namespace Pulumi.Ctfd.Inputs
         [Input("name", required: true)]
         public Input<string> Name { get; set; } = null!;
 
+        /// <summary>
+        /// The sha1 sum of the file.
+        /// </summary>
+        [Input("sha1sum")]
+        public Input<string>? Sha1sum { get; set; }
+
         public ChallengeFileArgs()
         {
         }

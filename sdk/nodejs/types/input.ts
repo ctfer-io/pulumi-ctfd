@@ -26,6 +26,10 @@ export interface ChallengeFile {
      * Name of the file as displayed to end-users.
      */
     name: pulumi.Input<string>;
+    /**
+     * The sha1 sum of the file.
+     */
+    sha1sum?: pulumi.Input<string>;
 }
 
 export interface ChallengeFlag {

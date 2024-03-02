@@ -23,13 +23,15 @@ class ChallengeFileArgs:
                  content: Optional[pulumi.Input[str]] = None,
                  contentb64: Optional[pulumi.Input[str]] = None,
                  id: Optional[pulumi.Input[str]] = None,
-                 location: Optional[pulumi.Input[str]] = None):
+                 location: Optional[pulumi.Input[str]] = None,
+                 sha1sum: Optional[pulumi.Input[str]] = None):
         """
         :param pulumi.Input[str] name: Name of the file as displayed to end-users.
         :param pulumi.Input[str] content: Raw content of the file, perfectly fit the use-cases of a .txt document or anything with a simple binary content. You could provide it from the file-system using `file("${path.module}/...")`.
         :param pulumi.Input[str] contentb64: Base 64 content of the file, perfectly fit the use-cases of complex binaries. You could provide it from the file-system using `filebase64("${path.module}/...")`.
         :param pulumi.Input[str] id: Identifier of the file, used internally to handle the CTFd corresponding object.
         :param pulumi.Input[str] location: Location where the file is stored on the CTFd instance, for download purposes.
+        :param pulumi.Input[str] sha1sum: The sha1 sum of the file.
         """
         pulumi.set(__self__, "name", name)
         if content is not None:
@@ -40,6 +42,8 @@ class ChallengeFileArgs:
             pulumi.set(__self__, "id", id)
         if location is not None:
             pulumi.set(__self__, "location", location)
+        if sha1sum is not None:
+            pulumi.set(__self__, "sha1sum", sha1sum)
 
     @property
     @pulumi.getter
@@ -100,6 +104,18 @@ class ChallengeFileArgs:
     @location.setter
     def location(self, value: Optional[pulumi.Input[str]]):
         pulumi.set(self, "location", value)
+
+    @property
+    @pulumi.getter
+    def sha1sum(self) -> Optional[pulumi.Input[str]]:
+        """
+        The sha1 sum of the file.
+        """
+        return pulumi.get(self, "sha1sum")
+
+    @sha1sum.setter
+    def sha1sum(self, value: Optional[pulumi.Input[str]]):
+        pulumi.set(self, "sha1sum", value)
 
 
 @pulumi.input_type

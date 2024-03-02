@@ -99,6 +99,10 @@
                 "name": {
                     "type": "string",
                     "description": "Name of the file as displayed to end-users.\n"
+                },
+                "sha1sum": {
+                    "type": "string",
+                    "description": "The sha1 sum of the file.\n"
                 }
             },
             "type": "object",
@@ -112,7 +116,8 @@
                         "contentb64",
                         "id",
                         "location",
-                        "name"
+                        "name",
+                        "sha1sum"
                     ]
                 }
             }

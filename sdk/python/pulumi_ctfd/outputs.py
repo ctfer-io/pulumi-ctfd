@@ -29,13 +29,15 @@ class ChallengeFile(dict):
                  content: Optional[str] = None,
                  contentb64: Optional[str] = None,
                  id: Optional[str] = None,
-                 location: Optional[str] = None):
+                 location: Optional[str] = None,
+                 sha1sum: Optional[str] = None):
         """
         :param str name: Name of the file as displayed to end-users.
         :param str content: Raw content of the file, perfectly fit the use-cases of a .txt document or anything with a simple binary content. You could provide it from the file-system using `file("${path.module}/...")`.
         :param str contentb64: Base 64 content of the file, perfectly fit the use-cases of complex binaries. You could provide it from the file-system using `filebase64("${path.module}/...")`.
         :param str id: Identifier of the file, used internally to handle the CTFd corresponding object.
         :param str location: Location where the file is stored on the CTFd instance, for download purposes.
+        :param str sha1sum: The sha1 sum of the file.
         """
         pulumi.set(__self__, "name", name)
         if content is not None:
@@ -46,6 +48,8 @@ class ChallengeFile(dict):
             pulumi.set(__self__, "id", id)
         if location is not None:
             pulumi.set(__self__, "location", location)
+        if sha1sum is not None:
+            pulumi.set(__self__, "sha1sum", sha1sum)
 
     @property
     @pulumi.getter
@@ -86,6 +90,14 @@ class ChallengeFile(dict):
         Location where the file is stored on the CTFd instance, for download purposes.
         """
         return pulumi.get(self, "location")
+
+    @property
+    @pulumi.getter
+    def sha1sum(self) -> Optional[str]:
+        """
+        The sha1 sum of the file.
+        """
+        return pulumi.get(self, "sha1sum")
 
 
 @pulumi.output_type

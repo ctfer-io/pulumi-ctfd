@@ -24,6 +24,8 @@ type ChallengeFile struct {
 	Location *string `pulumi:"location"`
 	// Name of the file as displayed to end-users.
 	Name string `pulumi:"name"`
+	// The sha1 sum of the file.
+	Sha1sum *string `pulumi:"sha1sum"`
 }
 
 // ChallengeFileInput is an input type that accepts ChallengeFileArgs and ChallengeFileOutput values.
@@ -48,6 +50,8 @@ type ChallengeFileArgs struct {
 	Location pulumi.StringPtrInput `pulumi:"location"`
 	// Name of the file as displayed to end-users.
 	Name pulumi.StringInput `pulumi:"name"`
+	// The sha1 sum of the file.
+	Sha1sum pulumi.StringPtrInput `pulumi:"sha1sum"`
 }
 
 func (ChallengeFileArgs) ElementType() reflect.Type {
@@ -124,6 +128,11 @@ func (o ChallengeFileOutput) Location() pulumi.StringPtrOutput {
 // Name of the file as displayed to end-users.
 func (o ChallengeFileOutput) Name() pulumi.StringOutput {
 	return o.ApplyT(func(v ChallengeFile) string { return v.Name }).(pulumi.StringOutput)
+}
+
+// The sha1 sum of the file.
+func (o ChallengeFileOutput) Sha1sum() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v ChallengeFile) *string { return v.Sha1sum }).(pulumi.StringPtrOutput)
 }
 
 type ChallengeFileArrayOutput struct{ *pulumi.OutputState }
