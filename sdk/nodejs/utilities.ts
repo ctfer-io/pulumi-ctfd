@@ -53,7 +53,7 @@ export function getVersion(): string {
 
 /** @internal */
 export function resourceOptsDefaults(): any {
-    return { version: getVersion(), pluginDownloadURL: "https://github.com/ctfer-io/pulumi-ctfd/releases/" };
+    return { version: getVersion(), pluginDownloadURL: "github://api.github.com/ctfer-io/" };
 }
 
 /** @internal */

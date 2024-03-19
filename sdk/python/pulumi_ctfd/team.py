@@ -364,6 +364,7 @@ class Team(pulumi.CustomResource):
 
         ## Example Usage
 
+        <!--Start PulumiCodeChooser -->
         ```python
         import pulumi
         import pulumi_ctfd as ctfd
@@ -377,6 +378,7 @@ class Team(pulumi.CustomResource):
             members=[ctfer.id],
             captain=ctfer.id)
         ```
+        <!--End PulumiCodeChooser -->
 
         ## Import
 
@@ -410,6 +412,7 @@ class Team(pulumi.CustomResource):
 
         ## Example Usage
 
+        <!--Start PulumiCodeChooser -->
         ```python
         import pulumi
         import pulumi_ctfd as ctfd
@@ -423,6 +426,7 @@ class Team(pulumi.CustomResource):
             members=[ctfer.id],
             captain=ctfer.id)
         ```
+        <!--End PulumiCodeChooser -->
 
         ## Import
 
