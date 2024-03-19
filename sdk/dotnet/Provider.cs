@@ -62,7 +62,7 @@ namespace Pulumi.Ctfd
             var defaultOptions = new CustomResourceOptions
             {
                 Version = Utilities.Version,
-                PluginDownloadURL = "https://github.com/ctfer-io/pulumi-ctfd/releases/",
+                PluginDownloadURL = "github://api.github.com/ctfer-io/",
                 AdditionalSecretOutputs =
                 {
                     "apiKey",

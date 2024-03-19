@@ -24,6 +24,6 @@
     "pulumi": {
         "resource": true,
         "name": "ctfd",
-        "server": "https://github.com/ctfer-io/pulumi-ctfd/releases/"
+        "server": "github://api.github.com/ctfer-io/"
     }
 }
