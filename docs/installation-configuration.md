@@ -9,9 +9,9 @@ layout: package
 The CTFd provider is available as a package in all Pulumi languages:
 
 - JavaScript/TypeScript: [`@ctfer-io/pulumi-ctfd`](https://www.npmjs.com/package/@ctfer-io/pulumi-ctfd)
-- Python: [`pulumi-ctfd`](https://pypi.org/project/pulumi-ctfd/)
+- Python: [`ctfer-io_pulumi-ctfd`](https://pypi.org/project/ctfer-io_pulumi-ctfd/)
 - Golang: [`github.com/ctfer-io/pulumi-ctfd/sdk/go/ctfd`](https://github.com/ctfer-io/pulumi-ctfd)
-- .NET: [`Pulumi.Ctfd`](https://www.nuget.org/packages/Pulumi.Ctfd)
+- .NET: [`CTFerio.Ctfd`](https://www.nuget.org/packages/CTFerio.Ctfd)
 
 ## Provider Binary
 

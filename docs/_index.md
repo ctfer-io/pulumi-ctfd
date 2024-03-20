@@ -125,7 +125,7 @@ func main() {
 {{% /choosable %}} {{% choosable language python %}}
 
 ```python
-import pulumi_ctfd as ctfd
+import ctfer-io_pulumi_ctfd as ctfd
 import pulumi
 
 # Stack configuration, other resources, etc.
@@ -147,7 +147,7 @@ ch = ctfd.Challenge("some-challenge", name="My Challenge", category="misc", desc
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Pulumi;
-using Pulumi.Ctfd;
+using CTFerio.Ctfd;
 
 class Program
 {
