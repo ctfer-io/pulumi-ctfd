@@ -88,6 +88,7 @@ func Provider() tfbridge.ProviderInfo {
 			},
 		},
 		Python: &tfbridge.PythonInfo{
+			PackageName: fmt.Sprintf("ctfer-io_pulumi-%[1]s", mainPkg),
 			// List any Python dependencies and their version ranges
 			Requires: map[string]string{
 				"pulumi": ">=3.0.0,<4.0.0",
@@ -103,6 +104,7 @@ func Provider() tfbridge.ProviderInfo {
 			GenerateResourceContainerTypes: true,
 		},
 		CSharp: &tfbridge.CSharpInfo{
+			RootNamespace: "CTFerio",
 			PackageReferences: map[string]string{
 				"Pulumi": "3.*",
 			},

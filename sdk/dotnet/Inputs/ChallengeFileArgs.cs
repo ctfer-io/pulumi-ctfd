@@ -6,8 +6,9 @@ using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Threading.Tasks;
 using Pulumi.Serialization;
+using Pulumi;
 
-namespace Pulumi.Ctfd.Inputs
+namespace CTFerio.Ctfd.Inputs
 {
 
     public sealed class ChallengeFileArgs : global::Pulumi.ResourceArgs

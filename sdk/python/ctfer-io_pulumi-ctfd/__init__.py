@@ -17,10 +17,10 @@ from . import outputs
 
 # Make subpackages available:
 if typing.TYPE_CHECKING:
-    import pulumi_ctfd.config as __config
+    import ctfer-io_pulumi-ctfd.config as __config
     config = __config
 else:
-    config = _utilities.lazy_import('pulumi_ctfd.config')
+    config = _utilities.lazy_import('ctfer-io_pulumi-ctfd.config')
 
 _utilities.register(
     resource_modules="""
@@ -28,7 +28,7 @@ _utilities.register(
  {
   "pkg": "ctfd",
   "mod": "index/challenge",
-  "fqn": "pulumi_ctfd",
+  "fqn": "ctfer-io_pulumi-ctfd",
   "classes": {
    "ctfd:index/challenge:Challenge": "Challenge"
   }
@@ -36,7 +36,7 @@ _utilities.register(
  {
   "pkg": "ctfd",
   "mod": "index/team",
-  "fqn": "pulumi_ctfd",
+  "fqn": "ctfer-io_pulumi-ctfd",
   "classes": {
    "ctfd:index/team:Team": "Team"
   }
@@ -44,7 +44,7 @@ _utilities.register(
  {
   "pkg": "ctfd",
   "mod": "index/user",
-  "fqn": "pulumi_ctfd",
+  "fqn": "ctfer-io_pulumi-ctfd",
   "classes": {
    "ctfd:index/user:User": "User"
   }
@@ -56,7 +56,7 @@ _utilities.register(
  {
   "pkg": "ctfd",
   "token": "pulumi:providers:ctfd",
-  "fqn": "pulumi_ctfd",
+  "fqn": "ctfer-io_pulumi-ctfd",
   "class": "Provider"
  }
 ]

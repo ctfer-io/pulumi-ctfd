@@ -6,8 +6,9 @@ using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Threading.Tasks;
 using Pulumi.Serialization;
+using Pulumi;
 
-namespace Pulumi.Ctfd
+namespace CTFerio.Ctfd
 {
     /// <summary>
     /// CTFd is built around the Challenge resource, which contains all the attributes to define a part of the Capture The Flag event.

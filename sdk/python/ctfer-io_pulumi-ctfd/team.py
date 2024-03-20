@@ -367,7 +367,7 @@ class Team(pulumi.CustomResource):
         <!--Start PulumiCodeChooser -->
         ```python
         import pulumi
-        import pulumi_ctfd as ctfd
+        import ctfer-io_pulumi-ctfd as ctfd
 
         ctfer = ctfd.User("ctfer",
             email="ctfer-io@protonmail.com",
@@ -415,7 +415,7 @@ class Team(pulumi.CustomResource):
         <!--Start PulumiCodeChooser -->
         ```python
         import pulumi
-        import pulumi_ctfd as ctfd
+        import ctfer-io_pulumi-ctfd as ctfd
 
         ctfer = ctfd.User("ctfer",
             email="ctfer-io@protonmail.com",

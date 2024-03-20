@@ -6,8 +6,9 @@ using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Threading.Tasks;
 using Pulumi.Serialization;
+using Pulumi;
 
-namespace Pulumi.Ctfd
+namespace CTFerio.Ctfd
 {
     /// <summary>
     /// CTFd defines a User as someone who will either play or administrate the Capture The Flag event.

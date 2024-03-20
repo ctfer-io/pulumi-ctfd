@@ -6,8 +6,9 @@ using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Threading.Tasks;
 using Pulumi.Serialization;
+using Pulumi;
 
-namespace Pulumi.Ctfd
+namespace CTFerio.Ctfd
 {
     /// <summary>
     /// CTFd defines a Team as a group of Users who will attend the Capture The Flag event.
@@ -19,7 +20,7 @@ namespace Pulumi.Ctfd
     /// using System.Collections.Generic;
     /// using System.Linq;
     /// using Pulumi;
-    /// using Ctfd = Pulumi.Ctfd;
+    /// using Ctfd = CTFerio.Ctfd;
     /// 
     /// return await Deployment.RunAsync(() =&gt; 
     /// {

@@ -4,7 +4,7 @@
 using System;
 using System.Collections.Immutable;
 
-namespace Pulumi.Ctfd
+namespace CTFerio.Ctfd
 {
     public static class Config
     {
