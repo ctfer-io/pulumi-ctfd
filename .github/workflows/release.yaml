@@ -136,7 +136,7 @@ jobs:
         with:
           repo: pulumi/pulumictl
       - name: Install Pulumi CLI
-        uses: pulumi/actions@76683de37aa44910871ba6cef36557780f2e41d1 # v5.1.1
+        uses: pulumi/actions@4b4f7c2d7fc9b1f9db3cc704398a9c25d43da056 # v5.2.0
 
       - name: Setup DotNet
         uses: actions/setup-dotnet@4d6c8fcf3c8f7a60068d26b594648e99df24cee3 # v4.0.0
