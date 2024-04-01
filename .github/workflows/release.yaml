@@ -178,7 +178,7 @@ jobs:
         if: matrix.language == 'python'
 
       - name: Publish NodeJS SDK
-        uses: JS-DevTools/npm-publish@79051c040d27c2202f1e56093d4f3a2b804f4154 # v3.1.0
+        uses: JS-DevTools/npm-publish@19c28f1ef146469e409470805ea4279d47c3d35c # v3.1.1
         with:
           package: ./sdk/nodejs/bin/package.json
           access: public
