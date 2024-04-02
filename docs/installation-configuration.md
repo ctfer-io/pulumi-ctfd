@@ -31,7 +31,7 @@ The Pulumi CTFd Provider needs to be configured with CTFd credentials before it 
 Your can either configure it using:
 
 1. [environment variables](#environment-variables)
-2. [provider configuration](/#provider)
+2. [provider configuration](#provider)
 3. [configuring](#configuring)
 
 ### Environment variables
