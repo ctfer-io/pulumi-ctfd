@@ -3,6 +3,7 @@ name: lint
 on:
   workflow_call:
     inputs: {}
+  push: {}
   pull_request:
     branches:
     - main
@@ -22,6 +23,10 @@ jobs:
     steps:
       - name: Checkout Repo
         uses: actions/checkout@9bb56186c3b09b4f86b1c65136769dd318469633 # v4.1.2
+      - name: Markdown lint
+        uses: DavidAnson/markdownlint-cli2-action@v15
+        with:
+          globs: 'docs/*.md'
       - name: Install go
         uses: actions/setup-go@0c52d547c9bc32b1aa3301fd7a9cb496313a4491 # v5.0.0
         with:
