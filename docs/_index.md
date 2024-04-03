@@ -18,6 +18,7 @@ To sum it up, you can manage a Capture The Flag event based upon CTFd in multipl
 ## Use Cases
 
 Users of the CTFd provider can:
+
 - Drop unstable scripts and tooling to manage CTF resources in favor of this SDK.
 - Share their configuration to public through a standardized API (common and encouraged after a Capture The Flag event), such that it could be replayed later for training and/or teaching.
 - Plug in other providers (e.g. [Kubernetes](https://www.pulumi.com/registry/packages/kubernetes/)) to provision infrastucture for the platform and challenges.
@@ -80,45 +81,45 @@ let ch = new ctfd.Challenge('some-challenge', {
 package main
 
 import (
-	"github.com/ctfer-io/pulumi-ctfd/sdk/go/ctfd"
-	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
+    "github.com/ctfer-io/pulumi-ctfd/sdk/go/ctfd"
+    "github.com/pulumi/pulumi/sdk/v3/go/pulumi"
 )
 
 func main() {
-	pulumi.Run(func(ctx *pulumi.Context) error {
-		// Stack configuration, other resources, etc.
-		// ...
+    pulumi.Run(func(ctx *pulumi.Context) error {
+        // Stack configuration, other resources, etc.
+        // ...
 
-		// Create provider
-		pv, err := ctfd.NewProvider(ctx, "ctfd-fine-grained", &ctfd.ProviderArgs{
-			Url:    pulumi.String("https://my-ctf.lan"),
-			ApiKey: pulumi.String("ctfd_xxx"), // please do not hardcode your credentials/api keys
-		})
-		if err != nil {
-			return err
-		}
+        // Create provider
+        pv, err := ctfd.NewProvider(ctx, "ctfd-fine-grained", &ctfd.ProviderArgs{
+            Url:    pulumi.String("https://my-ctf.lan"),
+            ApiKey: pulumi.String("ctfd_xxx"), // please do not hardcode your credentials/api keys
+        })
+        if err != nil {
+            return err
+        }
 
-		// Build resource options to use it
-		opts := []pulumi.ResourceOption{
-			pulumi.Provider(pv),
-		}
+        // Build resource options to use it
+        opts := []pulumi.ResourceOption{
+            pulumi.Provider(pv),
+        }
 
-		// Create resources with the custom provider
-		_, err = ctfd.NewChallenge(ctx, "some-challenge", &ctfd.ChallengeArgs{
-			Name:        pulumi.String("My Challenge"),
-			Category:    pulumi.String("misc"),
-			Description: pulumi.String("..."),
-			Value:       pulumi.Int(500),
-		}, opts...)
-		if err != nil {
-			return err
-		}
+        // Create resources with the custom provider
+        _, err = ctfd.NewChallenge(ctx, "some-challenge", &ctfd.ChallengeArgs{
+            Name:        pulumi.String("My Challenge"),
+            Category:    pulumi.String("misc"),
+            Description: pulumi.String("..."),
+            Value:       pulumi.Int(500),
+        }, opts...)
+        if err != nil {
+            return err
+        }
 
-		// Other resources, export, etc.
-		// ...
+        // Other resources, export, etc.
+        // ...
 
-		return nil
-	})
+        return nil
+    })
 }
 ```
 
@@ -153,26 +154,26 @@ class Program
 {
     static Task Main() =>
         Deployment.Run(() => {
-			// Stack configuration, other resources, etc.
-			// ...
+            // Stack configuration, other resources, etc.
+            // ...
 
-			// Create provider
-			var pv = new Ctfd.Provider("ctfd-fine-grained", new Ctfd.ProviderArgs{
-				Url = "https://my-ctf.lan",
-				ApiKey = "ctfd_xxx" // please do not hardcode your credentials/api keys
-			});
+            // Create provider
+            var pv = new Ctfd.Provider("ctfd-fine-grained", new Ctfd.ProviderArgs{
+                Url = "https://my-ctf.lan",
+                ApiKey = "ctfd_xxx" // please do not hardcode your credentials/api keys
+            });
 
-			// Create resources with the custom provider
-			var ch = new Ctfd.Challenge("my-challenge", new Ctfd.ChallengeArgs{
-				Name = "My Challenge",
-				Category = "misc",
-				Description = "...",
-				Value = 500
-			}, new Pulumi.CustomResourceOptions { Provider = pv });
+            // Create resources with the custom provider
+            var ch = new Ctfd.Challenge("my-challenge", new Ctfd.ChallengeArgs{
+                Name = "My Challenge",
+                Category = "misc",
+                Description = "...",
+                Value = 500
+            }, new Pulumi.CustomResourceOptions { Provider = pv });
 
-			// Other resources, export, etc.
-			// ...
-		});
+            // Other resources, export, etc.
+            // ...
+        });
 }
 ```
 

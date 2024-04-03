@@ -31,8 +31,7 @@ The Pulumi CTFd Provider needs to be configured with CTFd credentials before it 
 Your can either configure it using:
 
 1. [environment variables](#environment-variables)
-2. [provider configuration](#provider)
-3. [configuring](#configuring)
+2. [provider configuration](#provider-configuration)
 
 ### Environment variables
 
@@ -47,7 +46,7 @@ export CTFD_API_KEY="ctfd_xxx"
 We recommend using an API key rather than a nonce/session combo for security purposes: the API key is natively supported thus enable better logging, authentication & authorization.
 Moreover, it is possible to rotate the keys and revoke them on the fly using the API, while a session/nonce is not build in this way.
 
-### Configuring
+### Provider Configuration
 
 You can also configure the provider using the stack configuration.
 For instance, you can set the url using `pulumi config set url https://my-ctf.lan` then use it with, for instance, the following Go code.
@@ -56,27 +55,27 @@ For instance, you can set the url using `pulumi config set url https://my-ctf.la
 package main
 
 import (
-	"github.com/ctfer-io/pulumi-ctfd/sdk/go/ctfd"
-	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
-	"github.com/pulumi/pulumi/sdk/v3/go/pulumi/config"
+    "github.com/ctfer-io/pulumi-ctfd/sdk/go/ctfd"
+    "github.com/pulumi/pulumi/sdk/v3/go/pulumi"
+    "github.com/pulumi/pulumi/sdk/v3/go/pulumi/config"
 )
 
 func main() {
-	pulumi.Run(func(ctx *pulumi.Context) error {
-		conf := config.New(ctx, "prod")
+    pulumi.Run(func(ctx *pulumi.Context) error {
+        conf := config.New(ctx, "prod")
 
-		// Create provider
-		_, err := ctfd.NewProvider(ctx, "ctfd-fine-grained", &ctfd.ProviderArgs{
-			Url:    pulumi.String(conf.Get("url")),
-			ApiKey: conf.GetSecret("api_key"),
-		})
-		if err != nil {
-			return err
-		}
+        // Create provider
+        _, err := ctfd.NewProvider(ctx, "ctfd-fine-grained", &ctfd.ProviderArgs{
+            Url:    pulumi.String(conf.Get("url")),
+            ApiKey: conf.GetSecret("api_key"),
+        })
+        if err != nil {
+            return err
+        }
 
-		// ...
+        // ...
 
-		return nil
-	})
+        return nil
+    })
 }
 ```
