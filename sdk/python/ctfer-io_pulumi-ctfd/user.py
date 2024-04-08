@@ -397,14 +397,6 @@ class User(pulumi.CustomResource):
         """
         CTFd defines a User as someone who will either play or administrate the Capture The Flag event.
 
-        ## Import
-
-        User can be imported by the CTFd ID (check URLs)
-
-        ```sh
-        $ pulumi import ctfd:index/user:User ctfer 1
-        ```
-
         :param str resource_name: The name of the resource.
         :param pulumi.ResourceOptions opts: Options for the resource.
         :param pulumi.Input[str] affiliation: Affiliation to a team, company or agency.
@@ -427,14 +419,6 @@ class User(pulumi.CustomResource):
                  opts: Optional[pulumi.ResourceOptions] = None):
         """
         CTFd defines a User as someone who will either play or administrate the Capture The Flag event.
-
-        ## Import
-
-        User can be imported by the CTFd ID (check URLs)
-
-        ```sh
-        $ pulumi import ctfd:index/user:User ctfer 1
-        ```
 
         :param str resource_name: The name of the resource.
         :param UserArgs args: The arguments to use to populate this resource's properties.

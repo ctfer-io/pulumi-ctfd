@@ -12,14 +12,6 @@ namespace CTFerio.Ctfd
 {
     /// <summary>
     /// CTFd defines a User as someone who will either play or administrate the Capture The Flag event.
-    /// 
-    /// ## Import
-    /// 
-    /// User can be imported by the CTFd ID (check URLs)
-    /// 
-    /// ```sh
-    /// $ pulumi import ctfd:index/user:User ctfer 1
-    /// ```
     /// </summary>
     [CtfdResourceType("ctfd:index/user:User")]
     public partial class User : global::Pulumi.CustomResource

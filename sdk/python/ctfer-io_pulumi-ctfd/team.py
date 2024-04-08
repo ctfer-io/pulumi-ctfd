@@ -380,14 +380,6 @@ class Team(pulumi.CustomResource):
         ```
         <!--End PulumiCodeChooser -->
 
-        ## Import
-
-        User can be imported by the CTFd ID (check URLs)
-
-        ```sh
-        $ pulumi import ctfd:index/team:Team cybercombattants 1
-        ```
-
         :param str resource_name: The name of the resource.
         :param pulumi.ResourceOptions opts: Options for the resource.
         :param pulumi.Input[str] affiliation: Affiliation to a company or agency.
@@ -427,14 +419,6 @@ class Team(pulumi.CustomResource):
             captain=ctfer.id)
         ```
         <!--End PulumiCodeChooser -->
-
-        ## Import
-
-        User can be imported by the CTFd ID (check URLs)
-
-        ```sh
-        $ pulumi import ctfd:index/team:Team cybercombattants 1
-        ```
 
         :param str resource_name: The name of the resource.
         :param TeamArgs args: The arguments to use to populate this resource's properties.

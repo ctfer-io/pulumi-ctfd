@@ -26,14 +26,6 @@ import * as utilities from "./utilities";
  * });
  * ```
  * <!--End PulumiCodeChooser -->
- *
- * ## Import
- *
- * User can be imported by the CTFd ID (check URLs)
- *
- * ```sh
- * $ pulumi import ctfd:index/team:Team cybercombattants 1
- * ```
  */
 export class Team extends pulumi.CustomResource {
     /**

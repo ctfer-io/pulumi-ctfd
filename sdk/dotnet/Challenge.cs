@@ -14,14 +14,6 @@ namespace CTFerio.Ctfd
     /// CTFd is built around the Challenge resource, which contains all the attributes to define a part of the Capture The Flag event.
     /// 
     /// This provider builds a cleaner API on top of CTFd's one to improve its adoption and lifecycle management.
-    /// 
-    /// ## Import
-    /// 
-    /// Challenge can be imported by the CTFd ID (check URLs)
-    /// 
-    /// ```sh
-    /// $ pulumi import ctfd:index/challenge:Challenge http 1
-    /// ```
     /// </summary>
     [CtfdResourceType("ctfd:index/challenge:Challenge")]
     public partial class Challenge : global::Pulumi.CustomResource

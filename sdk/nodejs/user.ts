@@ -6,14 +6,6 @@ import * as utilities from "./utilities";
 
 /**
  * CTFd defines a User as someone who will either play or administrate the Capture The Flag event.
- *
- * ## Import
- *
- * User can be imported by the CTFd ID (check URLs)
- *
- * ```sh
- * $ pulumi import ctfd:index/user:User ctfer 1
- * ```
  */
 export class User extends pulumi.CustomResource {
     /**

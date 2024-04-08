@@ -44,14 +44,6 @@ namespace CTFerio.Ctfd
     /// });
     /// ```
     /// &lt;!--End PulumiCodeChooser --&gt;
-    /// 
-    /// ## Import
-    /// 
-    /// User can be imported by the CTFd ID (check URLs)
-    /// 
-    /// ```sh
-    /// $ pulumi import ctfd:index/team:Team cybercombattants 1
-    /// ```
     /// </summary>
     [CtfdResourceType("ctfd:index/team:Team")]
     public partial class Team : global::Pulumi.CustomResource

@@ -53,14 +53,6 @@ import (
 //
 // ```
 // <!--End PulumiCodeChooser -->
-//
-// ## Import
-//
-// User can be imported by the CTFd ID (check URLs)
-//
-// ```sh
-// $ pulumi import ctfd:index/team:Team cybercombattants 1
-// ```
 type Team struct {
 	pulumi.CustomResourceState
 
