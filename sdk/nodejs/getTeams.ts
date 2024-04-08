@@ -24,7 +24,7 @@ export interface GetTeamsResult {
      */
     readonly banned: boolean;
     /**
-     * Member who is captain of the team. Must be part of the members too.
+     * Member who is captain of the team. Must be part of the members too. Note it could cause a fatal error in case of resource import with an inconsistent CTFd configuration i.e. if a team has no captain yet (should not be possible).
      */
     readonly captain: string;
     /**

@@ -26,7 +26,7 @@ class TeamArgs:
                  website: Optional[pulumi.Input[str]] = None):
         """
         The set of arguments for constructing a Team resource.
-        :param pulumi.Input[str] captain: Member who is captain of the team. Must be part of the members too.
+        :param pulumi.Input[str] captain: Member who is captain of the team. Must be part of the members too. Note it could cause a fatal error in case of resource import with an inconsistent CTFd configuration i.e. if a team has no captain yet (should not be possible).
         :param pulumi.Input[str] email: Email of the team.
         :param pulumi.Input[Sequence[pulumi.Input[str]]] members: List of members (User), defined by their IDs.
         :param pulumi.Input[str] password: Password of the team. Notice that during a CTF you may not want to update those to avoid defaulting team accesses.
@@ -58,7 +58,7 @@ class TeamArgs:
     @pulumi.getter
     def captain(self) -> pulumi.Input[str]:
         """
-        Member who is captain of the team. Must be part of the members too.
+        Member who is captain of the team. Must be part of the members too. Note it could cause a fatal error in case of resource import with an inconsistent CTFd configuration i.e. if a team has no captain yet (should not be possible).
         """
         return pulumi.get(self, "captain")
 
@@ -192,7 +192,7 @@ class _TeamState:
         Input properties used for looking up and filtering Team resources.
         :param pulumi.Input[str] affiliation: Affiliation to a company or agency.
         :param pulumi.Input[bool] banned: Is true if the team is banned from the CTF.
-        :param pulumi.Input[str] captain: Member who is captain of the team. Must be part of the members too.
+        :param pulumi.Input[str] captain: Member who is captain of the team. Must be part of the members too. Note it could cause a fatal error in case of resource import with an inconsistent CTFd configuration i.e. if a team has no captain yet (should not be possible).
         :param pulumi.Input[str] country: Country the team represent or is hail from.
         :param pulumi.Input[str] email: Email of the team.
         :param pulumi.Input[bool] hidden: Is true if the team is hidden to the participants.
@@ -250,7 +250,7 @@ class _TeamState:
     @pulumi.getter
     def captain(self) -> Optional[pulumi.Input[str]]:
         """
-        Member who is captain of the team. Must be part of the members too.
+        Member who is captain of the team. Must be part of the members too. Note it could cause a fatal error in case of resource import with an inconsistent CTFd configuration i.e. if a team has no captain yet (should not be possible).
         """
         return pulumi.get(self, "captain")
 
@@ -392,7 +392,7 @@ class Team(pulumi.CustomResource):
         :param pulumi.ResourceOptions opts: Options for the resource.
         :param pulumi.Input[str] affiliation: Affiliation to a company or agency.
         :param pulumi.Input[bool] banned: Is true if the team is banned from the CTF.
-        :param pulumi.Input[str] captain: Member who is captain of the team. Must be part of the members too.
+        :param pulumi.Input[str] captain: Member who is captain of the team. Must be part of the members too. Note it could cause a fatal error in case of resource import with an inconsistent CTFd configuration i.e. if a team has no captain yet (should not be possible).
         :param pulumi.Input[str] country: Country the team represent or is hail from.
         :param pulumi.Input[str] email: Email of the team.
         :param pulumi.Input[bool] hidden: Is true if the team is hidden to the participants.
@@ -517,7 +517,7 @@ class Team(pulumi.CustomResource):
         :param pulumi.ResourceOptions opts: Options for the resource.
         :param pulumi.Input[str] affiliation: Affiliation to a company or agency.
         :param pulumi.Input[bool] banned: Is true if the team is banned from the CTF.
-        :param pulumi.Input[str] captain: Member who is captain of the team. Must be part of the members too.
+        :param pulumi.Input[str] captain: Member who is captain of the team. Must be part of the members too. Note it could cause a fatal error in case of resource import with an inconsistent CTFd configuration i.e. if a team has no captain yet (should not be possible).
         :param pulumi.Input[str] country: Country the team represent or is hail from.
         :param pulumi.Input[str] email: Email of the team.
         :param pulumi.Input[bool] hidden: Is true if the team is hidden to the participants.
@@ -562,7 +562,7 @@ class Team(pulumi.CustomResource):
     @pulumi.getter
     def captain(self) -> pulumi.Output[str]:
         """
-        Member who is captain of the team. Must be part of the members too.
+        Member who is captain of the team. Must be part of the members too. Note it could cause a fatal error in case of resource import with an inconsistent CTFd configuration i.e. if a team has no captain yet (should not be possible).
         """
         return pulumi.get(self, "captain")
 

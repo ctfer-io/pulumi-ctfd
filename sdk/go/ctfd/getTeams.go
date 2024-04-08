@@ -27,7 +27,7 @@ type GetTeamsResult struct {
 	Affiliation string `pulumi:"affiliation"`
 	// Is true if the team is banned from the CTF.
 	Banned bool `pulumi:"banned"`
-	// Member who is captain of the team. Must be part of the members too.
+	// Member who is captain of the team. Must be part of the members too. Note it could cause a fatal error in case of resource import with an inconsistent CTFd configuration i.e. if a team has no captain yet (should not be possible).
 	Captain string `pulumi:"captain"`
 	// Country the team represent or is hail from.
 	Country string `pulumi:"country"`
@@ -83,7 +83,7 @@ func (o GetTeamsResultOutput) Banned() pulumi.BoolOutput {
 	return o.ApplyT(func(v GetTeamsResult) bool { return v.Banned }).(pulumi.BoolOutput)
 }
 
-// Member who is captain of the team. Must be part of the members too.
+// Member who is captain of the team. Must be part of the members too. Note it could cause a fatal error in case of resource import with an inconsistent CTFd configuration i.e. if a team has no captain yet (should not be possible).
 func (o GetTeamsResultOutput) Captain() pulumi.StringOutput {
 	return o.ApplyT(func(v GetTeamsResult) string { return v.Captain }).(pulumi.StringOutput)
 }

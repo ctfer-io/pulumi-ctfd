@@ -72,7 +72,7 @@ export class Team extends pulumi.CustomResource {
      */
     public readonly banned!: pulumi.Output<boolean>;
     /**
-     * Member who is captain of the team. Must be part of the members too.
+     * Member who is captain of the team. Must be part of the members too. Note it could cause a fatal error in case of resource import with an inconsistent CTFd configuration i.e. if a team has no captain yet (should not be possible).
      */
     public readonly captain!: pulumi.Output<string>;
     /**
@@ -170,7 +170,7 @@ export interface TeamState {
      */
     banned?: pulumi.Input<boolean>;
     /**
-     * Member who is captain of the team. Must be part of the members too.
+     * Member who is captain of the team. Must be part of the members too. Note it could cause a fatal error in case of resource import with an inconsistent CTFd configuration i.e. if a team has no captain yet (should not be possible).
      */
     captain?: pulumi.Input<string>;
     /**
@@ -216,7 +216,7 @@ export interface TeamArgs {
      */
     banned?: pulumi.Input<boolean>;
     /**
-     * Member who is captain of the team. Must be part of the members too.
+     * Member who is captain of the team. Must be part of the members too. Note it could cause a fatal error in case of resource import with an inconsistent CTFd configuration i.e. if a team has no captain yet (should not be possible).
      */
     captain: pulumi.Input<string>;
     /**

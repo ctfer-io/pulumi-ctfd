@@ -69,7 +69,7 @@ namespace CTFerio.Ctfd
         public Output<bool> Banned { get; private set; } = null!;
 
         /// <summary>
-        /// Member who is captain of the team. Must be part of the members too.
+        /// Member who is captain of the team. Must be part of the members too. Note it could cause a fatal error in case of resource import with an inconsistent CTFd configuration i.e. if a team has no captain yet (should not be possible).
         /// </summary>
         [Output("captain")]
         public Output<string> Captain { get; private set; } = null!;
@@ -176,7 +176,7 @@ namespace CTFerio.Ctfd
         public Input<bool>? Banned { get; set; }
 
         /// <summary>
-        /// Member who is captain of the team. Must be part of the members too.
+        /// Member who is captain of the team. Must be part of the members too. Note it could cause a fatal error in case of resource import with an inconsistent CTFd configuration i.e. if a team has no captain yet (should not be possible).
         /// </summary>
         [Input("captain", required: true)]
         public Input<string> Captain { get; set; } = null!;
@@ -250,7 +250,7 @@ namespace CTFerio.Ctfd
         public Input<bool>? Banned { get; set; }
 
         /// <summary>
-        /// Member who is captain of the team. Must be part of the members too.
+        /// Member who is captain of the team. Must be part of the members too. Note it could cause a fatal error in case of resource import with an inconsistent CTFd configuration i.e. if a team has no captain yet (should not be possible).
         /// </summary>
         [Input("captain")]
         public Input<string>? Captain { get; set; }
