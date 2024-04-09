@@ -14,6 +14,77 @@ namespace CTFerio.Ctfd
     /// CTFd is built around the Challenge resource, which contains all the attributes to define a part of the Capture The Flag event.
     /// 
     /// This provider builds a cleaner API on top of CTFd's one to improve its adoption and lifecycle management.
+    /// 
+    /// ## Example Usage
+    /// 
+    /// &lt;!--Start PulumiCodeChooser --&gt;
+    /// ```csharp
+    /// using System;
+    /// using System.Collections.Generic;
+    /// using System.IO;
+    /// using System.Linq;
+    /// using Pulumi;
+    /// using Ctfd = CTFerio.Ctfd;
+    /// 
+    /// 	
+    /// string ReadFileBase64(string path) 
+    /// {
+    ///     return Convert.ToBase64String(Encoding.UTF8.GetBytes(File.ReadAllText(path)));
+    /// }
+    /// 
+    /// return await Deployment.RunAsync(() =&gt; 
+    /// {
+    ///     var http = new Ctfd.Challenge("http", new()
+    ///     {
+    ///         Category = "misc",
+    ///         Description = "...",
+    ///         Value = 500,
+    ///         Decay = 100,
+    ///         Minimum = 50,
+    ///         State = "visible",
+    ///         Function = "logarithmic",
+    ///         Flags = new[]
+    ///         {
+    ///             new Ctfd.Inputs.ChallengeFlagArgs
+    ///             {
+    ///                 Content = "CTF{some_flag}",
+    ///             },
+    ///         },
+    ///         Topics = new[]
+    ///         {
+    ///             "Misc",
+    ///         },
+    ///         Tags = new[]
+    ///         {
+    ///             "misc",
+    ///             "basic",
+    ///         },
+    ///         Hints = new[]
+    ///         {
+    ///             new Ctfd.Inputs.ChallengeHintArgs
+    ///             {
+    ///                 Content = "Some super-helpful hint",
+    ///                 Cost = 50,
+    ///             },
+    ///             new Ctfd.Inputs.ChallengeHintArgs
+    ///             {
+    ///                 Content = "Even more helpful hint !",
+    ///                 Cost = 50,
+    ///             },
+    ///         },
+    ///         Files = new[]
+    ///         {
+    ///             new Ctfd.Inputs.ChallengeFileArgs
+    ///             {
+    ///                 Name = "image.png",
+    ///                 Contentb64 = ReadFileBase64(".../image.png"),
+    ///             },
+    ///         },
+    ///     });
+    /// 
+    /// });
+    /// ```
+    /// &lt;!--End PulumiCodeChooser --&gt;
     /// </summary>
     [CtfdResourceType("ctfd:index/challenge:Challenge")]
     public partial class Challenge : global::Pulumi.CustomResource

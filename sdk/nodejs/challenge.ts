@@ -10,6 +10,48 @@ import * as utilities from "./utilities";
  * CTFd is built around the Challenge resource, which contains all the attributes to define a part of the Capture The Flag event.
  *
  * This provider builds a cleaner API on top of CTFd's one to improve its adoption and lifecycle management.
+ *
+ * ## Example Usage
+ *
+ * <!--Start PulumiCodeChooser -->
+ * ```typescript
+ * import * as pulumi from "@pulumi/pulumi";
+ * import * as ctfd from "@ctfer-io/pulumi-ctfd";
+ * import * as fs from "fs";
+ *
+ * const http = new ctfd.Challenge("http", {
+ *     category: "misc",
+ *     description: "...",
+ *     value: 500,
+ *     decay: 100,
+ *     minimum: 50,
+ *     state: "visible",
+ *     "function": "logarithmic",
+ *     flags: [{
+ *         content: "CTF{some_flag}",
+ *     }],
+ *     topics: ["Misc"],
+ *     tags: [
+ *         "misc",
+ *         "basic",
+ *     ],
+ *     hints: [
+ *         {
+ *             content: "Some super-helpful hint",
+ *             cost: 50,
+ *         },
+ *         {
+ *             content: "Even more helpful hint !",
+ *             cost: 50,
+ *         },
+ *     ],
+ *     files: [{
+ *         name: "image.png",
+ *         contentb64: fs.readFileSync(".../image.png", { encoding: "base64" }),
+ *     }],
+ * });
+ * ```
+ * <!--End PulumiCodeChooser -->
  */
 export class Challenge extends pulumi.CustomResource {
     /**

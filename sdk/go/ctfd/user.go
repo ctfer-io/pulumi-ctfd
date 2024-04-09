@@ -13,6 +13,38 @@ import (
 )
 
 // CTFd defines a User as someone who will either play or administrate the Capture The Flag event.
+//
+// ## Example Usage
+//
+// <!--Start PulumiCodeChooser -->
+// ```go
+// package main
+//
+// import (
+//
+//	"github.com/ctfer-io/pulumi-ctfd/sdk/go/ctfd"
+//	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
+//
+// )
+//
+//	func main() {
+//		pulumi.Run(func(ctx *pulumi.Context) error {
+//			_, err := ctfd.NewUser(ctx, "ctfer", &ctfd.UserArgs{
+//				Email:    pulumi.String("ctfer-io@protonmail.com"),
+//				Hidden:   pulumi.Bool(true),
+//				Password: pulumi.String("password"),
+//				Type:     pulumi.String("admin"),
+//				Verified: pulumi.Bool(true),
+//			})
+//			if err != nil {
+//				return err
+//			}
+//			return nil
+//		})
+//	}
+//
+// ```
+// <!--End PulumiCodeChooser -->
 type User struct {
 	pulumi.CustomResourceState
 

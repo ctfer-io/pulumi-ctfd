@@ -665,8 +665,8 @@ github.com/creack/pty v1.1.9/go.mod h1:oKZEueFk5CKHvIhNR5MUki03XCEU+Q6VDXinZuGJ3
 github.com/creack/pty v1.1.11/go.mod h1:oKZEueFk5CKHvIhNR5MUki03XCEU+Q6VDXinZuGJ33E=
 github.com/ctfer-io/go-ctfd v0.4.0 h1:ZgBLlk8XwAuB7nH23Gun3VK6Qd0mSLEMM0HRx1F1c3I=
 github.com/ctfer-io/go-ctfd v0.4.0/go.mod h1:kBBj+UfQM9v6fuOtK+C2SRWPkq8SYUa3KkxusvOeq/s=
-github.com/ctfer-io/terraform-provider-ctfd v0.1.9 h1:PTWdJ8vg/aWSbUu9sivSfbxxhgj+Y8vJlGiBYXc/0c0=
-github.com/ctfer-io/terraform-provider-ctfd v0.1.9/go.mod h1:ZZmF29HWs+2AHP7BtCPSjsDoi8PWgbg9KUjvW91l8Ts=
+github.com/ctfer-io/terraform-provider-ctfd v0.1.14 h1:8Ghy2J0x/HAdF8Q7UpmtFRFCP6mpBtYcynAznzDrTng=
+github.com/ctfer-io/terraform-provider-ctfd v0.1.14/go.mod h1:ZZmF29HWs+2AHP7BtCPSjsDoi8PWgbg9KUjvW91l8Ts=
 github.com/cyphar/filepath-securejoin v0.2.2/go.mod h1:FpkQEhXnPnOthhzymB7CGsFk2G9VLXONKD9G7QGMM+4=
 github.com/cyphar/filepath-securejoin v0.2.3/go.mod h1:aPGpWjXOXUn2NCNjFvBE6aRxGGx79pTxQpKOJNYHHl4=
 github.com/cyphar/filepath-securejoin v0.2.4 h1:Ugdm7cg7i6ZK6x3xDF1oEu1nfkyfH53EtKeQYTC3kyg=

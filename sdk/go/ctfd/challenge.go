@@ -15,6 +15,79 @@ import (
 // CTFd is built around the Challenge resource, which contains all the attributes to define a part of the Capture The Flag event.
 //
 // This provider builds a cleaner API on top of CTFd's one to improve its adoption and lifecycle management.
+//
+// ## Example Usage
+//
+// <!--Start PulumiCodeChooser -->
+// ```go
+// package main
+//
+// import (
+//
+//	"encoding/base64"
+//	"os"
+//
+//	"github.com/ctfer-io/pulumi-ctfd/sdk/go/ctfd"
+//	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
+//
+// )
+//
+//	func filebase64OrPanic(path string) string {
+//		if fileData, err := os.ReadFile(path); err == nil {
+//			return base64.StdEncoding.EncodeToString(fileData[:])
+//		} else {
+//			panic(err.Error())
+//		}
+//	}
+//
+//	func main() {
+//		pulumi.Run(func(ctx *pulumi.Context) error {
+//			_, err := ctfd.NewChallenge(ctx, "http", &ctfd.ChallengeArgs{
+//				Category:    pulumi.String("misc"),
+//				Description: pulumi.String("..."),
+//				Value:       pulumi.Int(500),
+//				Decay:       pulumi.Int(100),
+//				Minimum:     pulumi.Int(50),
+//				State:       pulumi.String("visible"),
+//				Function:    pulumi.String("logarithmic"),
+//				Flags: ctfd.ChallengeFlagArray{
+//					&ctfd.ChallengeFlagArgs{
+//						Content: pulumi.String("CTF{some_flag}"),
+//					},
+//				},
+//				Topics: pulumi.StringArray{
+//					pulumi.String("Misc"),
+//				},
+//				Tags: pulumi.StringArray{
+//					pulumi.String("misc"),
+//					pulumi.String("basic"),
+//				},
+//				Hints: ctfd.ChallengeHintArray{
+//					&ctfd.ChallengeHintArgs{
+//						Content: pulumi.String("Some super-helpful hint"),
+//						Cost:    pulumi.Int(50),
+//					},
+//					&ctfd.ChallengeHintArgs{
+//						Content: pulumi.String("Even more helpful hint !"),
+//						Cost:    pulumi.Int(50),
+//					},
+//				},
+//				Files: ctfd.ChallengeFileArray{
+//					&ctfd.ChallengeFileArgs{
+//						Name:       pulumi.String("image.png"),
+//						Contentb64: filebase64OrPanic(".../image.png"),
+//					},
+//				},
+//			})
+//			if err != nil {
+//				return err
+//			}
+//			return nil
+//		})
+//	}
+//
+// ```
+// <!--End PulumiCodeChooser -->
 type Challenge struct {
 	pulumi.CustomResourceState
 

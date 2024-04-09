@@ -6,6 +6,23 @@ import * as utilities from "./utilities";
 
 /**
  * CTFd defines a User as someone who will either play or administrate the Capture The Flag event.
+ *
+ * ## Example Usage
+ *
+ * <!--Start PulumiCodeChooser -->
+ * ```typescript
+ * import * as pulumi from "@pulumi/pulumi";
+ * import * as ctfd from "@ctfer-io/pulumi-ctfd";
+ *
+ * const ctfer = new ctfd.User("ctfer", {
+ *     email: "ctfer-io@protonmail.com",
+ *     hidden: true,
+ *     password: "password",
+ *     type: "admin",
+ *     verified: true,
+ * });
+ * ```
+ * <!--End PulumiCodeChooser -->
  */
 export class User extends pulumi.CustomResource {
     /**

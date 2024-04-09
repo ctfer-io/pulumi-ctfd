@@ -12,6 +12,30 @@ namespace CTFerio.Ctfd
 {
     /// <summary>
     /// CTFd defines a User as someone who will either play or administrate the Capture The Flag event.
+    /// 
+    /// ## Example Usage
+    /// 
+    /// &lt;!--Start PulumiCodeChooser --&gt;
+    /// ```csharp
+    /// using System.Collections.Generic;
+    /// using System.Linq;
+    /// using Pulumi;
+    /// using Ctfd = CTFerio.Ctfd;
+    /// 
+    /// return await Deployment.RunAsync(() =&gt; 
+    /// {
+    ///     var ctfer = new Ctfd.User("ctfer", new()
+    ///     {
+    ///         Email = "ctfer-io@protonmail.com",
+    ///         Hidden = true,
+    ///         Password = "password",
+    ///         Type = "admin",
+    ///         Verified = true,
+    ///     });
+    /// 
+    /// });
+    /// ```
+    /// &lt;!--End PulumiCodeChooser --&gt;
     /// </summary>
     [CtfdResourceType("ctfd:index/user:User")]
     public partial class User : global::Pulumi.CustomResource

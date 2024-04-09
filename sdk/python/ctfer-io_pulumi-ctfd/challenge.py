@@ -631,6 +631,47 @@ class Challenge(pulumi.CustomResource):
 
         This provider builds a cleaner API on top of CTFd's one to improve its adoption and lifecycle management.
 
+        ## Example Usage
+
+        <!--Start PulumiCodeChooser -->
+        ```python
+        import pulumi
+        import base64
+        import ctfer-io_pulumi-ctfd as ctfd
+
+        http = ctfd.Challenge("http",
+            category="misc",
+            description="...",
+            value=500,
+            decay=100,
+            minimum=50,
+            state="visible",
+            function="logarithmic",
+            flags=[ctfd.ChallengeFlagArgs(
+                content="CTF{some_flag}",
+            )],
+            topics=["Misc"],
+            tags=[
+                "misc",
+                "basic",
+            ],
+            hints=[
+                ctfd.ChallengeHintArgs(
+                    content="Some super-helpful hint",
+                    cost=50,
+                ),
+                ctfd.ChallengeHintArgs(
+                    content="Even more helpful hint !",
+                    cost=50,
+                ),
+            ],
+            files=[ctfd.ChallengeFileArgs(
+                name="image.png",
+                contentb64=(lambda path: base64.b64encode(open(path).read().encode()).decode())(".../image.png"),
+            )])
+        ```
+        <!--End PulumiCodeChooser -->
+
         :param str resource_name: The name of the resource.
         :param pulumi.ResourceOptions opts: Options for the resource.
         :param pulumi.Input[str] category: Category of the challenge that CTFd groups by on the web UI.
@@ -662,6 +703,47 @@ class Challenge(pulumi.CustomResource):
         CTFd is built around the Challenge resource, which contains all the attributes to define a part of the Capture The Flag event.
 
         This provider builds a cleaner API on top of CTFd's one to improve its adoption and lifecycle management.
+
+        ## Example Usage
+
+        <!--Start PulumiCodeChooser -->
+        ```python
+        import pulumi
+        import base64
+        import ctfer-io_pulumi-ctfd as ctfd
+
+        http = ctfd.Challenge("http",
+            category="misc",
+            description="...",
+            value=500,
+            decay=100,
+            minimum=50,
+            state="visible",
+            function="logarithmic",
+            flags=[ctfd.ChallengeFlagArgs(
+                content="CTF{some_flag}",
+            )],
+            topics=["Misc"],
+            tags=[
+                "misc",
+                "basic",
+            ],
+            hints=[
+                ctfd.ChallengeHintArgs(
+                    content="Some super-helpful hint",
+                    cost=50,
+                ),
+                ctfd.ChallengeHintArgs(
+                    content="Even more helpful hint !",
+                    cost=50,
+                ),
+            ],
+            files=[ctfd.ChallengeFileArgs(
+                name="image.png",
+                contentb64=(lambda path: base64.b64encode(open(path).read().encode()).decode())(".../image.png"),
+            )])
+        ```
+        <!--End PulumiCodeChooser -->
 
         :param str resource_name: The name of the resource.
         :param ChallengeArgs args: The arguments to use to populate this resource's properties.
