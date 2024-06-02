@@ -13,7 +13,6 @@ import * as utilities from "./utilities";
  *
  * ## Example Usage
  *
- * <!--Start PulumiCodeChooser -->
  * ```typescript
  * import * as pulumi from "@pulumi/pulumi";
  * import * as ctfd from "@ctfer-io/pulumi-ctfd";
@@ -27,31 +26,32 @@ import * as utilities from "./utilities";
  *     minimum: 50,
  *     state: "visible",
  *     "function": "logarithmic",
- *     flags: [{
- *         content: "CTF{some_flag}",
- *     }],
  *     topics: ["Misc"],
  *     tags: [
  *         "misc",
  *         "basic",
  *     ],
- *     hints: [
- *         {
- *             content: "Some super-helpful hint",
- *             cost: 50,
- *         },
- *         {
- *             content: "Even more helpful hint !",
- *             cost: 50,
- *         },
- *     ],
- *     files: [{
- *         name: "image.png",
- *         contentb64: fs.readFileSync(".../image.png", { encoding: "base64" }),
- *     }],
+ * });
+ * const httpFlag = new ctfd.Flag("httpFlag", {
+ *     challengeId: http.id,
+ *     content: "CTF{some_flag}",
+ * });
+ * const httpHint1 = new ctfd.Hint("httpHint1", {
+ *     challengeId: http.id,
+ *     content: "Some super-helpful hint",
+ *     cost: 50,
+ * });
+ * const httpHint2 = new ctfd.Hint("httpHint2", {
+ *     challengeId: http.id,
+ *     content: "Even more helpful hint !",
+ *     cost: 50,
+ *     requirements: [httpHint1.id],
+ * });
+ * const httpFile = new ctfd.File("httpFile", {
+ *     challengeId: http.id,
+ *     contentb64: fs.readFileSync(".../image.png", { encoding: "base64" }),
  * });
  * ```
- * <!--End PulumiCodeChooser -->
  */
 export class Challenge extends pulumi.CustomResource {
     /**
@@ -92,27 +92,15 @@ export class Challenge extends pulumi.CustomResource {
     /**
      * The decay defines from each number of solves does the decay function triggers until reaching minimum. This function is defined by CTFd and could be configured through `.function`.
      */
-    public readonly decay!: pulumi.Output<number | undefined>;
+    public readonly decay!: pulumi.Output<number>;
     /**
      * Description of the challenge, consider using multiline descriptions for better style.
      */
     public readonly description!: pulumi.Output<string>;
     /**
-     * List of files given to players to flag the challenge.
-     */
-    public readonly files!: pulumi.Output<outputs.ChallengeFile[] | undefined>;
-    /**
-     * List of challenge flags that solves it.
-     */
-    public readonly flags!: pulumi.Output<outputs.ChallengeFlag[] | undefined>;
-    /**
      * Decay function to define how the challenge value evolve through solves, either linear or logarithmic.
      */
     public readonly function!: pulumi.Output<string>;
-    /**
-     * List of hints about the challenge displayed to the end-user.
-     */
-    public readonly hints!: pulumi.Output<outputs.ChallengeHint[] | undefined>;
     /**
      * Maximum amount of attempts before being unable to flag the challenge.
      */
@@ -120,9 +108,9 @@ export class Challenge extends pulumi.CustomResource {
     /**
      * The minimum points for a dynamic-score challenge to reach with the decay function. Once there, no solve could have more value.
      */
-    public readonly minimum!: pulumi.Output<number | undefined>;
+    public readonly minimum!: pulumi.Output<number>;
     /**
-     * Name of the file as displayed to end-users.
+     * Name of the challenge, displayed as it.
      */
     public readonly name!: pulumi.Output<string>;
     /**
@@ -130,7 +118,7 @@ export class Challenge extends pulumi.CustomResource {
      */
     public readonly next!: pulumi.Output<number | undefined>;
     /**
-     * Other hints required to be consumed before getting this one. Useful for cost-increasing hint strategies with more and more help.
+     * List of required challenges that needs to get flagged before this one being accessible. Useful for skill-trees-like strategy CTF.
      */
     public readonly requirements!: pulumi.Output<outputs.ChallengeRequirements | undefined>;
     /**
@@ -140,13 +128,13 @@ export class Challenge extends pulumi.CustomResource {
     /**
      * List of challenge tags that will be displayed to the end-user. You could use them to give some quick insights of what a challenge involves.
      */
-    public readonly tags!: pulumi.Output<string[] | undefined>;
+    public readonly tags!: pulumi.Output<string[]>;
     /**
      * List of challenge topics that are displayed to the administrators for maintenance and planification.
      */
-    public readonly topics!: pulumi.Output<string[] | undefined>;
+    public readonly topics!: pulumi.Output<string[]>;
     /**
-     * The type of the flag, could be either static or regex
+     * Type of the challenge defining its layout/behavior, either standard or dynamic (default).
      */
     public readonly type!: pulumi.Output<string>;
     /**
@@ -171,10 +159,7 @@ export class Challenge extends pulumi.CustomResource {
             resourceInputs["connectionInfo"] = state ? state.connectionInfo : undefined;
             resourceInputs["decay"] = state ? state.decay : undefined;
             resourceInputs["description"] = state ? state.description : undefined;
-            resourceInputs["files"] = state ? state.files : undefined;
-            resourceInputs["flags"] = state ? state.flags : undefined;
             resourceInputs["function"] = state ? state.function : undefined;
-            resourceInputs["hints"] = state ? state.hints : undefined;
             resourceInputs["maxAttempts"] = state ? state.maxAttempts : undefined;
             resourceInputs["minimum"] = state ? state.minimum : undefined;
             resourceInputs["name"] = state ? state.name : undefined;
@@ -200,10 +185,7 @@ export class Challenge extends pulumi.CustomResource {
             resourceInputs["connectionInfo"] = args ? args.connectionInfo : undefined;
             resourceInputs["decay"] = args ? args.decay : undefined;
             resourceInputs["description"] = args ? args.description : undefined;
-            resourceInputs["files"] = args ? args.files : undefined;
-            resourceInputs["flags"] = args ? args.flags : undefined;
             resourceInputs["function"] = args ? args.function : undefined;
-            resourceInputs["hints"] = args ? args.hints : undefined;
             resourceInputs["maxAttempts"] = args ? args.maxAttempts : undefined;
             resourceInputs["minimum"] = args ? args.minimum : undefined;
             resourceInputs["name"] = args ? args.name : undefined;
@@ -241,21 +223,9 @@ export interface ChallengeState {
      */
     description?: pulumi.Input<string>;
     /**
-     * List of files given to players to flag the challenge.
-     */
-    files?: pulumi.Input<pulumi.Input<inputs.ChallengeFile>[]>;
-    /**
-     * List of challenge flags that solves it.
-     */
-    flags?: pulumi.Input<pulumi.Input<inputs.ChallengeFlag>[]>;
-    /**
      * Decay function to define how the challenge value evolve through solves, either linear or logarithmic.
      */
     function?: pulumi.Input<string>;
-    /**
-     * List of hints about the challenge displayed to the end-user.
-     */
-    hints?: pulumi.Input<pulumi.Input<inputs.ChallengeHint>[]>;
     /**
      * Maximum amount of attempts before being unable to flag the challenge.
      */
@@ -265,7 +235,7 @@ export interface ChallengeState {
      */
     minimum?: pulumi.Input<number>;
     /**
-     * Name of the file as displayed to end-users.
+     * Name of the challenge, displayed as it.
      */
     name?: pulumi.Input<string>;
     /**
@@ -273,7 +243,7 @@ export interface ChallengeState {
      */
     next?: pulumi.Input<number>;
     /**
-     * Other hints required to be consumed before getting this one. Useful for cost-increasing hint strategies with more and more help.
+     * List of required challenges that needs to get flagged before this one being accessible. Useful for skill-trees-like strategy CTF.
      */
     requirements?: pulumi.Input<inputs.ChallengeRequirements>;
     /**
@@ -289,7 +259,7 @@ export interface ChallengeState {
      */
     topics?: pulumi.Input<pulumi.Input<string>[]>;
     /**
-     * The type of the flag, could be either static or regex
+     * Type of the challenge defining its layout/behavior, either standard or dynamic (default).
      */
     type?: pulumi.Input<string>;
     /**
@@ -319,21 +289,9 @@ export interface ChallengeArgs {
      */
     description: pulumi.Input<string>;
     /**
-     * List of files given to players to flag the challenge.
-     */
-    files?: pulumi.Input<pulumi.Input<inputs.ChallengeFile>[]>;
-    /**
-     * List of challenge flags that solves it.
-     */
-    flags?: pulumi.Input<pulumi.Input<inputs.ChallengeFlag>[]>;
-    /**
      * Decay function to define how the challenge value evolve through solves, either linear or logarithmic.
      */
     function?: pulumi.Input<string>;
-    /**
-     * List of hints about the challenge displayed to the end-user.
-     */
-    hints?: pulumi.Input<pulumi.Input<inputs.ChallengeHint>[]>;
     /**
      * Maximum amount of attempts before being unable to flag the challenge.
      */
@@ -343,7 +301,7 @@ export interface ChallengeArgs {
      */
     minimum?: pulumi.Input<number>;
     /**
-     * Name of the file as displayed to end-users.
+     * Name of the challenge, displayed as it.
      */
     name?: pulumi.Input<string>;
     /**
@@ -351,7 +309,7 @@ export interface ChallengeArgs {
      */
     next?: pulumi.Input<number>;
     /**
-     * Other hints required to be consumed before getting this one. Useful for cost-increasing hint strategies with more and more help.
+     * List of required challenges that needs to get flagged before this one being accessible. Useful for skill-trees-like strategy CTF.
      */
     requirements?: pulumi.Input<inputs.ChallengeRequirements>;
     /**
@@ -367,7 +325,7 @@ export interface ChallengeArgs {
      */
     topics?: pulumi.Input<pulumi.Input<string>[]>;
     /**
-     * The type of the flag, could be either static or regex
+     * Type of the challenge defining its layout/behavior, either standard or dynamic (default).
      */
     type?: pulumi.Input<string>;
     /**

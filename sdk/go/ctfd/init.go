@@ -23,6 +23,12 @@ func (m *module) Construct(ctx *pulumi.Context, name, typ, urn string) (r pulumi
 	switch typ {
 	case "ctfd:index/challenge:Challenge":
 		r = &Challenge{}
+	case "ctfd:index/file:File":
+		r = &File{}
+	case "ctfd:index/flag:Flag":
+		r = &Flag{}
+	case "ctfd:index/hint:Hint":
+		r = &Hint{}
 	case "ctfd:index/team:Team":
 		r = &Team{}
 	case "ctfd:index/user:User":
@@ -61,6 +67,21 @@ func init() {
 	pulumi.RegisterResourceModule(
 		"ctfd",
 		"index/challenge",
+		&module{version},
+	)
+	pulumi.RegisterResourceModule(
+		"ctfd",
+		"index/file",
+		&module{version},
+	)
+	pulumi.RegisterResourceModule(
+		"ctfd",
+		"index/flag",
+		&module{version},
+	)
+	pulumi.RegisterResourceModule(
+		"ctfd",
+		"index/hint",
 		&module{version},
 	)
 	pulumi.RegisterResourceModule(

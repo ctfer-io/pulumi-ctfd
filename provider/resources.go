@@ -40,20 +40,17 @@ func Provider() tfbridge.ProviderInfo {
 		MetadataInfo:      tfbridge.NewProviderMetadata(metadata),
 		Config:            map[string]*tfbridge.SchemaInfo{},
 		Resources: map[string]*tfbridge.ResourceInfo{
-			// Map each resource in the Terraform provider to a Pulumi type. Two examples
-			// are below - the single line form is the common case. The multi-line form is
-			// needed only if you wish to override types or other default options.
-			//
-			// "aws_iam_role": {Tok: tfbridge.MakeResource(mainPkg, mainMod, "IamRole")}
-			//
-			// "aws_acm_certificate": {
-			// 	Tok: tfbridge.MakeResource(mainPkg, mainMod, "Certificate"),
-			// 	Fields: map[string]*tfbridge.SchemaInfo{
-			// 		"tags": {Type: tfbridge.MakeType(mainPkg, "Tags")},
-			// 	},
-			// },
 			"ctfd_challenge": {
 				Tok: tfbridge.MakeResource(mainPkg, mainMod, "Challenge"),
+			},
+			"ctfd_file": {
+				Tok: tfbridge.MakeResource(mainPkg, mainMod, "File"),
+			},
+			"ctfd_flag": {
+				Tok: tfbridge.MakeResource(mainPkg, mainMod, "Flag"),
+			},
+			"ctfd_hint": {
+				Tok: tfbridge.MakeResource(mainPkg, mainMod, "Hint"),
 			},
 			"ctfd_team": {
 				Tok: tfbridge.MakeResource(mainPkg, mainMod, "Team"),

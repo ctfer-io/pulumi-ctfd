@@ -5,71 +5,6 @@ import * as pulumi from "@pulumi/pulumi";
 import * as inputs from "../types/input";
 import * as outputs from "../types/output";
 
-export interface ChallengeFile {
-    /**
-     * Raw content of the file, perfectly fit the use-cases of a .txt document or anything with a simple binary content. You could provide it from the file-system using `file("${path.module}/...")`.
-     */
-    content: string;
-    /**
-     * Base 64 content of the file, perfectly fit the use-cases of complex binaries. You could provide it from the file-system using `filebase64("${path.module}/...")`.
-     */
-    contentb64: string;
-    /**
-     * Identifier of the file, used internally to handle the CTFd corresponding object.
-     */
-    id: string;
-    /**
-     * Location where the file is stored on the CTFd instance, for download purposes.
-     */
-    location: string;
-    /**
-     * Name of the file as displayed to end-users.
-     */
-    name: string;
-    /**
-     * The sha1 sum of the file.
-     */
-    sha1sum: string;
-}
-
-export interface ChallengeFlag {
-    /**
-     * The actual flag to match. Consider using the convention `MYCTF{value}` with `MYCTF` being the shortcode of your event's name and `value` depending on each challenge.
-     */
-    content: string;
-    /**
-     * The flag sensitivity information, either case*sensitive or case*insensitive
-     */
-    data: string;
-    /**
-     * Identifier of the flag, used internally to handle the CTFd corresponding object.
-     */
-    id: string;
-    /**
-     * The type of the flag, could be either static or regex
-     */
-    type: string;
-}
-
-export interface ChallengeHint {
-    /**
-     * Content of the hint as displayed to the end-user.
-     */
-    content: string;
-    /**
-     * Cost of the hint, and if any specified, the end-user will consume its own (or team) points to get it.
-     */
-    cost: number;
-    /**
-     * Identifier of the hint, used internally to handle the CTFd corresponding object.
-     */
-    id: string;
-    /**
-     * Other hints required to be consumed before getting this one. Useful for cost-increasing hint strategies with more and more help.
-     */
-    requirements: string[];
-}
-
 export interface ChallengeRequirements {
     /**
      * Behavior if not unlocked, either hidden or anonymized.
@@ -96,21 +31,9 @@ export interface GetChallengesChallenge {
      */
     description: string;
     /**
-     * List of files given to players to flag the challenge.
-     */
-    files: outputs.GetChallengesChallengeFile[];
-    /**
-     * List of challenge flags that solves it.
-     */
-    flags: outputs.GetChallengesChallengeFlag[];
-    /**
      * Decay function to define how the challenge value evolve through solves, either linear or logarithmic.
      */
     function: string;
-    /**
-     * List of hints about the challenge displayed to the end-user.
-     */
-    hints: outputs.GetChallengesChallengeHint[];
     /**
      * Identifier of the challenge.
      */
@@ -149,28 +72,6 @@ export interface GetChallengesChallenge {
      */
     type: string;
     value: number;
-}
-
-export interface GetChallengesChallengeFile {
-    content: string;
-    contentb64: string;
-    id: string;
-    location: string;
-    name: string;
-}
-
-export interface GetChallengesChallengeFlag {
-    content: string;
-    data: string;
-    id: string;
-    type: string;
-}
-
-export interface GetChallengesChallengeHint {
-    content: string;
-    cost: number;
-    id: string;
-    requirements: string[];
 }
 
 export interface GetChallengesChallengeRequirements {

@@ -17,7 +17,6 @@ namespace CTFerio.Ctfd
     /// 
     /// ## Example Usage
     /// 
-    /// &lt;!--Start PulumiCodeChooser --&gt;
     /// ```csharp
     /// using System;
     /// using System.Collections.Generic;
@@ -43,13 +42,6 @@ namespace CTFerio.Ctfd
     ///         Minimum = 50,
     ///         State = "visible",
     ///         Function = "logarithmic",
-    ///         Flags = new[]
-    ///         {
-    ///             new Ctfd.Inputs.ChallengeFlagArgs
-    ///             {
-    ///                 Content = "CTF{some_flag}",
-    ///             },
-    ///         },
     ///         Topics = new[]
     ///         {
     ///             "Misc",
@@ -59,32 +51,40 @@ namespace CTFerio.Ctfd
     ///             "misc",
     ///             "basic",
     ///         },
-    ///         Hints = new[]
+    ///     });
+    /// 
+    ///     var httpFlag = new Ctfd.Flag("httpFlag", new()
+    ///     {
+    ///         ChallengeId = http.Id,
+    ///         Content = "CTF{some_flag}",
+    ///     });
+    /// 
+    ///     var httpHint1 = new Ctfd.Hint("httpHint1", new()
+    ///     {
+    ///         ChallengeId = http.Id,
+    ///         Content = "Some super-helpful hint",
+    ///         Cost = 50,
+    ///     });
+    /// 
+    ///     var httpHint2 = new Ctfd.Hint("httpHint2", new()
+    ///     {
+    ///         ChallengeId = http.Id,
+    ///         Content = "Even more helpful hint !",
+    ///         Cost = 50,
+    ///         Requirements = new[]
     ///         {
-    ///             new Ctfd.Inputs.ChallengeHintArgs
-    ///             {
-    ///                 Content = "Some super-helpful hint",
-    ///                 Cost = 50,
-    ///             },
-    ///             new Ctfd.Inputs.ChallengeHintArgs
-    ///             {
-    ///                 Content = "Even more helpful hint !",
-    ///                 Cost = 50,
-    ///             },
+    ///             httpHint1.Id,
     ///         },
-    ///         Files = new[]
-    ///         {
-    ///             new Ctfd.Inputs.ChallengeFileArgs
-    ///             {
-    ///                 Name = "image.png",
-    ///                 Contentb64 = ReadFileBase64(".../image.png"),
-    ///             },
-    ///         },
+    ///     });
+    /// 
+    ///     var httpFile = new Ctfd.File("httpFile", new()
+    ///     {
+    ///         ChallengeId = http.Id,
+    ///         Contentb64 = ReadFileBase64(".../image.png"),
     ///     });
     /// 
     /// });
     /// ```
-    /// &lt;!--End PulumiCodeChooser --&gt;
     /// </summary>
     [CtfdResourceType("ctfd:index/challenge:Challenge")]
     public partial class Challenge : global::Pulumi.CustomResource
@@ -105,7 +105,7 @@ namespace CTFerio.Ctfd
         /// The decay defines from each number of solves does the decay function triggers until reaching minimum. This function is defined by CTFd and could be configured through `.function`.
         /// </summary>
         [Output("decay")]
-        public Output<int?> Decay { get; private set; } = null!;
+        public Output<int> Decay { get; private set; } = null!;
 
         /// <summary>
         /// Description of the challenge, consider using multiline descriptions for better style.
@@ -114,28 +114,10 @@ namespace CTFerio.Ctfd
         public Output<string> Description { get; private set; } = null!;
 
         /// <summary>
-        /// List of files given to players to flag the challenge.
-        /// </summary>
-        [Output("files")]
-        public Output<ImmutableArray<Outputs.ChallengeFile>> Files { get; private set; } = null!;
-
-        /// <summary>
-        /// List of challenge flags that solves it.
-        /// </summary>
-        [Output("flags")]
-        public Output<ImmutableArray<Outputs.ChallengeFlag>> Flags { get; private set; } = null!;
-
-        /// <summary>
         /// Decay function to define how the challenge value evolve through solves, either linear or logarithmic.
         /// </summary>
         [Output("function")]
         public Output<string> Function { get; private set; } = null!;
-
-        /// <summary>
-        /// List of hints about the challenge displayed to the end-user.
-        /// </summary>
-        [Output("hints")]
-        public Output<ImmutableArray<Outputs.ChallengeHint>> Hints { get; private set; } = null!;
 
         /// <summary>
         /// Maximum amount of attempts before being unable to flag the challenge.
@@ -147,10 +129,10 @@ namespace CTFerio.Ctfd
         /// The minimum points for a dynamic-score challenge to reach with the decay function. Once there, no solve could have more value.
         /// </summary>
         [Output("minimum")]
-        public Output<int?> Minimum { get; private set; } = null!;
+        public Output<int> Minimum { get; private set; } = null!;
 
         /// <summary>
-        /// Name of the file as displayed to end-users.
+        /// Name of the challenge, displayed as it.
         /// </summary>
         [Output("name")]
         public Output<string> Name { get; private set; } = null!;
@@ -162,7 +144,7 @@ namespace CTFerio.Ctfd
         public Output<int?> Next { get; private set; } = null!;
 
         /// <summary>
-        /// Other hints required to be consumed before getting this one. Useful for cost-increasing hint strategies with more and more help.
+        /// List of required challenges that needs to get flagged before this one being accessible. Useful for skill-trees-like strategy CTF.
         /// </summary>
         [Output("requirements")]
         public Output<Outputs.ChallengeRequirements?> Requirements { get; private set; } = null!;
@@ -186,7 +168,7 @@ namespace CTFerio.Ctfd
         public Output<ImmutableArray<string>> Topics { get; private set; } = null!;
 
         /// <summary>
-        /// The type of the flag, could be either static or regex
+        /// Type of the challenge defining its layout/behavior, either standard or dynamic (default).
         /// </summary>
         [Output("type")]
         public Output<string> Type { get; private set; } = null!;
@@ -268,47 +250,11 @@ namespace CTFerio.Ctfd
         [Input("description", required: true)]
         public Input<string> Description { get; set; } = null!;
 
-        [Input("files")]
-        private InputList<Inputs.ChallengeFileArgs>? _files;
-
-        /// <summary>
-        /// List of files given to players to flag the challenge.
-        /// </summary>
-        public InputList<Inputs.ChallengeFileArgs> Files
-        {
-            get => _files ?? (_files = new InputList<Inputs.ChallengeFileArgs>());
-            set => _files = value;
-        }
-
-        [Input("flags")]
-        private InputList<Inputs.ChallengeFlagArgs>? _flags;
-
-        /// <summary>
-        /// List of challenge flags that solves it.
-        /// </summary>
-        public InputList<Inputs.ChallengeFlagArgs> Flags
-        {
-            get => _flags ?? (_flags = new InputList<Inputs.ChallengeFlagArgs>());
-            set => _flags = value;
-        }
-
         /// <summary>
         /// Decay function to define how the challenge value evolve through solves, either linear or logarithmic.
         /// </summary>
         [Input("function")]
         public Input<string>? Function { get; set; }
-
-        [Input("hints")]
-        private InputList<Inputs.ChallengeHintArgs>? _hints;
-
-        /// <summary>
-        /// List of hints about the challenge displayed to the end-user.
-        /// </summary>
-        public InputList<Inputs.ChallengeHintArgs> Hints
-        {
-            get => _hints ?? (_hints = new InputList<Inputs.ChallengeHintArgs>());
-            set => _hints = value;
-        }
 
         /// <summary>
         /// Maximum amount of attempts before being unable to flag the challenge.
@@ -323,7 +269,7 @@ namespace CTFerio.Ctfd
         public Input<int>? Minimum { get; set; }
 
         /// <summary>
-        /// Name of the file as displayed to end-users.
+        /// Name of the challenge, displayed as it.
         /// </summary>
         [Input("name")]
         public Input<string>? Name { get; set; }
@@ -335,7 +281,7 @@ namespace CTFerio.Ctfd
         public Input<int>? Next { get; set; }
 
         /// <summary>
-        /// Other hints required to be consumed before getting this one. Useful for cost-increasing hint strategies with more and more help.
+        /// List of required challenges that needs to get flagged before this one being accessible. Useful for skill-trees-like strategy CTF.
         /// </summary>
         [Input("requirements")]
         public Input<Inputs.ChallengeRequirementsArgs>? Requirements { get; set; }
@@ -371,7 +317,7 @@ namespace CTFerio.Ctfd
         }
 
         /// <summary>
-        /// The type of the flag, could be either static or regex
+        /// Type of the challenge defining its layout/behavior, either standard or dynamic (default).
         /// </summary>
         [Input("type")]
         public Input<string>? Type { get; set; }
@@ -414,47 +360,11 @@ namespace CTFerio.Ctfd
         [Input("description")]
         public Input<string>? Description { get; set; }
 
-        [Input("files")]
-        private InputList<Inputs.ChallengeFileGetArgs>? _files;
-
-        /// <summary>
-        /// List of files given to players to flag the challenge.
-        /// </summary>
-        public InputList<Inputs.ChallengeFileGetArgs> Files
-        {
-            get => _files ?? (_files = new InputList<Inputs.ChallengeFileGetArgs>());
-            set => _files = value;
-        }
-
-        [Input("flags")]
-        private InputList<Inputs.ChallengeFlagGetArgs>? _flags;
-
-        /// <summary>
-        /// List of challenge flags that solves it.
-        /// </summary>
-        public InputList<Inputs.ChallengeFlagGetArgs> Flags
-        {
-            get => _flags ?? (_flags = new InputList<Inputs.ChallengeFlagGetArgs>());
-            set => _flags = value;
-        }
-
         /// <summary>
         /// Decay function to define how the challenge value evolve through solves, either linear or logarithmic.
         /// </summary>
         [Input("function")]
         public Input<string>? Function { get; set; }
-
-        [Input("hints")]
-        private InputList<Inputs.ChallengeHintGetArgs>? _hints;
-
-        /// <summary>
-        /// List of hints about the challenge displayed to the end-user.
-        /// </summary>
-        public InputList<Inputs.ChallengeHintGetArgs> Hints
-        {
-            get => _hints ?? (_hints = new InputList<Inputs.ChallengeHintGetArgs>());
-            set => _hints = value;
-        }
 
         /// <summary>
         /// Maximum amount of attempts before being unable to flag the challenge.
@@ -469,7 +379,7 @@ namespace CTFerio.Ctfd
         public Input<int>? Minimum { get; set; }
 
         /// <summary>
-        /// Name of the file as displayed to end-users.
+        /// Name of the challenge, displayed as it.
         /// </summary>
         [Input("name")]
         public Input<string>? Name { get; set; }
@@ -481,7 +391,7 @@ namespace CTFerio.Ctfd
         public Input<int>? Next { get; set; }
 
         /// <summary>
-        /// Other hints required to be consumed before getting this one. Useful for cost-increasing hint strategies with more and more help.
+        /// List of required challenges that needs to get flagged before this one being accessible. Useful for skill-trees-like strategy CTF.
         /// </summary>
         [Input("requirements")]
         public Input<Inputs.ChallengeRequirementsGetArgs>? Requirements { get; set; }
@@ -517,7 +427,7 @@ namespace CTFerio.Ctfd
         }
 
         /// <summary>
-        /// The type of the flag, could be either static or regex
+        /// Type of the challenge defining its layout/behavior, either standard or dynamic (default).
         /// </summary>
         [Input("type")]
         public Input<string>? Type { get; set; }

@@ -4,22 +4,6 @@
             "ctfd_challenge": {
                 "current": "ctfd:index/challenge:Challenge",
                 "fields": {
-                    "files": {
-                        "maxItemsOne": false
-                    },
-                    "flags": {
-                        "maxItemsOne": false
-                    },
-                    "hints": {
-                        "maxItemsOne": false,
-                        "elem": {
-                            "fields": {
-                                "requirements": {
-                                    "maxItemsOne": false
-                                }
-                            }
-                        }
-                    },
                     "requirements": {
                         "fields": {
                             "prerequisites": {
@@ -31,6 +15,20 @@
                         "maxItemsOne": false
                     },
                     "topics": {
+                        "maxItemsOne": false
+                    }
+                }
+            },
+            "ctfd_file": {
+                "current": "ctfd:index/file:File"
+            },
+            "ctfd_flag": {
+                "current": "ctfd:index/flag:Flag"
+            },
+            "ctfd_hint": {
+                "current": "ctfd:index/hint:Hint",
+                "fields": {
+                    "requirements": {
                         "maxItemsOne": false
                     }
                 }
@@ -55,22 +53,6 @@
                         "maxItemsOne": false,
                         "elem": {
                             "fields": {
-                                "files": {
-                                    "maxItemsOne": false
-                                },
-                                "flags": {
-                                    "maxItemsOne": false
-                                },
-                                "hints": {
-                                    "maxItemsOne": false,
-                                    "elem": {
-                                        "fields": {
-                                            "requirements": {
-                                                "maxItemsOne": false
-                                            }
-                                        }
-                                    }
-                                },
                                 "requirements": {
                                     "fields": {
                                         "prerequisites": {

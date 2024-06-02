@@ -1,6 +1,6 @@
 module github.com/ctfer-io/pulumi-ctfd/examples
 
-go 1.22.0
+go 1.22.3
 
 require github.com/pulumi/pulumi/pkg/v3 v3.116.1
 

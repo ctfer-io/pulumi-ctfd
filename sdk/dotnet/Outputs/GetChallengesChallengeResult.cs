@@ -28,21 +28,9 @@ namespace CTFerio.Ctfd.Outputs
         /// </summary>
         public readonly string Description;
         /// <summary>
-        /// List of files given to players to flag the challenge.
-        /// </summary>
-        public readonly ImmutableArray<Outputs.GetChallengesChallengeFileResult> Files;
-        /// <summary>
-        /// List of challenge flags that solves it.
-        /// </summary>
-        public readonly ImmutableArray<Outputs.GetChallengesChallengeFlagResult> Flags;
-        /// <summary>
         /// Decay function to define how the challenge value evolve through solves, either linear or logarithmic.
         /// </summary>
         public readonly string Function;
-        /// <summary>
-        /// List of hints about the challenge displayed to the end-user.
-        /// </summary>
-        public readonly ImmutableArray<Outputs.GetChallengesChallengeHintResult> Hints;
         /// <summary>
         /// Identifier of the challenge.
         /// </summary>
@@ -92,13 +80,7 @@ namespace CTFerio.Ctfd.Outputs
 
             string description,
 
-            ImmutableArray<Outputs.GetChallengesChallengeFileResult> files,
-
-            ImmutableArray<Outputs.GetChallengesChallengeFlagResult> flags,
-
             string function,
-
-            ImmutableArray<Outputs.GetChallengesChallengeHintResult> hints,
 
             string id,
 
@@ -126,10 +108,7 @@ namespace CTFerio.Ctfd.Outputs
             ConnectionInfo = connectionInfo;
             Decay = decay;
             Description = description;
-            Files = files;
-            Flags = flags;
             Function = function;
-            Hints = hints;
             Id = id;
             MaxAttempts = maxAttempts;
             Minimum = minimum;

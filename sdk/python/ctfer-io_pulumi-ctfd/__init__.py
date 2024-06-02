@@ -6,9 +6,12 @@ from . import _utilities
 import typing
 # Export this package's modules as members:
 from .challenge import *
+from .file import *
+from .flag import *
 from .get_challenges import *
 from .get_teams import *
 from .get_users import *
+from .hint import *
 from .provider import *
 from .team import *
 from .user import *
@@ -31,6 +34,30 @@ _utilities.register(
   "fqn": "ctfer-io_pulumi-ctfd",
   "classes": {
    "ctfd:index/challenge:Challenge": "Challenge"
+  }
+ },
+ {
+  "pkg": "ctfd",
+  "mod": "index/file",
+  "fqn": "ctfer-io_pulumi-ctfd",
+  "classes": {
+   "ctfd:index/file:File": "File"
+  }
+ },
+ {
+  "pkg": "ctfd",
+  "mod": "index/flag",
+  "fqn": "ctfer-io_pulumi-ctfd",
+  "classes": {
+   "ctfd:index/flag:Flag": "Flag"
+  }
+ },
+ {
+  "pkg": "ctfd",
+  "mod": "index/hint",
+  "fqn": "ctfer-io_pulumi-ctfd",
+  "classes": {
+   "ctfd:index/hint:Hint": "Hint"
   }
  },
  {

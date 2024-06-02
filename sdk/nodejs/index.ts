@@ -10,6 +10,16 @@ export type Challenge = import("./challenge").Challenge;
 export const Challenge: typeof import("./challenge").Challenge = null as any;
 utilities.lazyLoad(exports, ["Challenge"], () => require("./challenge"));
 
+export { FileArgs, FileState } from "./file";
+export type File = import("./file").File;
+export const File: typeof import("./file").File = null as any;
+utilities.lazyLoad(exports, ["File"], () => require("./file"));
+
+export { FlagArgs, FlagState } from "./flag";
+export type Flag = import("./flag").Flag;
+export const Flag: typeof import("./flag").Flag = null as any;
+utilities.lazyLoad(exports, ["Flag"], () => require("./flag"));
+
 export { GetChallengesResult } from "./getChallenges";
 export const getChallenges: typeof import("./getChallenges").getChallenges = null as any;
 export const getChallengesOutput: typeof import("./getChallenges").getChallengesOutput = null as any;
@@ -24,6 +34,11 @@ export { GetUsersResult } from "./getUsers";
 export const getUsers: typeof import("./getUsers").getUsers = null as any;
 export const getUsersOutput: typeof import("./getUsers").getUsersOutput = null as any;
 utilities.lazyLoad(exports, ["getUsers","getUsersOutput"], () => require("./getUsers"));
+
+export { HintArgs, HintState } from "./hint";
+export type Hint = import("./hint").Hint;
+export const Hint: typeof import("./hint").Hint = null as any;
+utilities.lazyLoad(exports, ["Hint"], () => require("./hint"));
 
 export { ProviderArgs } from "./provider";
 export type Provider = import("./provider").Provider;
@@ -56,6 +71,12 @@ const _module = {
         switch (type) {
             case "ctfd:index/challenge:Challenge":
                 return new Challenge(name, <any>undefined, { urn })
+            case "ctfd:index/file:File":
+                return new File(name, <any>undefined, { urn })
+            case "ctfd:index/flag:Flag":
+                return new Flag(name, <any>undefined, { urn })
+            case "ctfd:index/hint:Hint":
+                return new Hint(name, <any>undefined, { urn })
             case "ctfd:index/team:Team":
                 return new Team(name, <any>undefined, { urn })
             case "ctfd:index/user:User":
@@ -66,6 +87,9 @@ const _module = {
     },
 };
 pulumi.runtime.registerResourceModule("ctfd", "index/challenge", _module)
+pulumi.runtime.registerResourceModule("ctfd", "index/file", _module)
+pulumi.runtime.registerResourceModule("ctfd", "index/flag", _module)
+pulumi.runtime.registerResourceModule("ctfd", "index/hint", _module)
 pulumi.runtime.registerResourceModule("ctfd", "index/team", _module)
 pulumi.runtime.registerResourceModule("ctfd", "index/user", _module)
 pulumi.runtime.registerResourcePackage("ctfd", {

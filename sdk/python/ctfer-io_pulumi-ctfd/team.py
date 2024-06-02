@@ -364,7 +364,6 @@ class Team(pulumi.CustomResource):
 
         ## Example Usage
 
-        <!--Start PulumiCodeChooser -->
         ```python
         import pulumi
         import ctfer-io_pulumi-ctfd as ctfd
@@ -378,7 +377,6 @@ class Team(pulumi.CustomResource):
             members=[ctfer.id],
             captain=ctfer.id)
         ```
-        <!--End PulumiCodeChooser -->
 
         :param str resource_name: The name of the resource.
         :param pulumi.ResourceOptions opts: Options for the resource.
@@ -404,7 +402,6 @@ class Team(pulumi.CustomResource):
 
         ## Example Usage
 
-        <!--Start PulumiCodeChooser -->
         ```python
         import pulumi
         import ctfer-io_pulumi-ctfd as ctfd
@@ -418,7 +415,6 @@ class Team(pulumi.CustomResource):
             members=[ctfer.id],
             captain=ctfer.id)
         ```
-        <!--End PulumiCodeChooser -->
 
         :param str resource_name: The name of the resource.
         :param TeamArgs args: The arguments to use to populate this resource's properties.

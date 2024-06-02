@@ -21,10 +21,7 @@ class ChallengeArgs:
                  value: pulumi.Input[int],
                  connection_info: Optional[pulumi.Input[str]] = None,
                  decay: Optional[pulumi.Input[int]] = None,
-                 files: Optional[pulumi.Input[Sequence[pulumi.Input['ChallengeFileArgs']]]] = None,
-                 flags: Optional[pulumi.Input[Sequence[pulumi.Input['ChallengeFlagArgs']]]] = None,
                  function: Optional[pulumi.Input[str]] = None,
-                 hints: Optional[pulumi.Input[Sequence[pulumi.Input['ChallengeHintArgs']]]] = None,
                  max_attempts: Optional[pulumi.Input[int]] = None,
                  minimum: Optional[pulumi.Input[int]] = None,
                  name: Optional[pulumi.Input[str]] = None,
@@ -41,19 +38,16 @@ class ChallengeArgs:
         :param pulumi.Input[int] value: The value (points) of the challenge once solved. Internally, the provider will handle what target is legitimate depending on the `.type` value, i.e. either `value` for "standard" or `initial` for "dynamic".
         :param pulumi.Input[str] connection_info: Connection Information to connect to the challenge instance, useful for pwn, web and infrastructure pentests.
         :param pulumi.Input[int] decay: The decay defines from each number of solves does the decay function triggers until reaching minimum. This function is defined by CTFd and could be configured through `.function`.
-        :param pulumi.Input[Sequence[pulumi.Input['ChallengeFileArgs']]] files: List of files given to players to flag the challenge.
-        :param pulumi.Input[Sequence[pulumi.Input['ChallengeFlagArgs']]] flags: List of challenge flags that solves it.
         :param pulumi.Input[str] function: Decay function to define how the challenge value evolve through solves, either linear or logarithmic.
-        :param pulumi.Input[Sequence[pulumi.Input['ChallengeHintArgs']]] hints: List of hints about the challenge displayed to the end-user.
         :param pulumi.Input[int] max_attempts: Maximum amount of attempts before being unable to flag the challenge.
         :param pulumi.Input[int] minimum: The minimum points for a dynamic-score challenge to reach with the decay function. Once there, no solve could have more value.
-        :param pulumi.Input[str] name: Name of the file as displayed to end-users.
+        :param pulumi.Input[str] name: Name of the challenge, displayed as it.
         :param pulumi.Input[int] next: Suggestion for the end-user as next challenge to work on.
-        :param pulumi.Input['ChallengeRequirementsArgs'] requirements: Other hints required to be consumed before getting this one. Useful for cost-increasing hint strategies with more and more help.
+        :param pulumi.Input['ChallengeRequirementsArgs'] requirements: List of required challenges that needs to get flagged before this one being accessible. Useful for skill-trees-like strategy CTF.
         :param pulumi.Input[str] state: State of the challenge, either hidden or visible.
         :param pulumi.Input[Sequence[pulumi.Input[str]]] tags: List of challenge tags that will be displayed to the end-user. You could use them to give some quick insights of what a challenge involves.
         :param pulumi.Input[Sequence[pulumi.Input[str]]] topics: List of challenge topics that are displayed to the administrators for maintenance and planification.
-        :param pulumi.Input[str] type: The type of the flag, could be either static or regex
+        :param pulumi.Input[str] type: Type of the challenge defining its layout/behavior, either standard or dynamic (default).
         """
         pulumi.set(__self__, "category", category)
         pulumi.set(__self__, "description", description)
@@ -62,14 +56,8 @@ class ChallengeArgs:
             pulumi.set(__self__, "connection_info", connection_info)
         if decay is not None:
             pulumi.set(__self__, "decay", decay)
-        if files is not None:
-            pulumi.set(__self__, "files", files)
-        if flags is not None:
-            pulumi.set(__self__, "flags", flags)
         if function is not None:
             pulumi.set(__self__, "function", function)
-        if hints is not None:
-            pulumi.set(__self__, "hints", hints)
         if max_attempts is not None:
             pulumi.set(__self__, "max_attempts", max_attempts)
         if minimum is not None:
@@ -151,30 +139,6 @@ class ChallengeArgs:
 
     @property
     @pulumi.getter
-    def files(self) -> Optional[pulumi.Input[Sequence[pulumi.Input['ChallengeFileArgs']]]]:
-        """
-        List of files given to players to flag the challenge.
-        """
-        return pulumi.get(self, "files")
-
-    @files.setter
-    def files(self, value: Optional[pulumi.Input[Sequence[pulumi.Input['ChallengeFileArgs']]]]):
-        pulumi.set(self, "files", value)
-
-    @property
-    @pulumi.getter
-    def flags(self) -> Optional[pulumi.Input[Sequence[pulumi.Input['ChallengeFlagArgs']]]]:
-        """
-        List of challenge flags that solves it.
-        """
-        return pulumi.get(self, "flags")
-
-    @flags.setter
-    def flags(self, value: Optional[pulumi.Input[Sequence[pulumi.Input['ChallengeFlagArgs']]]]):
-        pulumi.set(self, "flags", value)
-
-    @property
-    @pulumi.getter
     def function(self) -> Optional[pulumi.Input[str]]:
         """
         Decay function to define how the challenge value evolve through solves, either linear or logarithmic.
@@ -184,18 +148,6 @@ class ChallengeArgs:
     @function.setter
     def function(self, value: Optional[pulumi.Input[str]]):
         pulumi.set(self, "function", value)
-
-    @property
-    @pulumi.getter
-    def hints(self) -> Optional[pulumi.Input[Sequence[pulumi.Input['ChallengeHintArgs']]]]:
-        """
-        List of hints about the challenge displayed to the end-user.
-        """
-        return pulumi.get(self, "hints")
-
-    @hints.setter
-    def hints(self, value: Optional[pulumi.Input[Sequence[pulumi.Input['ChallengeHintArgs']]]]):
-        pulumi.set(self, "hints", value)
 
     @property
     @pulumi.getter(name="maxAttempts")
@@ -225,7 +177,7 @@ class ChallengeArgs:
     @pulumi.getter
     def name(self) -> Optional[pulumi.Input[str]]:
         """
-        Name of the file as displayed to end-users.
+        Name of the challenge, displayed as it.
         """
         return pulumi.get(self, "name")
 
@@ -249,7 +201,7 @@ class ChallengeArgs:
     @pulumi.getter
     def requirements(self) -> Optional[pulumi.Input['ChallengeRequirementsArgs']]:
         """
-        Other hints required to be consumed before getting this one. Useful for cost-increasing hint strategies with more and more help.
+        List of required challenges that needs to get flagged before this one being accessible. Useful for skill-trees-like strategy CTF.
         """
         return pulumi.get(self, "requirements")
 
@@ -297,7 +249,7 @@ class ChallengeArgs:
     @pulumi.getter
     def type(self) -> Optional[pulumi.Input[str]]:
         """
-        The type of the flag, could be either static or regex
+        Type of the challenge defining its layout/behavior, either standard or dynamic (default).
         """
         return pulumi.get(self, "type")
 
@@ -313,10 +265,7 @@ class _ChallengeState:
                  connection_info: Optional[pulumi.Input[str]] = None,
                  decay: Optional[pulumi.Input[int]] = None,
                  description: Optional[pulumi.Input[str]] = None,
-                 files: Optional[pulumi.Input[Sequence[pulumi.Input['ChallengeFileArgs']]]] = None,
-                 flags: Optional[pulumi.Input[Sequence[pulumi.Input['ChallengeFlagArgs']]]] = None,
                  function: Optional[pulumi.Input[str]] = None,
-                 hints: Optional[pulumi.Input[Sequence[pulumi.Input['ChallengeHintArgs']]]] = None,
                  max_attempts: Optional[pulumi.Input[int]] = None,
                  minimum: Optional[pulumi.Input[int]] = None,
                  name: Optional[pulumi.Input[str]] = None,
@@ -333,19 +282,16 @@ class _ChallengeState:
         :param pulumi.Input[str] connection_info: Connection Information to connect to the challenge instance, useful for pwn, web and infrastructure pentests.
         :param pulumi.Input[int] decay: The decay defines from each number of solves does the decay function triggers until reaching minimum. This function is defined by CTFd and could be configured through `.function`.
         :param pulumi.Input[str] description: Description of the challenge, consider using multiline descriptions for better style.
-        :param pulumi.Input[Sequence[pulumi.Input['ChallengeFileArgs']]] files: List of files given to players to flag the challenge.
-        :param pulumi.Input[Sequence[pulumi.Input['ChallengeFlagArgs']]] flags: List of challenge flags that solves it.
         :param pulumi.Input[str] function: Decay function to define how the challenge value evolve through solves, either linear or logarithmic.
-        :param pulumi.Input[Sequence[pulumi.Input['ChallengeHintArgs']]] hints: List of hints about the challenge displayed to the end-user.
         :param pulumi.Input[int] max_attempts: Maximum amount of attempts before being unable to flag the challenge.
         :param pulumi.Input[int] minimum: The minimum points for a dynamic-score challenge to reach with the decay function. Once there, no solve could have more value.
-        :param pulumi.Input[str] name: Name of the file as displayed to end-users.
+        :param pulumi.Input[str] name: Name of the challenge, displayed as it.
         :param pulumi.Input[int] next: Suggestion for the end-user as next challenge to work on.
-        :param pulumi.Input['ChallengeRequirementsArgs'] requirements: Other hints required to be consumed before getting this one. Useful for cost-increasing hint strategies with more and more help.
+        :param pulumi.Input['ChallengeRequirementsArgs'] requirements: List of required challenges that needs to get flagged before this one being accessible. Useful for skill-trees-like strategy CTF.
         :param pulumi.Input[str] state: State of the challenge, either hidden or visible.
         :param pulumi.Input[Sequence[pulumi.Input[str]]] tags: List of challenge tags that will be displayed to the end-user. You could use them to give some quick insights of what a challenge involves.
         :param pulumi.Input[Sequence[pulumi.Input[str]]] topics: List of challenge topics that are displayed to the administrators for maintenance and planification.
-        :param pulumi.Input[str] type: The type of the flag, could be either static or regex
+        :param pulumi.Input[str] type: Type of the challenge defining its layout/behavior, either standard or dynamic (default).
         :param pulumi.Input[int] value: The value (points) of the challenge once solved. Internally, the provider will handle what target is legitimate depending on the `.type` value, i.e. either `value` for "standard" or `initial` for "dynamic".
         """
         if category is not None:
@@ -356,14 +302,8 @@ class _ChallengeState:
             pulumi.set(__self__, "decay", decay)
         if description is not None:
             pulumi.set(__self__, "description", description)
-        if files is not None:
-            pulumi.set(__self__, "files", files)
-        if flags is not None:
-            pulumi.set(__self__, "flags", flags)
         if function is not None:
             pulumi.set(__self__, "function", function)
-        if hints is not None:
-            pulumi.set(__self__, "hints", hints)
         if max_attempts is not None:
             pulumi.set(__self__, "max_attempts", max_attempts)
         if minimum is not None:
@@ -435,30 +375,6 @@ class _ChallengeState:
 
     @property
     @pulumi.getter
-    def files(self) -> Optional[pulumi.Input[Sequence[pulumi.Input['ChallengeFileArgs']]]]:
-        """
-        List of files given to players to flag the challenge.
-        """
-        return pulumi.get(self, "files")
-
-    @files.setter
-    def files(self, value: Optional[pulumi.Input[Sequence[pulumi.Input['ChallengeFileArgs']]]]):
-        pulumi.set(self, "files", value)
-
-    @property
-    @pulumi.getter
-    def flags(self) -> Optional[pulumi.Input[Sequence[pulumi.Input['ChallengeFlagArgs']]]]:
-        """
-        List of challenge flags that solves it.
-        """
-        return pulumi.get(self, "flags")
-
-    @flags.setter
-    def flags(self, value: Optional[pulumi.Input[Sequence[pulumi.Input['ChallengeFlagArgs']]]]):
-        pulumi.set(self, "flags", value)
-
-    @property
-    @pulumi.getter
     def function(self) -> Optional[pulumi.Input[str]]:
         """
         Decay function to define how the challenge value evolve through solves, either linear or logarithmic.
@@ -468,18 +384,6 @@ class _ChallengeState:
     @function.setter
     def function(self, value: Optional[pulumi.Input[str]]):
         pulumi.set(self, "function", value)
-
-    @property
-    @pulumi.getter
-    def hints(self) -> Optional[pulumi.Input[Sequence[pulumi.Input['ChallengeHintArgs']]]]:
-        """
-        List of hints about the challenge displayed to the end-user.
-        """
-        return pulumi.get(self, "hints")
-
-    @hints.setter
-    def hints(self, value: Optional[pulumi.Input[Sequence[pulumi.Input['ChallengeHintArgs']]]]):
-        pulumi.set(self, "hints", value)
 
     @property
     @pulumi.getter(name="maxAttempts")
@@ -509,7 +413,7 @@ class _ChallengeState:
     @pulumi.getter
     def name(self) -> Optional[pulumi.Input[str]]:
         """
-        Name of the file as displayed to end-users.
+        Name of the challenge, displayed as it.
         """
         return pulumi.get(self, "name")
 
@@ -533,7 +437,7 @@ class _ChallengeState:
     @pulumi.getter
     def requirements(self) -> Optional[pulumi.Input['ChallengeRequirementsArgs']]:
         """
-        Other hints required to be consumed before getting this one. Useful for cost-increasing hint strategies with more and more help.
+        List of required challenges that needs to get flagged before this one being accessible. Useful for skill-trees-like strategy CTF.
         """
         return pulumi.get(self, "requirements")
 
@@ -581,7 +485,7 @@ class _ChallengeState:
     @pulumi.getter
     def type(self) -> Optional[pulumi.Input[str]]:
         """
-        The type of the flag, could be either static or regex
+        Type of the challenge defining its layout/behavior, either standard or dynamic (default).
         """
         return pulumi.get(self, "type")
 
@@ -611,10 +515,7 @@ class Challenge(pulumi.CustomResource):
                  connection_info: Optional[pulumi.Input[str]] = None,
                  decay: Optional[pulumi.Input[int]] = None,
                  description: Optional[pulumi.Input[str]] = None,
-                 files: Optional[pulumi.Input[Sequence[pulumi.Input[pulumi.InputType['ChallengeFileArgs']]]]] = None,
-                 flags: Optional[pulumi.Input[Sequence[pulumi.Input[pulumi.InputType['ChallengeFlagArgs']]]]] = None,
                  function: Optional[pulumi.Input[str]] = None,
-                 hints: Optional[pulumi.Input[Sequence[pulumi.Input[pulumi.InputType['ChallengeHintArgs']]]]] = None,
                  max_attempts: Optional[pulumi.Input[int]] = None,
                  minimum: Optional[pulumi.Input[int]] = None,
                  name: Optional[pulumi.Input[str]] = None,
@@ -633,7 +534,6 @@ class Challenge(pulumi.CustomResource):
 
         ## Example Usage
 
-        <!--Start PulumiCodeChooser -->
         ```python
         import pulumi
         import base64
@@ -647,30 +547,27 @@ class Challenge(pulumi.CustomResource):
             minimum=50,
             state="visible",
             function="logarithmic",
-            flags=[ctfd.ChallengeFlagArgs(
-                content="CTF{some_flag}",
-            )],
             topics=["Misc"],
             tags=[
                 "misc",
                 "basic",
-            ],
-            hints=[
-                ctfd.ChallengeHintArgs(
-                    content="Some super-helpful hint",
-                    cost=50,
-                ),
-                ctfd.ChallengeHintArgs(
-                    content="Even more helpful hint !",
-                    cost=50,
-                ),
-            ],
-            files=[ctfd.ChallengeFileArgs(
-                name="image.png",
-                contentb64=(lambda path: base64.b64encode(open(path).read().encode()).decode())(".../image.png"),
-            )])
+            ])
+        http_flag = ctfd.Flag("httpFlag",
+            challenge_id=http.id,
+            content="CTF{some_flag}")
+        http_hint1 = ctfd.Hint("httpHint1",
+            challenge_id=http.id,
+            content="Some super-helpful hint",
+            cost=50)
+        http_hint2 = ctfd.Hint("httpHint2",
+            challenge_id=http.id,
+            content="Even more helpful hint !",
+            cost=50,
+            requirements=[http_hint1.id])
+        http_file = ctfd.File("httpFile",
+            challenge_id=http.id,
+            contentb64=(lambda path: base64.b64encode(open(path).read().encode()).decode())(".../image.png"))
         ```
-        <!--End PulumiCodeChooser -->
 
         :param str resource_name: The name of the resource.
         :param pulumi.ResourceOptions opts: Options for the resource.
@@ -678,19 +575,16 @@ class Challenge(pulumi.CustomResource):
         :param pulumi.Input[str] connection_info: Connection Information to connect to the challenge instance, useful for pwn, web and infrastructure pentests.
         :param pulumi.Input[int] decay: The decay defines from each number of solves does the decay function triggers until reaching minimum. This function is defined by CTFd and could be configured through `.function`.
         :param pulumi.Input[str] description: Description of the challenge, consider using multiline descriptions for better style.
-        :param pulumi.Input[Sequence[pulumi.Input[pulumi.InputType['ChallengeFileArgs']]]] files: List of files given to players to flag the challenge.
-        :param pulumi.Input[Sequence[pulumi.Input[pulumi.InputType['ChallengeFlagArgs']]]] flags: List of challenge flags that solves it.
         :param pulumi.Input[str] function: Decay function to define how the challenge value evolve through solves, either linear or logarithmic.
-        :param pulumi.Input[Sequence[pulumi.Input[pulumi.InputType['ChallengeHintArgs']]]] hints: List of hints about the challenge displayed to the end-user.
         :param pulumi.Input[int] max_attempts: Maximum amount of attempts before being unable to flag the challenge.
         :param pulumi.Input[int] minimum: The minimum points for a dynamic-score challenge to reach with the decay function. Once there, no solve could have more value.
-        :param pulumi.Input[str] name: Name of the file as displayed to end-users.
+        :param pulumi.Input[str] name: Name of the challenge, displayed as it.
         :param pulumi.Input[int] next: Suggestion for the end-user as next challenge to work on.
-        :param pulumi.Input[pulumi.InputType['ChallengeRequirementsArgs']] requirements: Other hints required to be consumed before getting this one. Useful for cost-increasing hint strategies with more and more help.
+        :param pulumi.Input[pulumi.InputType['ChallengeRequirementsArgs']] requirements: List of required challenges that needs to get flagged before this one being accessible. Useful for skill-trees-like strategy CTF.
         :param pulumi.Input[str] state: State of the challenge, either hidden or visible.
         :param pulumi.Input[Sequence[pulumi.Input[str]]] tags: List of challenge tags that will be displayed to the end-user. You could use them to give some quick insights of what a challenge involves.
         :param pulumi.Input[Sequence[pulumi.Input[str]]] topics: List of challenge topics that are displayed to the administrators for maintenance and planification.
-        :param pulumi.Input[str] type: The type of the flag, could be either static or regex
+        :param pulumi.Input[str] type: Type of the challenge defining its layout/behavior, either standard or dynamic (default).
         :param pulumi.Input[int] value: The value (points) of the challenge once solved. Internally, the provider will handle what target is legitimate depending on the `.type` value, i.e. either `value` for "standard" or `initial` for "dynamic".
         """
         ...
@@ -706,7 +600,6 @@ class Challenge(pulumi.CustomResource):
 
         ## Example Usage
 
-        <!--Start PulumiCodeChooser -->
         ```python
         import pulumi
         import base64
@@ -720,30 +613,27 @@ class Challenge(pulumi.CustomResource):
             minimum=50,
             state="visible",
             function="logarithmic",
-            flags=[ctfd.ChallengeFlagArgs(
-                content="CTF{some_flag}",
-            )],
             topics=["Misc"],
             tags=[
                 "misc",
                 "basic",
-            ],
-            hints=[
-                ctfd.ChallengeHintArgs(
-                    content="Some super-helpful hint",
-                    cost=50,
-                ),
-                ctfd.ChallengeHintArgs(
-                    content="Even more helpful hint !",
-                    cost=50,
-                ),
-            ],
-            files=[ctfd.ChallengeFileArgs(
-                name="image.png",
-                contentb64=(lambda path: base64.b64encode(open(path).read().encode()).decode())(".../image.png"),
-            )])
+            ])
+        http_flag = ctfd.Flag("httpFlag",
+            challenge_id=http.id,
+            content="CTF{some_flag}")
+        http_hint1 = ctfd.Hint("httpHint1",
+            challenge_id=http.id,
+            content="Some super-helpful hint",
+            cost=50)
+        http_hint2 = ctfd.Hint("httpHint2",
+            challenge_id=http.id,
+            content="Even more helpful hint !",
+            cost=50,
+            requirements=[http_hint1.id])
+        http_file = ctfd.File("httpFile",
+            challenge_id=http.id,
+            contentb64=(lambda path: base64.b64encode(open(path).read().encode()).decode())(".../image.png"))
         ```
-        <!--End PulumiCodeChooser -->
 
         :param str resource_name: The name of the resource.
         :param ChallengeArgs args: The arguments to use to populate this resource's properties.
@@ -764,10 +654,7 @@ class Challenge(pulumi.CustomResource):
                  connection_info: Optional[pulumi.Input[str]] = None,
                  decay: Optional[pulumi.Input[int]] = None,
                  description: Optional[pulumi.Input[str]] = None,
-                 files: Optional[pulumi.Input[Sequence[pulumi.Input[pulumi.InputType['ChallengeFileArgs']]]]] = None,
-                 flags: Optional[pulumi.Input[Sequence[pulumi.Input[pulumi.InputType['ChallengeFlagArgs']]]]] = None,
                  function: Optional[pulumi.Input[str]] = None,
-                 hints: Optional[pulumi.Input[Sequence[pulumi.Input[pulumi.InputType['ChallengeHintArgs']]]]] = None,
                  max_attempts: Optional[pulumi.Input[int]] = None,
                  minimum: Optional[pulumi.Input[int]] = None,
                  name: Optional[pulumi.Input[str]] = None,
@@ -795,10 +682,7 @@ class Challenge(pulumi.CustomResource):
             if description is None and not opts.urn:
                 raise TypeError("Missing required property 'description'")
             __props__.__dict__["description"] = description
-            __props__.__dict__["files"] = files
-            __props__.__dict__["flags"] = flags
             __props__.__dict__["function"] = function
-            __props__.__dict__["hints"] = hints
             __props__.__dict__["max_attempts"] = max_attempts
             __props__.__dict__["minimum"] = minimum
             __props__.__dict__["name"] = name
@@ -825,10 +709,7 @@ class Challenge(pulumi.CustomResource):
             connection_info: Optional[pulumi.Input[str]] = None,
             decay: Optional[pulumi.Input[int]] = None,
             description: Optional[pulumi.Input[str]] = None,
-            files: Optional[pulumi.Input[Sequence[pulumi.Input[pulumi.InputType['ChallengeFileArgs']]]]] = None,
-            flags: Optional[pulumi.Input[Sequence[pulumi.Input[pulumi.InputType['ChallengeFlagArgs']]]]] = None,
             function: Optional[pulumi.Input[str]] = None,
-            hints: Optional[pulumi.Input[Sequence[pulumi.Input[pulumi.InputType['ChallengeHintArgs']]]]] = None,
             max_attempts: Optional[pulumi.Input[int]] = None,
             minimum: Optional[pulumi.Input[int]] = None,
             name: Optional[pulumi.Input[str]] = None,
@@ -850,19 +731,16 @@ class Challenge(pulumi.CustomResource):
         :param pulumi.Input[str] connection_info: Connection Information to connect to the challenge instance, useful for pwn, web and infrastructure pentests.
         :param pulumi.Input[int] decay: The decay defines from each number of solves does the decay function triggers until reaching minimum. This function is defined by CTFd and could be configured through `.function`.
         :param pulumi.Input[str] description: Description of the challenge, consider using multiline descriptions for better style.
-        :param pulumi.Input[Sequence[pulumi.Input[pulumi.InputType['ChallengeFileArgs']]]] files: List of files given to players to flag the challenge.
-        :param pulumi.Input[Sequence[pulumi.Input[pulumi.InputType['ChallengeFlagArgs']]]] flags: List of challenge flags that solves it.
         :param pulumi.Input[str] function: Decay function to define how the challenge value evolve through solves, either linear or logarithmic.
-        :param pulumi.Input[Sequence[pulumi.Input[pulumi.InputType['ChallengeHintArgs']]]] hints: List of hints about the challenge displayed to the end-user.
         :param pulumi.Input[int] max_attempts: Maximum amount of attempts before being unable to flag the challenge.
         :param pulumi.Input[int] minimum: The minimum points for a dynamic-score challenge to reach with the decay function. Once there, no solve could have more value.
-        :param pulumi.Input[str] name: Name of the file as displayed to end-users.
+        :param pulumi.Input[str] name: Name of the challenge, displayed as it.
         :param pulumi.Input[int] next: Suggestion for the end-user as next challenge to work on.
-        :param pulumi.Input[pulumi.InputType['ChallengeRequirementsArgs']] requirements: Other hints required to be consumed before getting this one. Useful for cost-increasing hint strategies with more and more help.
+        :param pulumi.Input[pulumi.InputType['ChallengeRequirementsArgs']] requirements: List of required challenges that needs to get flagged before this one being accessible. Useful for skill-trees-like strategy CTF.
         :param pulumi.Input[str] state: State of the challenge, either hidden or visible.
         :param pulumi.Input[Sequence[pulumi.Input[str]]] tags: List of challenge tags that will be displayed to the end-user. You could use them to give some quick insights of what a challenge involves.
         :param pulumi.Input[Sequence[pulumi.Input[str]]] topics: List of challenge topics that are displayed to the administrators for maintenance and planification.
-        :param pulumi.Input[str] type: The type of the flag, could be either static or regex
+        :param pulumi.Input[str] type: Type of the challenge defining its layout/behavior, either standard or dynamic (default).
         :param pulumi.Input[int] value: The value (points) of the challenge once solved. Internally, the provider will handle what target is legitimate depending on the `.type` value, i.e. either `value` for "standard" or `initial` for "dynamic".
         """
         opts = pulumi.ResourceOptions.merge(opts, pulumi.ResourceOptions(id=id))
@@ -873,10 +751,7 @@ class Challenge(pulumi.CustomResource):
         __props__.__dict__["connection_info"] = connection_info
         __props__.__dict__["decay"] = decay
         __props__.__dict__["description"] = description
-        __props__.__dict__["files"] = files
-        __props__.__dict__["flags"] = flags
         __props__.__dict__["function"] = function
-        __props__.__dict__["hints"] = hints
         __props__.__dict__["max_attempts"] = max_attempts
         __props__.__dict__["minimum"] = minimum
         __props__.__dict__["name"] = name
@@ -907,7 +782,7 @@ class Challenge(pulumi.CustomResource):
 
     @property
     @pulumi.getter
-    def decay(self) -> pulumi.Output[Optional[int]]:
+    def decay(self) -> pulumi.Output[int]:
         """
         The decay defines from each number of solves does the decay function triggers until reaching minimum. This function is defined by CTFd and could be configured through `.function`.
         """
@@ -923,35 +798,11 @@ class Challenge(pulumi.CustomResource):
 
     @property
     @pulumi.getter
-    def files(self) -> pulumi.Output[Optional[Sequence['outputs.ChallengeFile']]]:
-        """
-        List of files given to players to flag the challenge.
-        """
-        return pulumi.get(self, "files")
-
-    @property
-    @pulumi.getter
-    def flags(self) -> pulumi.Output[Optional[Sequence['outputs.ChallengeFlag']]]:
-        """
-        List of challenge flags that solves it.
-        """
-        return pulumi.get(self, "flags")
-
-    @property
-    @pulumi.getter
     def function(self) -> pulumi.Output[str]:
         """
         Decay function to define how the challenge value evolve through solves, either linear or logarithmic.
         """
         return pulumi.get(self, "function")
-
-    @property
-    @pulumi.getter
-    def hints(self) -> pulumi.Output[Optional[Sequence['outputs.ChallengeHint']]]:
-        """
-        List of hints about the challenge displayed to the end-user.
-        """
-        return pulumi.get(self, "hints")
 
     @property
     @pulumi.getter(name="maxAttempts")
@@ -963,7 +814,7 @@ class Challenge(pulumi.CustomResource):
 
     @property
     @pulumi.getter
-    def minimum(self) -> pulumi.Output[Optional[int]]:
+    def minimum(self) -> pulumi.Output[int]:
         """
         The minimum points for a dynamic-score challenge to reach with the decay function. Once there, no solve could have more value.
         """
@@ -973,7 +824,7 @@ class Challenge(pulumi.CustomResource):
     @pulumi.getter
     def name(self) -> pulumi.Output[str]:
         """
-        Name of the file as displayed to end-users.
+        Name of the challenge, displayed as it.
         """
         return pulumi.get(self, "name")
 
@@ -989,7 +840,7 @@ class Challenge(pulumi.CustomResource):
     @pulumi.getter
     def requirements(self) -> pulumi.Output[Optional['outputs.ChallengeRequirements']]:
         """
-        Other hints required to be consumed before getting this one. Useful for cost-increasing hint strategies with more and more help.
+        List of required challenges that needs to get flagged before this one being accessible. Useful for skill-trees-like strategy CTF.
         """
         return pulumi.get(self, "requirements")
 
@@ -1003,7 +854,7 @@ class Challenge(pulumi.CustomResource):
 
     @property
     @pulumi.getter
-    def tags(self) -> pulumi.Output[Optional[Sequence[str]]]:
+    def tags(self) -> pulumi.Output[Sequence[str]]:
         """
         List of challenge tags that will be displayed to the end-user. You could use them to give some quick insights of what a challenge involves.
         """
@@ -1011,7 +862,7 @@ class Challenge(pulumi.CustomResource):
 
     @property
     @pulumi.getter
-    def topics(self) -> pulumi.Output[Optional[Sequence[str]]]:
+    def topics(self) -> pulumi.Output[Sequence[str]]:
         """
         List of challenge topics that are displayed to the administrators for maintenance and planification.
         """
@@ -1021,7 +872,7 @@ class Challenge(pulumi.CustomResource):
     @pulumi.getter
     def type(self) -> pulumi.Output[str]:
         """
-        The type of the flag, could be either static or regex
+        Type of the challenge defining its layout/behavior, either standard or dynamic (default).
         """
         return pulumi.get(self, "type")
 

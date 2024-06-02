@@ -11,202 +11,10 @@ from . import _utilities
 from . import outputs
 
 __all__ = [
-    'ChallengeFile',
-    'ChallengeFlag',
-    'ChallengeHint',
     'ChallengeRequirements',
     'GetChallengesChallengeResult',
-    'GetChallengesChallengeFileResult',
-    'GetChallengesChallengeFlagResult',
-    'GetChallengesChallengeHintResult',
     'GetChallengesChallengeRequirementsResult',
 ]
-
-@pulumi.output_type
-class ChallengeFile(dict):
-    def __init__(__self__, *,
-                 name: str,
-                 content: Optional[str] = None,
-                 contentb64: Optional[str] = None,
-                 id: Optional[str] = None,
-                 location: Optional[str] = None,
-                 sha1sum: Optional[str] = None):
-        """
-        :param str name: Name of the file as displayed to end-users.
-        :param str content: Raw content of the file, perfectly fit the use-cases of a .txt document or anything with a simple binary content. You could provide it from the file-system using `file("${path.module}/...")`.
-        :param str contentb64: Base 64 content of the file, perfectly fit the use-cases of complex binaries. You could provide it from the file-system using `filebase64("${path.module}/...")`.
-        :param str id: Identifier of the file, used internally to handle the CTFd corresponding object.
-        :param str location: Location where the file is stored on the CTFd instance, for download purposes.
-        :param str sha1sum: The sha1 sum of the file.
-        """
-        pulumi.set(__self__, "name", name)
-        if content is not None:
-            pulumi.set(__self__, "content", content)
-        if contentb64 is not None:
-            pulumi.set(__self__, "contentb64", contentb64)
-        if id is not None:
-            pulumi.set(__self__, "id", id)
-        if location is not None:
-            pulumi.set(__self__, "location", location)
-        if sha1sum is not None:
-            pulumi.set(__self__, "sha1sum", sha1sum)
-
-    @property
-    @pulumi.getter
-    def name(self) -> str:
-        """
-        Name of the file as displayed to end-users.
-        """
-        return pulumi.get(self, "name")
-
-    @property
-    @pulumi.getter
-    def content(self) -> Optional[str]:
-        """
-        Raw content of the file, perfectly fit the use-cases of a .txt document or anything with a simple binary content. You could provide it from the file-system using `file("${path.module}/...")`.
-        """
-        return pulumi.get(self, "content")
-
-    @property
-    @pulumi.getter
-    def contentb64(self) -> Optional[str]:
-        """
-        Base 64 content of the file, perfectly fit the use-cases of complex binaries. You could provide it from the file-system using `filebase64("${path.module}/...")`.
-        """
-        return pulumi.get(self, "contentb64")
-
-    @property
-    @pulumi.getter
-    def id(self) -> Optional[str]:
-        """
-        Identifier of the file, used internally to handle the CTFd corresponding object.
-        """
-        return pulumi.get(self, "id")
-
-    @property
-    @pulumi.getter
-    def location(self) -> Optional[str]:
-        """
-        Location where the file is stored on the CTFd instance, for download purposes.
-        """
-        return pulumi.get(self, "location")
-
-    @property
-    @pulumi.getter
-    def sha1sum(self) -> Optional[str]:
-        """
-        The sha1 sum of the file.
-        """
-        return pulumi.get(self, "sha1sum")
-
-
-@pulumi.output_type
-class ChallengeFlag(dict):
-    def __init__(__self__, *,
-                 content: str,
-                 data: Optional[str] = None,
-                 id: Optional[str] = None,
-                 type: Optional[str] = None):
-        """
-        :param str content: The actual flag to match. Consider using the convention `MYCTF{value}` with `MYCTF` being the shortcode of your event's name and `value` depending on each challenge.
-        :param str data: The flag sensitivity information, either case*sensitive or case*insensitive
-        :param str id: Identifier of the flag, used internally to handle the CTFd corresponding object.
-        :param str type: The type of the flag, could be either static or regex
-        """
-        pulumi.set(__self__, "content", content)
-        if data is not None:
-            pulumi.set(__self__, "data", data)
-        if id is not None:
-            pulumi.set(__self__, "id", id)
-        if type is not None:
-            pulumi.set(__self__, "type", type)
-
-    @property
-    @pulumi.getter
-    def content(self) -> str:
-        """
-        The actual flag to match. Consider using the convention `MYCTF{value}` with `MYCTF` being the shortcode of your event's name and `value` depending on each challenge.
-        """
-        return pulumi.get(self, "content")
-
-    @property
-    @pulumi.getter
-    def data(self) -> Optional[str]:
-        """
-        The flag sensitivity information, either case*sensitive or case*insensitive
-        """
-        return pulumi.get(self, "data")
-
-    @property
-    @pulumi.getter
-    def id(self) -> Optional[str]:
-        """
-        Identifier of the flag, used internally to handle the CTFd corresponding object.
-        """
-        return pulumi.get(self, "id")
-
-    @property
-    @pulumi.getter
-    def type(self) -> Optional[str]:
-        """
-        The type of the flag, could be either static or regex
-        """
-        return pulumi.get(self, "type")
-
-
-@pulumi.output_type
-class ChallengeHint(dict):
-    def __init__(__self__, *,
-                 content: str,
-                 cost: Optional[int] = None,
-                 id: Optional[str] = None,
-                 requirements: Optional[Sequence[str]] = None):
-        """
-        :param str content: Content of the hint as displayed to the end-user.
-        :param int cost: Cost of the hint, and if any specified, the end-user will consume its own (or team) points to get it.
-        :param str id: Identifier of the hint, used internally to handle the CTFd corresponding object.
-        :param Sequence[str] requirements: Other hints required to be consumed before getting this one. Useful for cost-increasing hint strategies with more and more help.
-        """
-        pulumi.set(__self__, "content", content)
-        if cost is not None:
-            pulumi.set(__self__, "cost", cost)
-        if id is not None:
-            pulumi.set(__self__, "id", id)
-        if requirements is not None:
-            pulumi.set(__self__, "requirements", requirements)
-
-    @property
-    @pulumi.getter
-    def content(self) -> str:
-        """
-        Content of the hint as displayed to the end-user.
-        """
-        return pulumi.get(self, "content")
-
-    @property
-    @pulumi.getter
-    def cost(self) -> Optional[int]:
-        """
-        Cost of the hint, and if any specified, the end-user will consume its own (or team) points to get it.
-        """
-        return pulumi.get(self, "cost")
-
-    @property
-    @pulumi.getter
-    def id(self) -> Optional[str]:
-        """
-        Identifier of the hint, used internally to handle the CTFd corresponding object.
-        """
-        return pulumi.get(self, "id")
-
-    @property
-    @pulumi.getter
-    def requirements(self) -> Optional[Sequence[str]]:
-        """
-        Other hints required to be consumed before getting this one. Useful for cost-increasing hint strategies with more and more help.
-        """
-        return pulumi.get(self, "requirements")
-
 
 @pulumi.output_type
 class ChallengeRequirements(dict):
@@ -246,10 +54,7 @@ class GetChallengesChallengeResult(dict):
                  connection_info: str,
                  decay: int,
                  description: str,
-                 files: Sequence['outputs.GetChallengesChallengeFileResult'],
-                 flags: Sequence['outputs.GetChallengesChallengeFlagResult'],
                  function: str,
-                 hints: Sequence['outputs.GetChallengesChallengeHintResult'],
                  id: str,
                  max_attempts: int,
                  minimum: int,
@@ -265,10 +70,7 @@ class GetChallengesChallengeResult(dict):
         :param str category: Category of the challenge that CTFd groups by on the web UI.
         :param str connection_info: Connection Information to connect to the challenge instance, useful for pwn or web pentest.
         :param str description: Description of the challenge, consider using multiline descriptions for better style.
-        :param Sequence['GetChallengesChallengeFileArgs'] files: List of files given to players to flag the challenge.
-        :param Sequence['GetChallengesChallengeFlagArgs'] flags: List of challenge flags that solves it.
         :param str function: Decay function to define how the challenge value evolve through solves, either linear or logarithmic.
-        :param Sequence['GetChallengesChallengeHintArgs'] hints: List of hints about the challenge displayed to the end-user.
         :param str id: Identifier of the challenge.
         :param int max_attempts: Maximum amount of attempts before being unable to flag the challenge.
         :param str name: Name of the challenge, displayed as it.
@@ -283,10 +85,7 @@ class GetChallengesChallengeResult(dict):
         pulumi.set(__self__, "connection_info", connection_info)
         pulumi.set(__self__, "decay", decay)
         pulumi.set(__self__, "description", description)
-        pulumi.set(__self__, "files", files)
-        pulumi.set(__self__, "flags", flags)
         pulumi.set(__self__, "function", function)
-        pulumi.set(__self__, "hints", hints)
         pulumi.set(__self__, "id", id)
         pulumi.set(__self__, "max_attempts", max_attempts)
         pulumi.set(__self__, "minimum", minimum)
@@ -330,35 +129,11 @@ class GetChallengesChallengeResult(dict):
 
     @property
     @pulumi.getter
-    def files(self) -> Sequence['outputs.GetChallengesChallengeFileResult']:
-        """
-        List of files given to players to flag the challenge.
-        """
-        return pulumi.get(self, "files")
-
-    @property
-    @pulumi.getter
-    def flags(self) -> Sequence['outputs.GetChallengesChallengeFlagResult']:
-        """
-        List of challenge flags that solves it.
-        """
-        return pulumi.get(self, "flags")
-
-    @property
-    @pulumi.getter
     def function(self) -> str:
         """
         Decay function to define how the challenge value evolve through solves, either linear or logarithmic.
         """
         return pulumi.get(self, "function")
-
-    @property
-    @pulumi.getter
-    def hints(self) -> Sequence['outputs.GetChallengesChallengeHintResult']:
-        """
-        List of hints about the challenge displayed to the end-user.
-        """
-        return pulumi.get(self, "hints")
 
     @property
     @pulumi.getter
@@ -441,112 +216,6 @@ class GetChallengesChallengeResult(dict):
     @pulumi.getter
     def value(self) -> int:
         return pulumi.get(self, "value")
-
-
-@pulumi.output_type
-class GetChallengesChallengeFileResult(dict):
-    def __init__(__self__, *,
-                 content: str,
-                 contentb64: str,
-                 id: str,
-                 location: str,
-                 name: str):
-        pulumi.set(__self__, "content", content)
-        pulumi.set(__self__, "contentb64", contentb64)
-        pulumi.set(__self__, "id", id)
-        pulumi.set(__self__, "location", location)
-        pulumi.set(__self__, "name", name)
-
-    @property
-    @pulumi.getter
-    def content(self) -> str:
-        return pulumi.get(self, "content")
-
-    @property
-    @pulumi.getter
-    def contentb64(self) -> str:
-        return pulumi.get(self, "contentb64")
-
-    @property
-    @pulumi.getter
-    def id(self) -> str:
-        return pulumi.get(self, "id")
-
-    @property
-    @pulumi.getter
-    def location(self) -> str:
-        return pulumi.get(self, "location")
-
-    @property
-    @pulumi.getter
-    def name(self) -> str:
-        return pulumi.get(self, "name")
-
-
-@pulumi.output_type
-class GetChallengesChallengeFlagResult(dict):
-    def __init__(__self__, *,
-                 content: str,
-                 data: str,
-                 id: str,
-                 type: str):
-        pulumi.set(__self__, "content", content)
-        pulumi.set(__self__, "data", data)
-        pulumi.set(__self__, "id", id)
-        pulumi.set(__self__, "type", type)
-
-    @property
-    @pulumi.getter
-    def content(self) -> str:
-        return pulumi.get(self, "content")
-
-    @property
-    @pulumi.getter
-    def data(self) -> str:
-        return pulumi.get(self, "data")
-
-    @property
-    @pulumi.getter
-    def id(self) -> str:
-        return pulumi.get(self, "id")
-
-    @property
-    @pulumi.getter
-    def type(self) -> str:
-        return pulumi.get(self, "type")
-
-
-@pulumi.output_type
-class GetChallengesChallengeHintResult(dict):
-    def __init__(__self__, *,
-                 content: str,
-                 cost: int,
-                 id: str,
-                 requirements: Sequence[str]):
-        pulumi.set(__self__, "content", content)
-        pulumi.set(__self__, "cost", cost)
-        pulumi.set(__self__, "id", id)
-        pulumi.set(__self__, "requirements", requirements)
-
-    @property
-    @pulumi.getter
-    def content(self) -> str:
-        return pulumi.get(self, "content")
-
-    @property
-    @pulumi.getter
-    def cost(self) -> int:
-        return pulumi.get(self, "cost")
-
-    @property
-    @pulumi.getter
-    def id(self) -> str:
-        return pulumi.get(self, "id")
-
-    @property
-    @pulumi.getter
-    def requirements(self) -> Sequence[str]:
-        return pulumi.get(self, "requirements")
 
 
 @pulumi.output_type

@@ -18,7 +18,6 @@ import (
 //
 // ## Example Usage
 //
-// <!--Start PulumiCodeChooser -->
 // ```go
 // package main
 //
@@ -42,7 +41,7 @@ import (
 //
 //	func main() {
 //		pulumi.Run(func(ctx *pulumi.Context) error {
-//			_, err := ctfd.NewChallenge(ctx, "http", &ctfd.ChallengeArgs{
+//			http, err := ctfd.NewChallenge(ctx, "http", &ctfd.ChallengeArgs{
 //				Category:    pulumi.String("misc"),
 //				Description: pulumi.String("..."),
 //				Value:       pulumi.Int(500),
@@ -50,11 +49,6 @@ import (
 //				Minimum:     pulumi.Int(50),
 //				State:       pulumi.String("visible"),
 //				Function:    pulumi.String("logarithmic"),
-//				Flags: ctfd.ChallengeFlagArray{
-//					&ctfd.ChallengeFlagArgs{
-//						Content: pulumi.String("CTF{some_flag}"),
-//					},
-//				},
 //				Topics: pulumi.StringArray{
 //					pulumi.String("Misc"),
 //				},
@@ -62,22 +56,39 @@ import (
 //					pulumi.String("misc"),
 //					pulumi.String("basic"),
 //				},
-//				Hints: ctfd.ChallengeHintArray{
-//					&ctfd.ChallengeHintArgs{
-//						Content: pulumi.String("Some super-helpful hint"),
-//						Cost:    pulumi.Int(50),
-//					},
-//					&ctfd.ChallengeHintArgs{
-//						Content: pulumi.String("Even more helpful hint !"),
-//						Cost:    pulumi.Int(50),
-//					},
+//			})
+//			if err != nil {
+//				return err
+//			}
+//			_, err = ctfd.NewFlag(ctx, "httpFlag", &ctfd.FlagArgs{
+//				ChallengeId: http.ID(),
+//				Content:     pulumi.String("CTF{some_flag}"),
+//			})
+//			if err != nil {
+//				return err
+//			}
+//			httpHint1, err := ctfd.NewHint(ctx, "httpHint1", &ctfd.HintArgs{
+//				ChallengeId: http.ID(),
+//				Content:     pulumi.String("Some super-helpful hint"),
+//				Cost:        pulumi.Int(50),
+//			})
+//			if err != nil {
+//				return err
+//			}
+//			_, err = ctfd.NewHint(ctx, "httpHint2", &ctfd.HintArgs{
+//				ChallengeId: http.ID(),
+//				Content:     pulumi.String("Even more helpful hint !"),
+//				Cost:        pulumi.Int(50),
+//				Requirements: pulumi.StringArray{
+//					httpHint1.ID(),
 //				},
-//				Files: ctfd.ChallengeFileArray{
-//					&ctfd.ChallengeFileArgs{
-//						Name:       pulumi.String("image.png"),
-//						Contentb64: filebase64OrPanic(".../image.png"),
-//					},
-//				},
+//			})
+//			if err != nil {
+//				return err
+//			}
+//			_, err = ctfd.NewFile(ctx, "httpFile", &ctfd.FileArgs{
+//				ChallengeId: http.ID(),
+//				Contentb64:  filebase64OrPanic(".../image.png"),
 //			})
 //			if err != nil {
 //				return err
@@ -87,7 +98,6 @@ import (
 //	}
 //
 // ```
-// <!--End PulumiCodeChooser -->
 type Challenge struct {
 	pulumi.CustomResourceState
 
@@ -96,26 +106,20 @@ type Challenge struct {
 	// Connection Information to connect to the challenge instance, useful for pwn, web and infrastructure pentests.
 	ConnectionInfo pulumi.StringOutput `pulumi:"connectionInfo"`
 	// The decay defines from each number of solves does the decay function triggers until reaching minimum. This function is defined by CTFd and could be configured through `.function`.
-	Decay pulumi.IntPtrOutput `pulumi:"decay"`
+	Decay pulumi.IntOutput `pulumi:"decay"`
 	// Description of the challenge, consider using multiline descriptions for better style.
 	Description pulumi.StringOutput `pulumi:"description"`
-	// List of files given to players to flag the challenge.
-	Files ChallengeFileArrayOutput `pulumi:"files"`
-	// List of challenge flags that solves it.
-	Flags ChallengeFlagArrayOutput `pulumi:"flags"`
 	// Decay function to define how the challenge value evolve through solves, either linear or logarithmic.
 	Function pulumi.StringOutput `pulumi:"function"`
-	// List of hints about the challenge displayed to the end-user.
-	Hints ChallengeHintArrayOutput `pulumi:"hints"`
 	// Maximum amount of attempts before being unable to flag the challenge.
 	MaxAttempts pulumi.IntOutput `pulumi:"maxAttempts"`
 	// The minimum points for a dynamic-score challenge to reach with the decay function. Once there, no solve could have more value.
-	Minimum pulumi.IntPtrOutput `pulumi:"minimum"`
-	// Name of the file as displayed to end-users.
+	Minimum pulumi.IntOutput `pulumi:"minimum"`
+	// Name of the challenge, displayed as it.
 	Name pulumi.StringOutput `pulumi:"name"`
 	// Suggestion for the end-user as next challenge to work on.
 	Next pulumi.IntPtrOutput `pulumi:"next"`
-	// Other hints required to be consumed before getting this one. Useful for cost-increasing hint strategies with more and more help.
+	// List of required challenges that needs to get flagged before this one being accessible. Useful for skill-trees-like strategy CTF.
 	Requirements ChallengeRequirementsPtrOutput `pulumi:"requirements"`
 	// State of the challenge, either hidden or visible.
 	State pulumi.StringOutput `pulumi:"state"`
@@ -123,7 +127,7 @@ type Challenge struct {
 	Tags pulumi.StringArrayOutput `pulumi:"tags"`
 	// List of challenge topics that are displayed to the administrators for maintenance and planification.
 	Topics pulumi.StringArrayOutput `pulumi:"topics"`
-	// The type of the flag, could be either static or regex
+	// Type of the challenge defining its layout/behavior, either standard or dynamic (default).
 	Type pulumi.StringOutput `pulumi:"type"`
 	// The value (points) of the challenge once solved. Internally, the provider will handle what target is legitimate depending on the `.type` value, i.e. either `value` for "standard" or `initial` for "dynamic".
 	Value pulumi.IntOutput `pulumi:"value"`
@@ -176,23 +180,17 @@ type challengeState struct {
 	Decay *int `pulumi:"decay"`
 	// Description of the challenge, consider using multiline descriptions for better style.
 	Description *string `pulumi:"description"`
-	// List of files given to players to flag the challenge.
-	Files []ChallengeFile `pulumi:"files"`
-	// List of challenge flags that solves it.
-	Flags []ChallengeFlag `pulumi:"flags"`
 	// Decay function to define how the challenge value evolve through solves, either linear or logarithmic.
 	Function *string `pulumi:"function"`
-	// List of hints about the challenge displayed to the end-user.
-	Hints []ChallengeHint `pulumi:"hints"`
 	// Maximum amount of attempts before being unable to flag the challenge.
 	MaxAttempts *int `pulumi:"maxAttempts"`
 	// The minimum points for a dynamic-score challenge to reach with the decay function. Once there, no solve could have more value.
 	Minimum *int `pulumi:"minimum"`
-	// Name of the file as displayed to end-users.
+	// Name of the challenge, displayed as it.
 	Name *string `pulumi:"name"`
 	// Suggestion for the end-user as next challenge to work on.
 	Next *int `pulumi:"next"`
-	// Other hints required to be consumed before getting this one. Useful for cost-increasing hint strategies with more and more help.
+	// List of required challenges that needs to get flagged before this one being accessible. Useful for skill-trees-like strategy CTF.
 	Requirements *ChallengeRequirements `pulumi:"requirements"`
 	// State of the challenge, either hidden or visible.
 	State *string `pulumi:"state"`
@@ -200,7 +198,7 @@ type challengeState struct {
 	Tags []string `pulumi:"tags"`
 	// List of challenge topics that are displayed to the administrators for maintenance and planification.
 	Topics []string `pulumi:"topics"`
-	// The type of the flag, could be either static or regex
+	// Type of the challenge defining its layout/behavior, either standard or dynamic (default).
 	Type *string `pulumi:"type"`
 	// The value (points) of the challenge once solved. Internally, the provider will handle what target is legitimate depending on the `.type` value, i.e. either `value` for "standard" or `initial` for "dynamic".
 	Value *int `pulumi:"value"`
@@ -215,23 +213,17 @@ type ChallengeState struct {
 	Decay pulumi.IntPtrInput
 	// Description of the challenge, consider using multiline descriptions for better style.
 	Description pulumi.StringPtrInput
-	// List of files given to players to flag the challenge.
-	Files ChallengeFileArrayInput
-	// List of challenge flags that solves it.
-	Flags ChallengeFlagArrayInput
 	// Decay function to define how the challenge value evolve through solves, either linear or logarithmic.
 	Function pulumi.StringPtrInput
-	// List of hints about the challenge displayed to the end-user.
-	Hints ChallengeHintArrayInput
 	// Maximum amount of attempts before being unable to flag the challenge.
 	MaxAttempts pulumi.IntPtrInput
 	// The minimum points for a dynamic-score challenge to reach with the decay function. Once there, no solve could have more value.
 	Minimum pulumi.IntPtrInput
-	// Name of the file as displayed to end-users.
+	// Name of the challenge, displayed as it.
 	Name pulumi.StringPtrInput
 	// Suggestion for the end-user as next challenge to work on.
 	Next pulumi.IntPtrInput
-	// Other hints required to be consumed before getting this one. Useful for cost-increasing hint strategies with more and more help.
+	// List of required challenges that needs to get flagged before this one being accessible. Useful for skill-trees-like strategy CTF.
 	Requirements ChallengeRequirementsPtrInput
 	// State of the challenge, either hidden or visible.
 	State pulumi.StringPtrInput
@@ -239,7 +231,7 @@ type ChallengeState struct {
 	Tags pulumi.StringArrayInput
 	// List of challenge topics that are displayed to the administrators for maintenance and planification.
 	Topics pulumi.StringArrayInput
-	// The type of the flag, could be either static or regex
+	// Type of the challenge defining its layout/behavior, either standard or dynamic (default).
 	Type pulumi.StringPtrInput
 	// The value (points) of the challenge once solved. Internally, the provider will handle what target is legitimate depending on the `.type` value, i.e. either `value` for "standard" or `initial` for "dynamic".
 	Value pulumi.IntPtrInput
@@ -258,23 +250,17 @@ type challengeArgs struct {
 	Decay *int `pulumi:"decay"`
 	// Description of the challenge, consider using multiline descriptions for better style.
 	Description string `pulumi:"description"`
-	// List of files given to players to flag the challenge.
-	Files []ChallengeFile `pulumi:"files"`
-	// List of challenge flags that solves it.
-	Flags []ChallengeFlag `pulumi:"flags"`
 	// Decay function to define how the challenge value evolve through solves, either linear or logarithmic.
 	Function *string `pulumi:"function"`
-	// List of hints about the challenge displayed to the end-user.
-	Hints []ChallengeHint `pulumi:"hints"`
 	// Maximum amount of attempts before being unable to flag the challenge.
 	MaxAttempts *int `pulumi:"maxAttempts"`
 	// The minimum points for a dynamic-score challenge to reach with the decay function. Once there, no solve could have more value.
 	Minimum *int `pulumi:"minimum"`
-	// Name of the file as displayed to end-users.
+	// Name of the challenge, displayed as it.
 	Name *string `pulumi:"name"`
 	// Suggestion for the end-user as next challenge to work on.
 	Next *int `pulumi:"next"`
-	// Other hints required to be consumed before getting this one. Useful for cost-increasing hint strategies with more and more help.
+	// List of required challenges that needs to get flagged before this one being accessible. Useful for skill-trees-like strategy CTF.
 	Requirements *ChallengeRequirements `pulumi:"requirements"`
 	// State of the challenge, either hidden or visible.
 	State *string `pulumi:"state"`
@@ -282,7 +268,7 @@ type challengeArgs struct {
 	Tags []string `pulumi:"tags"`
 	// List of challenge topics that are displayed to the administrators for maintenance and planification.
 	Topics []string `pulumi:"topics"`
-	// The type of the flag, could be either static or regex
+	// Type of the challenge defining its layout/behavior, either standard or dynamic (default).
 	Type *string `pulumi:"type"`
 	// The value (points) of the challenge once solved. Internally, the provider will handle what target is legitimate depending on the `.type` value, i.e. either `value` for "standard" or `initial` for "dynamic".
 	Value int `pulumi:"value"`
@@ -298,23 +284,17 @@ type ChallengeArgs struct {
 	Decay pulumi.IntPtrInput
 	// Description of the challenge, consider using multiline descriptions for better style.
 	Description pulumi.StringInput
-	// List of files given to players to flag the challenge.
-	Files ChallengeFileArrayInput
-	// List of challenge flags that solves it.
-	Flags ChallengeFlagArrayInput
 	// Decay function to define how the challenge value evolve through solves, either linear or logarithmic.
 	Function pulumi.StringPtrInput
-	// List of hints about the challenge displayed to the end-user.
-	Hints ChallengeHintArrayInput
 	// Maximum amount of attempts before being unable to flag the challenge.
 	MaxAttempts pulumi.IntPtrInput
 	// The minimum points for a dynamic-score challenge to reach with the decay function. Once there, no solve could have more value.
 	Minimum pulumi.IntPtrInput
-	// Name of the file as displayed to end-users.
+	// Name of the challenge, displayed as it.
 	Name pulumi.StringPtrInput
 	// Suggestion for the end-user as next challenge to work on.
 	Next pulumi.IntPtrInput
-	// Other hints required to be consumed before getting this one. Useful for cost-increasing hint strategies with more and more help.
+	// List of required challenges that needs to get flagged before this one being accessible. Useful for skill-trees-like strategy CTF.
 	Requirements ChallengeRequirementsPtrInput
 	// State of the challenge, either hidden or visible.
 	State pulumi.StringPtrInput
@@ -322,7 +302,7 @@ type ChallengeArgs struct {
 	Tags pulumi.StringArrayInput
 	// List of challenge topics that are displayed to the administrators for maintenance and planification.
 	Topics pulumi.StringArrayInput
-	// The type of the flag, could be either static or regex
+	// Type of the challenge defining its layout/behavior, either standard or dynamic (default).
 	Type pulumi.StringPtrInput
 	// The value (points) of the challenge once solved. Internally, the provider will handle what target is legitimate depending on the `.type` value, i.e. either `value` for "standard" or `initial` for "dynamic".
 	Value pulumi.IntInput
@@ -426,8 +406,8 @@ func (o ChallengeOutput) ConnectionInfo() pulumi.StringOutput {
 }
 
 // The decay defines from each number of solves does the decay function triggers until reaching minimum. This function is defined by CTFd and could be configured through `.function`.
-func (o ChallengeOutput) Decay() pulumi.IntPtrOutput {
-	return o.ApplyT(func(v *Challenge) pulumi.IntPtrOutput { return v.Decay }).(pulumi.IntPtrOutput)
+func (o ChallengeOutput) Decay() pulumi.IntOutput {
+	return o.ApplyT(func(v *Challenge) pulumi.IntOutput { return v.Decay }).(pulumi.IntOutput)
 }
 
 // Description of the challenge, consider using multiline descriptions for better style.
@@ -435,24 +415,9 @@ func (o ChallengeOutput) Description() pulumi.StringOutput {
 	return o.ApplyT(func(v *Challenge) pulumi.StringOutput { return v.Description }).(pulumi.StringOutput)
 }
 
-// List of files given to players to flag the challenge.
-func (o ChallengeOutput) Files() ChallengeFileArrayOutput {
-	return o.ApplyT(func(v *Challenge) ChallengeFileArrayOutput { return v.Files }).(ChallengeFileArrayOutput)
-}
-
-// List of challenge flags that solves it.
-func (o ChallengeOutput) Flags() ChallengeFlagArrayOutput {
-	return o.ApplyT(func(v *Challenge) ChallengeFlagArrayOutput { return v.Flags }).(ChallengeFlagArrayOutput)
-}
-
 // Decay function to define how the challenge value evolve through solves, either linear or logarithmic.
 func (o ChallengeOutput) Function() pulumi.StringOutput {
 	return o.ApplyT(func(v *Challenge) pulumi.StringOutput { return v.Function }).(pulumi.StringOutput)
-}
-
-// List of hints about the challenge displayed to the end-user.
-func (o ChallengeOutput) Hints() ChallengeHintArrayOutput {
-	return o.ApplyT(func(v *Challenge) ChallengeHintArrayOutput { return v.Hints }).(ChallengeHintArrayOutput)
 }
 
 // Maximum amount of attempts before being unable to flag the challenge.
@@ -461,11 +426,11 @@ func (o ChallengeOutput) MaxAttempts() pulumi.IntOutput {
 }
 
 // The minimum points for a dynamic-score challenge to reach with the decay function. Once there, no solve could have more value.
-func (o ChallengeOutput) Minimum() pulumi.IntPtrOutput {
-	return o.ApplyT(func(v *Challenge) pulumi.IntPtrOutput { return v.Minimum }).(pulumi.IntPtrOutput)
+func (o ChallengeOutput) Minimum() pulumi.IntOutput {
+	return o.ApplyT(func(v *Challenge) pulumi.IntOutput { return v.Minimum }).(pulumi.IntOutput)
 }
 
-// Name of the file as displayed to end-users.
+// Name of the challenge, displayed as it.
 func (o ChallengeOutput) Name() pulumi.StringOutput {
 	return o.ApplyT(func(v *Challenge) pulumi.StringOutput { return v.Name }).(pulumi.StringOutput)
 }
@@ -475,7 +440,7 @@ func (o ChallengeOutput) Next() pulumi.IntPtrOutput {
 	return o.ApplyT(func(v *Challenge) pulumi.IntPtrOutput { return v.Next }).(pulumi.IntPtrOutput)
 }
 
-// Other hints required to be consumed before getting this one. Useful for cost-increasing hint strategies with more and more help.
+// List of required challenges that needs to get flagged before this one being accessible. Useful for skill-trees-like strategy CTF.
 func (o ChallengeOutput) Requirements() ChallengeRequirementsPtrOutput {
 	return o.ApplyT(func(v *Challenge) ChallengeRequirementsPtrOutput { return v.Requirements }).(ChallengeRequirementsPtrOutput)
 }
@@ -495,7 +460,7 @@ func (o ChallengeOutput) Topics() pulumi.StringArrayOutput {
 	return o.ApplyT(func(v *Challenge) pulumi.StringArrayOutput { return v.Topics }).(pulumi.StringArrayOutput)
 }
 
-// The type of the flag, could be either static or regex
+// Type of the challenge defining its layout/behavior, either standard or dynamic (default).
 func (o ChallengeOutput) Type() pulumi.StringOutput {
 	return o.ApplyT(func(v *Challenge) pulumi.StringOutput { return v.Type }).(pulumi.StringOutput)
 }

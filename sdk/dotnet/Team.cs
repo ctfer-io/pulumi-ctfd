@@ -15,7 +15,6 @@ namespace CTFerio.Ctfd
     /// 
     /// ## Example Usage
     /// 
-    /// &lt;!--Start PulumiCodeChooser --&gt;
     /// ```csharp
     /// using System.Collections.Generic;
     /// using System.Linq;
@@ -43,7 +42,6 @@ namespace CTFerio.Ctfd
     /// 
     /// });
     /// ```
-    /// &lt;!--End PulumiCodeChooser --&gt;
     /// </summary>
     [CtfdResourceType("ctfd:index/team:Team")]
     public partial class Team : global::Pulumi.CustomResource
