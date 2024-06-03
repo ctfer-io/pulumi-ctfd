@@ -30,7 +30,7 @@ jobs:
       - name: Install go
         uses: actions/setup-go@cdcb36043654635271a94b9a6d1392de5bb323a7 # v5.0.1
         with:
-          go-version-file: 'go.work'
+          go-version-file: 'provider/go.mod'
       - name: disarm go:embed directives to enable lint
         continue-on-error: true # this fails if there are no go:embed directives
         run: |
