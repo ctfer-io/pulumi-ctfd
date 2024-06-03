@@ -26,7 +26,7 @@ jobs:
       - name: Install Go
         uses: actions/setup-go@cdcb36043654635271a94b9a6d1392de5bb323a7 # v5.0.1
         with:
-          go-version-file: 'go.work'
+          go-version-file: 'provider/go.mod'
 
       - name: Install Syft
         uses: anchore/sbom-action/download-syft@e8d2a6937ecead383dfe75190d104edd1f9c5751 # v0.16.0
@@ -96,7 +96,7 @@ jobs:
       - name: Install Go
         uses: actions/setup-go@cdcb36043654635271a94b9a6d1392de5bb323a7 # v5.0.1
         with:
-          go-version-file: 'go.work'
+          go-version-file: 'provider/go.mod'
           cache: true
 
       - name: Install pulumictl
