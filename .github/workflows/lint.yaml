@@ -24,7 +24,7 @@ jobs:
       - name: Checkout Repo
         uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332 # v4.1.7
       - name: Markdown lint
-        uses: DavidAnson/markdownlint-cli2-action@v16
+        uses: DavidAnson/markdownlint-cli2-action@v17
         with:
           globs: 'docs/*.md'
       - name: Install go
