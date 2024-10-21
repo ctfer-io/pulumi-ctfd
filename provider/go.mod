@@ -6,7 +6,7 @@ replace github.com/hashicorp/terraform-plugin-sdk/v2 => github.com/pulumi/terraf
 
 require (
 	github.com/ctfer-io/terraform-provider-ctfd v1.0.0
-	github.com/pulumi/pulumi-terraform-bridge/pf v0.45.0
+	github.com/pulumi/pulumi-terraform-bridge/pf v0.46.0
 	github.com/pulumi/pulumi-terraform-bridge/v3 v3.93.1
 )
 
@@ -114,7 +114,7 @@ require (
 	github.com/hashicorp/hcl v1.0.0 // indirect
 	github.com/hashicorp/hcl/v2 v2.20.1 // indirect
 	github.com/hashicorp/hil v0.0.0-20190212132231-97b3a9cdfa93 // indirect
-	github.com/hashicorp/terraform-plugin-framework v1.8.0 // indirect
+	github.com/hashicorp/terraform-plugin-framework v1.11.0 // indirect
 	github.com/hashicorp/terraform-plugin-go v0.24.0 // indirect
 	github.com/hashicorp/terraform-plugin-log v0.9.0 // indirect
 	github.com/hashicorp/terraform-registry-address v0.2.3 // indirect
@@ -167,7 +167,6 @@ require (
 	github.com/pulumi/esc v0.10.0 // indirect
 	github.com/pulumi/inflector v0.1.1 // indirect
 	github.com/pulumi/pulumi-java/pkg v0.16.1 // indirect
-	github.com/pulumi/pulumi-terraform-bridge/x/muxer v0.0.10 // indirect
 	github.com/pulumi/pulumi-yaml v1.10.3 // indirect
 	github.com/pulumi/pulumi/pkg/v3 v3.136.1 // indirect
 	github.com/pulumi/pulumi/sdk/v3 v3.136.1 // indirect
