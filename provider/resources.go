@@ -9,7 +9,7 @@ import (
 
 	"github.com/ctfer-io/pulumi-ctfd/provider/pkg/version"
 	ctfd "github.com/ctfer-io/terraform-provider-ctfd/provider"
-	pf "github.com/pulumi/pulumi-terraform-bridge/pf/tfbridge"
+	pf "github.com/pulumi/pulumi-terraform-bridge/v3/pkg/pf/tfbridge"
 	"github.com/pulumi/pulumi-terraform-bridge/v3/pkg/tfbridge"
 	"github.com/pulumi/pulumi-terraform-bridge/v3/pkg/tfbridge/tokens"
 )
