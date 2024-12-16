@@ -5,7 +5,6 @@ import * as pulumi from "@pulumi/pulumi";
 import * as utilities from "./utilities";
 
 export function getUsers(opts?: pulumi.InvokeOptions): Promise<GetUsersResult> {
-
     opts = pulumi.mergeOptions(utilities.resourceOptsDefaults(), opts || {});
     return pulumi.runtime.invoke("ctfd:index/getUsers:getUsers", {
     }, opts);
@@ -64,6 +63,8 @@ export interface GetUsersResult {
      */
     readonly website: string;
 }
-export function getUsersOutput(opts?: pulumi.InvokeOptions): pulumi.Output<GetUsersResult> {
-    return pulumi.output(getUsers(opts))
+export function getUsersOutput(opts?: pulumi.InvokeOutputOptions): pulumi.Output<GetUsersResult> {
+    opts = pulumi.mergeOptions(utilities.resourceOptsDefaults(), opts || {});
+    return pulumi.runtime.invokeOutput("ctfd:index/getUsers:getUsers", {
+    }, opts);
 }

@@ -4,14 +4,35 @@
 
 import copy
 import warnings
+import sys
 import pulumi
 import pulumi.runtime
 from typing import Any, Mapping, Optional, Sequence, Union, overload
+if sys.version_info >= (3, 11):
+    from typing import NotRequired, TypedDict, TypeAlias
+else:
+    from typing_extensions import NotRequired, TypedDict, TypeAlias
 from . import _utilities
 
 __all__ = [
     'ChallengeRequirementsArgs',
+    'ChallengeRequirementsArgsDict',
 ]
+
+MYPY = False
+
+if not MYPY:
+    class ChallengeRequirementsArgsDict(TypedDict):
+        behavior: NotRequired[pulumi.Input[str]]
+        """
+        Behavior if not unlocked, either hidden or anonymized.
+        """
+        prerequisites: NotRequired[pulumi.Input[Sequence[pulumi.Input[str]]]]
+        """
+        List of the challenges ID.
+        """
+elif False:
+    ChallengeRequirementsArgsDict: TypeAlias = Mapping[str, Any]
 
 @pulumi.input_type
 class ChallengeRequirementsArgs:

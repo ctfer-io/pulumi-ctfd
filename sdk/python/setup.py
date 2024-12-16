@@ -18,7 +18,7 @@ def readme():
 
 
 setup(name='ctfer-io_pulumi-ctfd',
-      python_requires='>=3.8',
+      python_requires='>=3.9',
       version=VERSION,
       description="The CTFd provider for Pulumi, to manage its resources as code.",
       long_description=readme(),
@@ -39,6 +39,7 @@ setup(name='ctfer-io_pulumi-ctfd',
       install_requires=[
           'parver>=0.2.1',
           'pulumi>=3.0.0,<4.0.0',
-          'semver>=2.8.1'
+          'semver>=2.8.1',
+          'typing-extensions>=4.11,<5; python_version < "3.11"'
       ],
       zip_safe=False)

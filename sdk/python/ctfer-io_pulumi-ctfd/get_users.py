@@ -4,9 +4,14 @@
 
 import copy
 import warnings
+import sys
 import pulumi
 import pulumi.runtime
 from typing import Any, Mapping, Optional, Sequence, Union, overload
+if sys.version_info >= (3, 11):
+    from typing import NotRequired, TypedDict, TypeAlias
+else:
+    from typing_extensions import NotRequired, TypedDict, TypeAlias
 from . import _utilities
 
 __all__ = [
@@ -197,11 +202,23 @@ def get_users(opts: Optional[pulumi.InvokeOptions] = None) -> AwaitableGetUsersR
         type=pulumi.get(__ret__, 'type'),
         verified=pulumi.get(__ret__, 'verified'),
         website=pulumi.get(__ret__, 'website'))
-
-
-@_utilities.lift_output_func(get_users)
-def get_users_output(opts: Optional[pulumi.InvokeOptions] = None) -> pulumi.Output[GetUsersResult]:
+def get_users_output(opts: Optional[Union[pulumi.InvokeOptions, pulumi.InvokeOutputOptions]] = None) -> pulumi.Output[GetUsersResult]:
     """
     Use this data source to access information about an existing resource.
     """
-    ...
+    __args__ = dict()
+    opts = pulumi.InvokeOutputOptions.merge(_utilities.get_invoke_opts_defaults(), opts)
+    __ret__ = pulumi.runtime.invoke_output('ctfd:index/getUsers:getUsers', __args__, opts=opts, typ=GetUsersResult)
+    return __ret__.apply(lambda __response__: GetUsersResult(
+        affiliation=pulumi.get(__response__, 'affiliation'),
+        banned=pulumi.get(__response__, 'banned'),
+        country=pulumi.get(__response__, 'country'),
+        email=pulumi.get(__response__, 'email'),
+        hidden=pulumi.get(__response__, 'hidden'),
+        id=pulumi.get(__response__, 'id'),
+        language=pulumi.get(__response__, 'language'),
+        name=pulumi.get(__response__, 'name'),
+        password=pulumi.get(__response__, 'password'),
+        type=pulumi.get(__response__, 'type'),
+        verified=pulumi.get(__response__, 'verified'),
+        website=pulumi.get(__response__, 'website')))

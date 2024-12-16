@@ -4,9 +4,14 @@
 
 import copy
 import warnings
+import sys
 import pulumi
 import pulumi.runtime
 from typing import Any, Mapping, Optional, Sequence, Union, overload
+if sys.version_info >= (3, 11):
+    from typing import NotRequired, TypedDict, TypeAlias
+else:
+    from typing_extensions import NotRequired, TypedDict, TypeAlias
 from . import _utilities
 from . import outputs
 from ._inputs import *
@@ -520,7 +525,7 @@ class Challenge(pulumi.CustomResource):
                  minimum: Optional[pulumi.Input[int]] = None,
                  name: Optional[pulumi.Input[str]] = None,
                  next: Optional[pulumi.Input[int]] = None,
-                 requirements: Optional[pulumi.Input[pulumi.InputType['ChallengeRequirementsArgs']]] = None,
+                 requirements: Optional[pulumi.Input[Union['ChallengeRequirementsArgs', 'ChallengeRequirementsArgsDict']]] = None,
                  state: Optional[pulumi.Input[str]] = None,
                  tags: Optional[pulumi.Input[Sequence[pulumi.Input[str]]]] = None,
                  topics: Optional[pulumi.Input[Sequence[pulumi.Input[str]]]] = None,
@@ -580,7 +585,7 @@ class Challenge(pulumi.CustomResource):
         :param pulumi.Input[int] minimum: The minimum points for a dynamic-score challenge to reach with the decay function. Once there, no solve could have more value.
         :param pulumi.Input[str] name: Name of the challenge, displayed as it.
         :param pulumi.Input[int] next: Suggestion for the end-user as next challenge to work on.
-        :param pulumi.Input[pulumi.InputType['ChallengeRequirementsArgs']] requirements: List of required challenges that needs to get flagged before this one being accessible. Useful for skill-trees-like strategy CTF.
+        :param pulumi.Input[Union['ChallengeRequirementsArgs', 'ChallengeRequirementsArgsDict']] requirements: List of required challenges that needs to get flagged before this one being accessible. Useful for skill-trees-like strategy CTF.
         :param pulumi.Input[str] state: State of the challenge, either hidden or visible.
         :param pulumi.Input[Sequence[pulumi.Input[str]]] tags: List of challenge tags that will be displayed to the end-user. You could use them to give some quick insights of what a challenge involves.
         :param pulumi.Input[Sequence[pulumi.Input[str]]] topics: List of challenge topics that are displayed to the administrators for maintenance and planification.
@@ -659,7 +664,7 @@ class Challenge(pulumi.CustomResource):
                  minimum: Optional[pulumi.Input[int]] = None,
                  name: Optional[pulumi.Input[str]] = None,
                  next: Optional[pulumi.Input[int]] = None,
-                 requirements: Optional[pulumi.Input[pulumi.InputType['ChallengeRequirementsArgs']]] = None,
+                 requirements: Optional[pulumi.Input[Union['ChallengeRequirementsArgs', 'ChallengeRequirementsArgsDict']]] = None,
                  state: Optional[pulumi.Input[str]] = None,
                  tags: Optional[pulumi.Input[Sequence[pulumi.Input[str]]]] = None,
                  topics: Optional[pulumi.Input[Sequence[pulumi.Input[str]]]] = None,
@@ -714,7 +719,7 @@ class Challenge(pulumi.CustomResource):
             minimum: Optional[pulumi.Input[int]] = None,
             name: Optional[pulumi.Input[str]] = None,
             next: Optional[pulumi.Input[int]] = None,
-            requirements: Optional[pulumi.Input[pulumi.InputType['ChallengeRequirementsArgs']]] = None,
+            requirements: Optional[pulumi.Input[Union['ChallengeRequirementsArgs', 'ChallengeRequirementsArgsDict']]] = None,
             state: Optional[pulumi.Input[str]] = None,
             tags: Optional[pulumi.Input[Sequence[pulumi.Input[str]]]] = None,
             topics: Optional[pulumi.Input[Sequence[pulumi.Input[str]]]] = None,
@@ -736,7 +741,7 @@ class Challenge(pulumi.CustomResource):
         :param pulumi.Input[int] minimum: The minimum points for a dynamic-score challenge to reach with the decay function. Once there, no solve could have more value.
         :param pulumi.Input[str] name: Name of the challenge, displayed as it.
         :param pulumi.Input[int] next: Suggestion for the end-user as next challenge to work on.
-        :param pulumi.Input[pulumi.InputType['ChallengeRequirementsArgs']] requirements: List of required challenges that needs to get flagged before this one being accessible. Useful for skill-trees-like strategy CTF.
+        :param pulumi.Input[Union['ChallengeRequirementsArgs', 'ChallengeRequirementsArgsDict']] requirements: List of required challenges that needs to get flagged before this one being accessible. Useful for skill-trees-like strategy CTF.
         :param pulumi.Input[str] state: State of the challenge, either hidden or visible.
         :param pulumi.Input[Sequence[pulumi.Input[str]]] tags: List of challenge tags that will be displayed to the end-user. You could use them to give some quick insights of what a challenge involves.
         :param pulumi.Input[Sequence[pulumi.Input[str]]] topics: List of challenge topics that are displayed to the administrators for maintenance and planification.

@@ -17,6 +17,9 @@ namespace CTFerio.Ctfd
 
         public static Output<GetTeamsResult> Invoke(InvokeOptions? options = null)
             => global::Pulumi.Deployment.Instance.Invoke<GetTeamsResult>("ctfd:index/getTeams:getTeams", InvokeArgs.Empty, options.WithDefaults());
+
+        public static Output<GetTeamsResult> Invoke(InvokeOutputOptions options)
+            => global::Pulumi.Deployment.Instance.Invoke<GetTeamsResult>("ctfd:index/getTeams:getTeams", InvokeArgs.Empty, options.WithDefaults());
     }
 
 

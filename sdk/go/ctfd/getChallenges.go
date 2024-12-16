@@ -29,13 +29,9 @@ type GetChallengesResult struct {
 }
 
 func GetChallengesOutput(ctx *pulumi.Context, opts ...pulumi.InvokeOption) GetChallengesResultOutput {
-	return pulumi.ToOutput(0).ApplyT(func(int) (GetChallengesResult, error) {
-		r, err := GetChallenges(ctx, opts...)
-		var s GetChallengesResult
-		if r != nil {
-			s = *r
-		}
-		return s, err
+	return pulumi.ToOutput(0).ApplyT(func(int) (GetChallengesResultOutput, error) {
+		options := pulumi.InvokeOutputOptions{InvokeOptions: internal.PkgInvokeDefaultOpts(opts)}
+		return ctx.InvokeOutput("ctfd:index/getChallenges:getChallenges", nil, GetChallengesResultOutput{}, options).(GetChallengesResultOutput), nil
 	}).(GetChallengesResultOutput)
 }
 

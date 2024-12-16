@@ -4,9 +4,14 @@
 
 import copy
 import warnings
+import sys
 import pulumi
 import pulumi.runtime
 from typing import Any, Mapping, Optional, Sequence, Union, overload
+if sys.version_info >= (3, 11):
+    from typing import NotRequired, TypedDict, TypeAlias
+else:
+    from typing_extensions import NotRequired, TypedDict, TypeAlias
 from . import _utilities
 from . import outputs
 
@@ -65,11 +70,13 @@ def get_challenges(opts: Optional[pulumi.InvokeOptions] = None) -> AwaitableGetC
     return AwaitableGetChallengesResult(
         challenges=pulumi.get(__ret__, 'challenges'),
         id=pulumi.get(__ret__, 'id'))
-
-
-@_utilities.lift_output_func(get_challenges)
-def get_challenges_output(opts: Optional[pulumi.InvokeOptions] = None) -> pulumi.Output[GetChallengesResult]:
+def get_challenges_output(opts: Optional[Union[pulumi.InvokeOptions, pulumi.InvokeOutputOptions]] = None) -> pulumi.Output[GetChallengesResult]:
     """
     Use this data source to access information about an existing resource.
     """
-    ...
+    __args__ = dict()
+    opts = pulumi.InvokeOutputOptions.merge(_utilities.get_invoke_opts_defaults(), opts)
+    __ret__ = pulumi.runtime.invoke_output('ctfd:index/getChallenges:getChallenges', __args__, opts=opts, typ=GetChallengesResult)
+    return __ret__.apply(lambda __response__: GetChallengesResult(
+        challenges=pulumi.get(__response__, 'challenges'),
+        id=pulumi.get(__response__, 'id')))

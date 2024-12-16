@@ -48,13 +48,9 @@ type GetTeamsResult struct {
 }
 
 func GetTeamsOutput(ctx *pulumi.Context, opts ...pulumi.InvokeOption) GetTeamsResultOutput {
-	return pulumi.ToOutput(0).ApplyT(func(int) (GetTeamsResult, error) {
-		r, err := GetTeams(ctx, opts...)
-		var s GetTeamsResult
-		if r != nil {
-			s = *r
-		}
-		return s, err
+	return pulumi.ToOutput(0).ApplyT(func(int) (GetTeamsResultOutput, error) {
+		options := pulumi.InvokeOutputOptions{InvokeOptions: internal.PkgInvokeDefaultOpts(opts)}
+		return ctx.InvokeOutput("ctfd:index/getTeams:getTeams", nil, GetTeamsResultOutput{}, options).(GetTeamsResultOutput), nil
 	}).(GetTeamsResultOutput)
 }
 
