@@ -50,13 +50,9 @@ type GetUsersResult struct {
 }
 
 func GetUsersOutput(ctx *pulumi.Context, opts ...pulumi.InvokeOption) GetUsersResultOutput {
-	return pulumi.ToOutput(0).ApplyT(func(int) (GetUsersResult, error) {
-		r, err := GetUsers(ctx, opts...)
-		var s GetUsersResult
-		if r != nil {
-			s = *r
-		}
-		return s, err
+	return pulumi.ToOutput(0).ApplyT(func(int) (GetUsersResultOutput, error) {
+		options := pulumi.InvokeOutputOptions{InvokeOptions: internal.PkgInvokeDefaultOpts(opts)}
+		return ctx.InvokeOutput("ctfd:index/getUsers:getUsers", nil, GetUsersResultOutput{}, options).(GetUsersResultOutput), nil
 	}).(GetUsersResultOutput)
 }
 

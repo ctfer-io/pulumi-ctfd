@@ -3,6 +3,7 @@
         "resources": {
             "ctfd_challenge": {
                 "current": "ctfd:index/challenge:Challenge",
+                "majorVersion": 1,
                 "fields": {
                     "requirements": {
                         "fields": {
@@ -20,13 +21,16 @@
                 }
             },
             "ctfd_file": {
-                "current": "ctfd:index/file:File"
+                "current": "ctfd:index/file:File",
+                "majorVersion": 1
             },
             "ctfd_flag": {
-                "current": "ctfd:index/flag:Flag"
+                "current": "ctfd:index/flag:Flag",
+                "majorVersion": 1
             },
             "ctfd_hint": {
                 "current": "ctfd:index/hint:Hint",
+                "majorVersion": 1,
                 "fields": {
                     "requirements": {
                         "maxItemsOne": false
@@ -35,6 +39,7 @@
             },
             "ctfd_team": {
                 "current": "ctfd:index/team:Team",
+                "majorVersion": 1,
                 "fields": {
                     "members": {
                         "maxItemsOne": false
@@ -42,12 +47,14 @@
                 }
             },
             "ctfd_user": {
-                "current": "ctfd:index/user:User"
+                "current": "ctfd:index/user:User",
+                "majorVersion": 1
             }
         },
         "datasources": {
             "ctfd_challenges": {
                 "current": "ctfd:index/getChallenges:getChallenges",
+                "majorVersion": 1,
                 "fields": {
                     "challenges": {
                         "maxItemsOne": false,
@@ -73,6 +80,7 @@
             },
             "ctfd_teams": {
                 "current": "ctfd:index/getTeams:getTeams",
+                "majorVersion": 1,
                 "fields": {
                     "members": {
                         "maxItemsOne": false
@@ -80,7 +88,8 @@
                 }
             },
             "ctfd_users": {
-                "current": "ctfd:index/getUsers:getUsers"
+                "current": "ctfd:index/getUsers:getUsers",
+                "majorVersion": 1
             }
         }
     },

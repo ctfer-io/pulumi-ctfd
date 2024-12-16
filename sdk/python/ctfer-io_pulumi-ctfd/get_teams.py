@@ -4,9 +4,14 @@
 
 import copy
 import warnings
+import sys
 import pulumi
 import pulumi.runtime
 from typing import Any, Mapping, Optional, Sequence, Union, overload
+if sys.version_info >= (3, 11):
+    from typing import NotRequired, TypedDict, TypeAlias
+else:
+    from typing_extensions import NotRequired, TypedDict, TypeAlias
 from . import _utilities
 
 __all__ = [
@@ -184,11 +189,22 @@ def get_teams(opts: Optional[pulumi.InvokeOptions] = None) -> AwaitableGetTeamsR
         name=pulumi.get(__ret__, 'name'),
         password=pulumi.get(__ret__, 'password'),
         website=pulumi.get(__ret__, 'website'))
-
-
-@_utilities.lift_output_func(get_teams)
-def get_teams_output(opts: Optional[pulumi.InvokeOptions] = None) -> pulumi.Output[GetTeamsResult]:
+def get_teams_output(opts: Optional[Union[pulumi.InvokeOptions, pulumi.InvokeOutputOptions]] = None) -> pulumi.Output[GetTeamsResult]:
     """
     Use this data source to access information about an existing resource.
     """
-    ...
+    __args__ = dict()
+    opts = pulumi.InvokeOutputOptions.merge(_utilities.get_invoke_opts_defaults(), opts)
+    __ret__ = pulumi.runtime.invoke_output('ctfd:index/getTeams:getTeams', __args__, opts=opts, typ=GetTeamsResult)
+    return __ret__.apply(lambda __response__: GetTeamsResult(
+        affiliation=pulumi.get(__response__, 'affiliation'),
+        banned=pulumi.get(__response__, 'banned'),
+        captain=pulumi.get(__response__, 'captain'),
+        country=pulumi.get(__response__, 'country'),
+        email=pulumi.get(__response__, 'email'),
+        hidden=pulumi.get(__response__, 'hidden'),
+        id=pulumi.get(__response__, 'id'),
+        members=pulumi.get(__response__, 'members'),
+        name=pulumi.get(__response__, 'name'),
+        password=pulumi.get(__response__, 'password'),
+        website=pulumi.get(__response__, 'website')))

@@ -17,6 +17,9 @@ namespace CTFerio.Ctfd
 
         public static Output<GetChallengesResult> Invoke(InvokeOptions? options = null)
             => global::Pulumi.Deployment.Instance.Invoke<GetChallengesResult>("ctfd:index/getChallenges:getChallenges", InvokeArgs.Empty, options.WithDefaults());
+
+        public static Output<GetChallengesResult> Invoke(InvokeOutputOptions options)
+            => global::Pulumi.Deployment.Instance.Invoke<GetChallengesResult>("ctfd:index/getChallenges:getChallenges", InvokeArgs.Empty, options.WithDefaults());
     }
 
 

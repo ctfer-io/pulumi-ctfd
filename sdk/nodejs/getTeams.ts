@@ -5,7 +5,6 @@ import * as pulumi from "@pulumi/pulumi";
 import * as utilities from "./utilities";
 
 export function getTeams(opts?: pulumi.InvokeOptions): Promise<GetTeamsResult> {
-
     opts = pulumi.mergeOptions(utilities.resourceOptsDefaults(), opts || {});
     return pulumi.runtime.invoke("ctfd:index/getTeams:getTeams", {
     }, opts);
@@ -60,6 +59,8 @@ export interface GetTeamsResult {
      */
     readonly website: string;
 }
-export function getTeamsOutput(opts?: pulumi.InvokeOptions): pulumi.Output<GetTeamsResult> {
-    return pulumi.output(getTeams(opts))
+export function getTeamsOutput(opts?: pulumi.InvokeOutputOptions): pulumi.Output<GetTeamsResult> {
+    opts = pulumi.mergeOptions(utilities.resourceOptsDefaults(), opts || {});
+    return pulumi.runtime.invokeOutput("ctfd:index/getTeams:getTeams", {
+    }, opts);
 }

@@ -7,7 +7,6 @@ import * as outputs from "./types/output";
 import * as utilities from "./utilities";
 
 export function getChallenges(opts?: pulumi.InvokeOptions): Promise<GetChallengesResult> {
-
     opts = pulumi.mergeOptions(utilities.resourceOptsDefaults(), opts || {});
     return pulumi.runtime.invoke("ctfd:index/getChallenges:getChallenges", {
     }, opts);
@@ -23,6 +22,8 @@ export interface GetChallengesResult {
      */
     readonly id: string;
 }
-export function getChallengesOutput(opts?: pulumi.InvokeOptions): pulumi.Output<GetChallengesResult> {
-    return pulumi.output(getChallenges(opts))
+export function getChallengesOutput(opts?: pulumi.InvokeOutputOptions): pulumi.Output<GetChallengesResult> {
+    opts = pulumi.mergeOptions(utilities.resourceOptsDefaults(), opts || {});
+    return pulumi.runtime.invokeOutput("ctfd:index/getChallenges:getChallenges", {
+    }, opts);
 }

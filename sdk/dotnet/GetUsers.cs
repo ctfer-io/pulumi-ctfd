@@ -17,6 +17,9 @@ namespace CTFerio.Ctfd
 
         public static Output<GetUsersResult> Invoke(InvokeOptions? options = null)
             => global::Pulumi.Deployment.Instance.Invoke<GetUsersResult>("ctfd:index/getUsers:getUsers", InvokeArgs.Empty, options.WithDefaults());
+
+        public static Output<GetUsersResult> Invoke(InvokeOutputOptions options)
+            => global::Pulumi.Deployment.Instance.Invoke<GetUsersResult>("ctfd:index/getUsers:getUsers", InvokeArgs.Empty, options.WithDefaults());
     }
 
 

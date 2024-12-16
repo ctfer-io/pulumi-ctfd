@@ -59,7 +59,7 @@ import (
 //			}
 //			_, err = ctfd.NewFile(ctx, "httpFile", &ctfd.FileArgs{
 //				ChallengeId: http.ID(),
-//				Contentb64:  filebase64OrPanic(".../image.png"),
+//				Contentb64:  pulumi.String(filebase64OrPanic(".../image.png")),
 //			})
 //			if err != nil {
 //				return err
