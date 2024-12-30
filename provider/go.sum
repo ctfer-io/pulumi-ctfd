@@ -323,8 +323,8 @@ github.com/cpuguy83/go-md2man/v2 v2.0.3/go.mod h1:tgQtvFlXSQOSOSIRvRPT7W67SCa46t
 github.com/creack/pty v1.1.9/go.mod h1:oKZEueFk5CKHvIhNR5MUki03XCEU+Q6VDXinZuGJ33E=
 github.com/ctfer-io/go-ctfd v0.10.1 h1:Bxr6/qo/h1c0FYFNZv/ej839Hzo5x1VMs0v+Io8ovs8=
 github.com/ctfer-io/go-ctfd v0.10.1/go.mod h1:ebgSW8LdP/qtRCpglK4djBp+g6kU5YM98XBZKowiCeY=
-github.com/ctfer-io/terraform-provider-ctfd v1.0.1 h1:fptGHCEMHGwKeLK7q4jbu6bXFPQjph+57bo26SjXA3g=
-github.com/ctfer-io/terraform-provider-ctfd v1.0.1/go.mod h1:Jr0jBWbzxGxobdlfIEzMZGo61ftO5NrzpxeZH6eDbnw=
+github.com/ctfer-io/terraform-provider-ctfd v1.1.0 h1:HHj7iiYqgneU5eAwVfy6rB5vl6Cx3B7B29WoW3sfVqk=
+github.com/ctfer-io/terraform-provider-ctfd v1.1.0/go.mod h1:Jr0jBWbzxGxobdlfIEzMZGo61ftO5NrzpxeZH6eDbnw=
 github.com/cyphar/filepath-securejoin v0.2.4 h1:Ugdm7cg7i6ZK6x3xDF1oEu1nfkyfH53EtKeQYTC3kyg=
 github.com/cyphar/filepath-securejoin v0.2.4/go.mod h1:aPGpWjXOXUn2NCNjFvBE6aRxGGx79pTxQpKOJNYHHl4=
 github.com/davecgh/go-spew v1.1.0/go.mod h1:J7Y8YcW2NihsgmVo/mv3lAwl/skON4iLHjSsI+c5H38=
