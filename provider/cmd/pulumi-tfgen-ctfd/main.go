@@ -15,8 +15,8 @@
 package main
 
 import (
-	ctfd "github.com/ctfer-io/pulumi-ctfd/provider"
-	"github.com/ctfer-io/pulumi-ctfd/provider/pkg/version"
+	ctfd "github.com/ctfer-io/pulumi-ctfd/provider/v2"
+	"github.com/ctfer-io/pulumi-ctfd/provider/v2/pkg/version"
 	"github.com/pulumi/pulumi-terraform-bridge/v3/pkg/tfgen"
 )
 
