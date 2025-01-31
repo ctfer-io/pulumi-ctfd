@@ -177,7 +177,7 @@ class Flag(pulumi.CustomResource):
         import pulumi
         import ctfer-io_pulumi-ctfd as ctfd
 
-        http = ctfd.Challenge("http",
+        http = ctfd.ChallengeDynamic("http",
             category="misc",
             description="...",
             value=500,
@@ -217,7 +217,7 @@ class Flag(pulumi.CustomResource):
         import pulumi
         import ctfer-io_pulumi-ctfd as ctfd
 
-        http = ctfd.Challenge("http",
+        http = ctfd.ChallengeDynamic("http",
             category="misc",
             description="...",
             value=500,

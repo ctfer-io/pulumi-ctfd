@@ -20,22 +20,18 @@ __all__ = ['FileArgs', 'File']
 class FileArgs:
     def __init__(__self__, *,
                  challenge_id: Optional[pulumi.Input[str]] = None,
-                 content: Optional[pulumi.Input[str]] = None,
                  contentb64: Optional[pulumi.Input[str]] = None,
                  location: Optional[pulumi.Input[str]] = None,
                  name: Optional[pulumi.Input[str]] = None):
         """
         The set of arguments for constructing a File resource.
         :param pulumi.Input[str] challenge_id: Challenge of the file.
-        :param pulumi.Input[str] content: Raw content of the file, perfectly fit the use-cases of a .txt document or anything with a simple binary content. You could provide it from the file-system using `file("${path.module}/...")`.
         :param pulumi.Input[str] contentb64: Base 64 content of the file, perfectly fit the use-cases of complex binaries. You could provide it from the file-system using `filebase64("${path.module}/...")`.
         :param pulumi.Input[str] location: Location where the file is stored on the CTFd instance, for download purposes.
         :param pulumi.Input[str] name: Name of the file as displayed to end-users.
         """
         if challenge_id is not None:
             pulumi.set(__self__, "challenge_id", challenge_id)
-        if content is not None:
-            pulumi.set(__self__, "content", content)
         if contentb64 is not None:
             pulumi.set(__self__, "contentb64", contentb64)
         if location is not None:
@@ -54,18 +50,6 @@ class FileArgs:
     @challenge_id.setter
     def challenge_id(self, value: Optional[pulumi.Input[str]]):
         pulumi.set(self, "challenge_id", value)
-
-    @property
-    @pulumi.getter
-    def content(self) -> Optional[pulumi.Input[str]]:
-        """
-        Raw content of the file, perfectly fit the use-cases of a .txt document or anything with a simple binary content. You could provide it from the file-system using `file("${path.module}/...")`.
-        """
-        return pulumi.get(self, "content")
-
-    @content.setter
-    def content(self, value: Optional[pulumi.Input[str]]):
-        pulumi.set(self, "content", value)
 
     @property
     @pulumi.getter
@@ -108,7 +92,6 @@ class FileArgs:
 class _FileState:
     def __init__(__self__, *,
                  challenge_id: Optional[pulumi.Input[str]] = None,
-                 content: Optional[pulumi.Input[str]] = None,
                  contentb64: Optional[pulumi.Input[str]] = None,
                  location: Optional[pulumi.Input[str]] = None,
                  name: Optional[pulumi.Input[str]] = None,
@@ -116,7 +99,6 @@ class _FileState:
         """
         Input properties used for looking up and filtering File resources.
         :param pulumi.Input[str] challenge_id: Challenge of the file.
-        :param pulumi.Input[str] content: Raw content of the file, perfectly fit the use-cases of a .txt document or anything with a simple binary content. You could provide it from the file-system using `file("${path.module}/...")`.
         :param pulumi.Input[str] contentb64: Base 64 content of the file, perfectly fit the use-cases of complex binaries. You could provide it from the file-system using `filebase64("${path.module}/...")`.
         :param pulumi.Input[str] location: Location where the file is stored on the CTFd instance, for download purposes.
         :param pulumi.Input[str] name: Name of the file as displayed to end-users.
@@ -124,8 +106,6 @@ class _FileState:
         """
         if challenge_id is not None:
             pulumi.set(__self__, "challenge_id", challenge_id)
-        if content is not None:
-            pulumi.set(__self__, "content", content)
         if contentb64 is not None:
             pulumi.set(__self__, "contentb64", contentb64)
         if location is not None:
@@ -146,18 +126,6 @@ class _FileState:
     @challenge_id.setter
     def challenge_id(self, value: Optional[pulumi.Input[str]]):
         pulumi.set(self, "challenge_id", value)
-
-    @property
-    @pulumi.getter
-    def content(self) -> Optional[pulumi.Input[str]]:
-        """
-        Raw content of the file, perfectly fit the use-cases of a .txt document or anything with a simple binary content. You could provide it from the file-system using `file("${path.module}/...")`.
-        """
-        return pulumi.get(self, "content")
-
-    @content.setter
-    def content(self, value: Optional[pulumi.Input[str]]):
-        pulumi.set(self, "content", value)
 
     @property
     @pulumi.getter
@@ -214,7 +182,6 @@ class File(pulumi.CustomResource):
                  resource_name: str,
                  opts: Optional[pulumi.ResourceOptions] = None,
                  challenge_id: Optional[pulumi.Input[str]] = None,
-                 content: Optional[pulumi.Input[str]] = None,
                  contentb64: Optional[pulumi.Input[str]] = None,
                  location: Optional[pulumi.Input[str]] = None,
                  name: Optional[pulumi.Input[str]] = None,
@@ -229,7 +196,7 @@ class File(pulumi.CustomResource):
         import base64
         import ctfer-io_pulumi-ctfd as ctfd
 
-        http = ctfd.Challenge("http",
+        http = ctfd.ChallengeDynamic("http",
             category="misc",
             description="...",
             value=500,
@@ -250,7 +217,6 @@ class File(pulumi.CustomResource):
         :param str resource_name: The name of the resource.
         :param pulumi.ResourceOptions opts: Options for the resource.
         :param pulumi.Input[str] challenge_id: Challenge of the file.
-        :param pulumi.Input[str] content: Raw content of the file, perfectly fit the use-cases of a .txt document or anything with a simple binary content. You could provide it from the file-system using `file("${path.module}/...")`.
         :param pulumi.Input[str] contentb64: Base 64 content of the file, perfectly fit the use-cases of complex binaries. You could provide it from the file-system using `filebase64("${path.module}/...")`.
         :param pulumi.Input[str] location: Location where the file is stored on the CTFd instance, for download purposes.
         :param pulumi.Input[str] name: Name of the file as displayed to end-users.
@@ -271,7 +237,7 @@ class File(pulumi.CustomResource):
         import base64
         import ctfer-io_pulumi-ctfd as ctfd
 
-        http = ctfd.Challenge("http",
+        http = ctfd.ChallengeDynamic("http",
             category="misc",
             description="...",
             value=500,
@@ -305,7 +271,6 @@ class File(pulumi.CustomResource):
                  resource_name: str,
                  opts: Optional[pulumi.ResourceOptions] = None,
                  challenge_id: Optional[pulumi.Input[str]] = None,
-                 content: Optional[pulumi.Input[str]] = None,
                  contentb64: Optional[pulumi.Input[str]] = None,
                  location: Optional[pulumi.Input[str]] = None,
                  name: Optional[pulumi.Input[str]] = None,
@@ -319,12 +284,11 @@ class File(pulumi.CustomResource):
             __props__ = FileArgs.__new__(FileArgs)
 
             __props__.__dict__["challenge_id"] = challenge_id
-            __props__.__dict__["content"] = None if content is None else pulumi.Output.secret(content)
             __props__.__dict__["contentb64"] = None if contentb64 is None else pulumi.Output.secret(contentb64)
             __props__.__dict__["location"] = location
             __props__.__dict__["name"] = name
             __props__.__dict__["sha1sum"] = None
-        secret_opts = pulumi.ResourceOptions(additional_secret_outputs=["content", "contentb64"])
+        secret_opts = pulumi.ResourceOptions(additional_secret_outputs=["contentb64"])
         opts = pulumi.ResourceOptions.merge(opts, secret_opts)
         super(File, __self__).__init__(
             'ctfd:index/file:File',
@@ -337,7 +301,6 @@ class File(pulumi.CustomResource):
             id: pulumi.Input[str],
             opts: Optional[pulumi.ResourceOptions] = None,
             challenge_id: Optional[pulumi.Input[str]] = None,
-            content: Optional[pulumi.Input[str]] = None,
             contentb64: Optional[pulumi.Input[str]] = None,
             location: Optional[pulumi.Input[str]] = None,
             name: Optional[pulumi.Input[str]] = None,
@@ -350,7 +313,6 @@ class File(pulumi.CustomResource):
         :param pulumi.Input[str] id: The unique provider ID of the resource to lookup.
         :param pulumi.ResourceOptions opts: Options for the resource.
         :param pulumi.Input[str] challenge_id: Challenge of the file.
-        :param pulumi.Input[str] content: Raw content of the file, perfectly fit the use-cases of a .txt document or anything with a simple binary content. You could provide it from the file-system using `file("${path.module}/...")`.
         :param pulumi.Input[str] contentb64: Base 64 content of the file, perfectly fit the use-cases of complex binaries. You could provide it from the file-system using `filebase64("${path.module}/...")`.
         :param pulumi.Input[str] location: Location where the file is stored on the CTFd instance, for download purposes.
         :param pulumi.Input[str] name: Name of the file as displayed to end-users.
@@ -361,7 +323,6 @@ class File(pulumi.CustomResource):
         __props__ = _FileState.__new__(_FileState)
 
         __props__.__dict__["challenge_id"] = challenge_id
-        __props__.__dict__["content"] = content
         __props__.__dict__["contentb64"] = contentb64
         __props__.__dict__["location"] = location
         __props__.__dict__["name"] = name
@@ -375,14 +336,6 @@ class File(pulumi.CustomResource):
         Challenge of the file.
         """
         return pulumi.get(self, "challenge_id")
-
-    @property
-    @pulumi.getter
-    def content(self) -> pulumi.Output[str]:
-        """
-        Raw content of the file, perfectly fit the use-cases of a .txt document or anything with a simple binary content. You could provide it from the file-system using `file("${path.module}/...")`.
-        """
-        return pulumi.get(self, "content")
 
     @property
     @pulumi.getter

@@ -16,13 +16,16 @@ from . import _utilities
 from . import outputs
 
 __all__ = [
-    'ChallengeRequirements',
-    'GetChallengesChallengeResult',
-    'GetChallengesChallengeRequirementsResult',
+    'ChallengeDynamicRequirements',
+    'ChallengeStandardRequirements',
+    'GetChallengesDynamicChallengeResult',
+    'GetChallengesDynamicChallengeRequirementsResult',
+    'GetChallengesStandardChallengeResult',
+    'GetChallengesStandardChallengeRequirementsResult',
 ]
 
 @pulumi.output_type
-class ChallengeRequirements(dict):
+class ChallengeDynamicRequirements(dict):
     def __init__(__self__, *,
                  behavior: Optional[str] = None,
                  prerequisites: Optional[Sequence[str]] = None):
@@ -53,55 +56,87 @@ class ChallengeRequirements(dict):
 
 
 @pulumi.output_type
-class GetChallengesChallengeResult(dict):
+class ChallengeStandardRequirements(dict):
     def __init__(__self__, *,
+                 behavior: Optional[str] = None,
+                 prerequisites: Optional[Sequence[str]] = None):
+        """
+        :param str behavior: Behavior if not unlocked, either hidden or anonymized.
+        :param Sequence[str] prerequisites: List of the challenges ID.
+        """
+        if behavior is not None:
+            pulumi.set(__self__, "behavior", behavior)
+        if prerequisites is not None:
+            pulumi.set(__self__, "prerequisites", prerequisites)
+
+    @property
+    @pulumi.getter
+    def behavior(self) -> Optional[str]:
+        """
+        Behavior if not unlocked, either hidden or anonymized.
+        """
+        return pulumi.get(self, "behavior")
+
+    @property
+    @pulumi.getter
+    def prerequisites(self) -> Optional[Sequence[str]]:
+        """
+        List of the challenges ID.
+        """
+        return pulumi.get(self, "prerequisites")
+
+
+@pulumi.output_type
+class GetChallengesDynamicChallengeResult(dict):
+    def __init__(__self__, *,
+                 attribution: str,
                  category: str,
                  connection_info: str,
-                 decay: int,
                  description: str,
-                 function: str,
                  id: str,
                  max_attempts: int,
-                 minimum: int,
                  name: str,
                  next: int,
-                 requirements: 'outputs.GetChallengesChallengeRequirementsResult',
+                 requirements: 'outputs.GetChallengesDynamicChallengeRequirementsResult',
                  state: str,
                  tags: Sequence[str],
                  topics: Sequence[str],
-                 type: str,
                  value: int):
         """
+        :param str attribution: Attribution to the creator(s) of the challenge.
         :param str category: Category of the challenge that CTFd groups by on the web UI.
         :param str connection_info: Connection Information to connect to the challenge instance, useful for pwn or web pentest.
         :param str description: Description of the challenge, consider using multiline descriptions for better style.
-        :param str function: Decay function to define how the challenge value evolve through solves, either linear or logarithmic.
         :param str id: Identifier of the challenge.
         :param int max_attempts: Maximum amount of attempts before being unable to flag the challenge.
         :param str name: Name of the challenge, displayed as it.
         :param int next: Suggestion for the end-user as next challenge to work on.
-        :param 'GetChallengesChallengeRequirementsArgs' requirements: List of required challenges that needs to get flagged before this one being accessible. Useful for skill-trees-like strategy CTF.
+        :param 'GetChallengesDynamicChallengeRequirementsArgs' requirements: List of required challenges that needs to get flagged before this one being accessible. Useful for skill-trees-like strategy CTF.
         :param str state: State of the challenge, either hidden or visible.
         :param Sequence[str] tags: List of challenge tags that will be displayed to the end-user. You could use them to give some quick insights of what a challenge involves.
         :param Sequence[str] topics: List of challenge topics that are displayed to the administrators for maintenance and planification.
-        :param str type: Type of the challenge defining its layout, either standard or dynamic.
         """
+        pulumi.set(__self__, "attribution", attribution)
         pulumi.set(__self__, "category", category)
         pulumi.set(__self__, "connection_info", connection_info)
-        pulumi.set(__self__, "decay", decay)
         pulumi.set(__self__, "description", description)
-        pulumi.set(__self__, "function", function)
         pulumi.set(__self__, "id", id)
         pulumi.set(__self__, "max_attempts", max_attempts)
-        pulumi.set(__self__, "minimum", minimum)
         pulumi.set(__self__, "name", name)
         pulumi.set(__self__, "next", next)
         pulumi.set(__self__, "requirements", requirements)
         pulumi.set(__self__, "state", state)
         pulumi.set(__self__, "tags", tags)
         pulumi.set(__self__, "topics", topics)
-        pulumi.set(__self__, "type", type)
         pulumi.set(__self__, "value", value)
+
+    @property
+    @pulumi.getter
+    def attribution(self) -> str:
+        """
+        Attribution to the creator(s) of the challenge.
+        """
+        return pulumi.get(self, "attribution")
 
     @property
     @pulumi.getter
@@ -121,24 +156,11 @@ class GetChallengesChallengeResult(dict):
 
     @property
     @pulumi.getter
-    def decay(self) -> int:
-        return pulumi.get(self, "decay")
-
-    @property
-    @pulumi.getter
     def description(self) -> str:
         """
         Description of the challenge, consider using multiline descriptions for better style.
         """
         return pulumi.get(self, "description")
-
-    @property
-    @pulumi.getter
-    def function(self) -> str:
-        """
-        Decay function to define how the challenge value evolve through solves, either linear or logarithmic.
-        """
-        return pulumi.get(self, "function")
 
     @property
     @pulumi.getter
@@ -158,11 +180,6 @@ class GetChallengesChallengeResult(dict):
 
     @property
     @pulumi.getter
-    def minimum(self) -> int:
-        return pulumi.get(self, "minimum")
-
-    @property
-    @pulumi.getter
     def name(self) -> str:
         """
         Name of the challenge, displayed as it.
@@ -179,7 +196,7 @@ class GetChallengesChallengeResult(dict):
 
     @property
     @pulumi.getter
-    def requirements(self) -> 'outputs.GetChallengesChallengeRequirementsResult':
+    def requirements(self) -> 'outputs.GetChallengesDynamicChallengeRequirementsResult':
         """
         List of required challenges that needs to get flagged before this one being accessible. Useful for skill-trees-like strategy CTF.
         """
@@ -211,11 +228,178 @@ class GetChallengesChallengeResult(dict):
 
     @property
     @pulumi.getter
-    def type(self) -> str:
+    def value(self) -> int:
+        return pulumi.get(self, "value")
+
+
+@pulumi.output_type
+class GetChallengesDynamicChallengeRequirementsResult(dict):
+    def __init__(__self__, *,
+                 behavior: str,
+                 prerequisites: Sequence[str]):
         """
-        Type of the challenge defining its layout, either standard or dynamic.
+        :param str behavior: Behavior if not unlocked, either hidden or anonymized.
+        :param Sequence[str] prerequisites: List of the challenges ID.
         """
-        return pulumi.get(self, "type")
+        pulumi.set(__self__, "behavior", behavior)
+        pulumi.set(__self__, "prerequisites", prerequisites)
+
+    @property
+    @pulumi.getter
+    def behavior(self) -> str:
+        """
+        Behavior if not unlocked, either hidden or anonymized.
+        """
+        return pulumi.get(self, "behavior")
+
+    @property
+    @pulumi.getter
+    def prerequisites(self) -> Sequence[str]:
+        """
+        List of the challenges ID.
+        """
+        return pulumi.get(self, "prerequisites")
+
+
+@pulumi.output_type
+class GetChallengesStandardChallengeResult(dict):
+    def __init__(__self__, *,
+                 attribution: str,
+                 category: str,
+                 connection_info: str,
+                 description: str,
+                 id: str,
+                 max_attempts: int,
+                 name: str,
+                 next: int,
+                 requirements: 'outputs.GetChallengesStandardChallengeRequirementsResult',
+                 state: str,
+                 tags: Sequence[str],
+                 topics: Sequence[str],
+                 value: int):
+        """
+        :param str attribution: Attribution to the creator(s) of the challenge.
+        :param str category: Category of the challenge that CTFd groups by on the web UI.
+        :param str connection_info: Connection Information to connect to the challenge instance, useful for pwn or web pentest.
+        :param str description: Description of the challenge, consider using multiline descriptions for better style.
+        :param str id: Identifier of the challenge.
+        :param int max_attempts: Maximum amount of attempts before being unable to flag the challenge.
+        :param str name: Name of the challenge, displayed as it.
+        :param int next: Suggestion for the end-user as next challenge to work on.
+        :param 'GetChallengesStandardChallengeRequirementsArgs' requirements: List of required challenges that needs to get flagged before this one being accessible. Useful for skill-trees-like strategy CTF.
+        :param str state: State of the challenge, either hidden or visible.
+        :param Sequence[str] tags: List of challenge tags that will be displayed to the end-user. You could use them to give some quick insights of what a challenge involves.
+        :param Sequence[str] topics: List of challenge topics that are displayed to the administrators for maintenance and planification.
+        """
+        pulumi.set(__self__, "attribution", attribution)
+        pulumi.set(__self__, "category", category)
+        pulumi.set(__self__, "connection_info", connection_info)
+        pulumi.set(__self__, "description", description)
+        pulumi.set(__self__, "id", id)
+        pulumi.set(__self__, "max_attempts", max_attempts)
+        pulumi.set(__self__, "name", name)
+        pulumi.set(__self__, "next", next)
+        pulumi.set(__self__, "requirements", requirements)
+        pulumi.set(__self__, "state", state)
+        pulumi.set(__self__, "tags", tags)
+        pulumi.set(__self__, "topics", topics)
+        pulumi.set(__self__, "value", value)
+
+    @property
+    @pulumi.getter
+    def attribution(self) -> str:
+        """
+        Attribution to the creator(s) of the challenge.
+        """
+        return pulumi.get(self, "attribution")
+
+    @property
+    @pulumi.getter
+    def category(self) -> str:
+        """
+        Category of the challenge that CTFd groups by on the web UI.
+        """
+        return pulumi.get(self, "category")
+
+    @property
+    @pulumi.getter(name="connectionInfo")
+    def connection_info(self) -> str:
+        """
+        Connection Information to connect to the challenge instance, useful for pwn or web pentest.
+        """
+        return pulumi.get(self, "connection_info")
+
+    @property
+    @pulumi.getter
+    def description(self) -> str:
+        """
+        Description of the challenge, consider using multiline descriptions for better style.
+        """
+        return pulumi.get(self, "description")
+
+    @property
+    @pulumi.getter
+    def id(self) -> str:
+        """
+        Identifier of the challenge.
+        """
+        return pulumi.get(self, "id")
+
+    @property
+    @pulumi.getter(name="maxAttempts")
+    def max_attempts(self) -> int:
+        """
+        Maximum amount of attempts before being unable to flag the challenge.
+        """
+        return pulumi.get(self, "max_attempts")
+
+    @property
+    @pulumi.getter
+    def name(self) -> str:
+        """
+        Name of the challenge, displayed as it.
+        """
+        return pulumi.get(self, "name")
+
+    @property
+    @pulumi.getter
+    def next(self) -> int:
+        """
+        Suggestion for the end-user as next challenge to work on.
+        """
+        return pulumi.get(self, "next")
+
+    @property
+    @pulumi.getter
+    def requirements(self) -> 'outputs.GetChallengesStandardChallengeRequirementsResult':
+        """
+        List of required challenges that needs to get flagged before this one being accessible. Useful for skill-trees-like strategy CTF.
+        """
+        return pulumi.get(self, "requirements")
+
+    @property
+    @pulumi.getter
+    def state(self) -> str:
+        """
+        State of the challenge, either hidden or visible.
+        """
+        return pulumi.get(self, "state")
+
+    @property
+    @pulumi.getter
+    def tags(self) -> Sequence[str]:
+        """
+        List of challenge tags that will be displayed to the end-user. You could use them to give some quick insights of what a challenge involves.
+        """
+        return pulumi.get(self, "tags")
+
+    @property
+    @pulumi.getter
+    def topics(self) -> Sequence[str]:
+        """
+        List of challenge topics that are displayed to the administrators for maintenance and planification.
+        """
+        return pulumi.get(self, "topics")
 
     @property
     @pulumi.getter
@@ -224,7 +408,7 @@ class GetChallengesChallengeResult(dict):
 
 
 @pulumi.output_type
-class GetChallengesChallengeRequirementsResult(dict):
+class GetChallengesStandardChallengeRequirementsResult(dict):
     def __init__(__self__, *,
                  behavior: str,
                  prerequisites: Sequence[str]):

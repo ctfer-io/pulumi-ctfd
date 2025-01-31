@@ -5,10 +5,12 @@
 from . import _utilities
 import typing
 # Export this package's modules as members:
-from .challenge import *
+from .challenge_dynamic import *
+from .challenge_standard import *
 from .file import *
 from .flag import *
-from .get_challenges import *
+from .get_challenges_dynamic import *
+from .get_challenges_standard import *
 from .get_teams import *
 from .get_users import *
 from .hint import *
@@ -30,10 +32,18 @@ _utilities.register(
 [
  {
   "pkg": "ctfd",
-  "mod": "index/challenge",
+  "mod": "index/challengeDynamic",
   "fqn": "ctfer-io_pulumi-ctfd",
   "classes": {
-   "ctfd:index/challenge:Challenge": "Challenge"
+   "ctfd:index/challengeDynamic:ChallengeDynamic": "ChallengeDynamic"
+  }
+ },
+ {
+  "pkg": "ctfd",
+  "mod": "index/challengeStandard",
+  "fqn": "ctfer-io_pulumi-ctfd",
+  "classes": {
+   "ctfd:index/challengeStandard:ChallengeStandard": "ChallengeStandard"
   }
  },
  {

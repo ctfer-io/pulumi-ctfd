@@ -23,7 +23,7 @@ namespace CTFerio.Ctfd
     /// 
     /// return await Deployment.RunAsync(() =&gt; 
     /// {
-    ///     var http = new Ctfd.Challenge("http", new()
+    ///     var http = new Ctfd.ChallengeDynamic("http", new()
     ///     {
     ///         Category = "misc",
     ///         Description = "...",

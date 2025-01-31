@@ -21,8 +21,10 @@ func (m *module) Version() semver.Version {
 
 func (m *module) Construct(ctx *pulumi.Context, name, typ, urn string) (r pulumi.Resource, err error) {
 	switch typ {
-	case "ctfd:index/challenge:Challenge":
-		r = &Challenge{}
+	case "ctfd:index/challengeDynamic:ChallengeDynamic":
+		r = &ChallengeDynamic{}
+	case "ctfd:index/challengeStandard:ChallengeStandard":
+		r = &ChallengeStandard{}
 	case "ctfd:index/file:File":
 		r = &File{}
 	case "ctfd:index/flag:Flag":
@@ -66,7 +68,12 @@ func init() {
 	}
 	pulumi.RegisterResourceModule(
 		"ctfd",
-		"index/challenge",
+		"index/challengeDynamic",
+		&module{version},
+	)
+	pulumi.RegisterResourceModule(
+		"ctfd",
+		"index/challengeStandard",
 		&module{version},
 	)
 	pulumi.RegisterResourceModule(

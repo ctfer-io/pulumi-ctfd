@@ -6,24 +6,24 @@ import * as inputs from "./types/input";
 import * as outputs from "./types/output";
 import * as utilities from "./utilities";
 
-export function getChallenges(opts?: pulumi.InvokeOptions): Promise<GetChallengesResult> {
+export function getChallengesStandard(opts?: pulumi.InvokeOptions): Promise<GetChallengesStandardResult> {
     opts = pulumi.mergeOptions(utilities.resourceOptsDefaults(), opts || {});
-    return pulumi.runtime.invoke("ctfd:index/getChallenges:getChallenges", {
+    return pulumi.runtime.invoke("ctfd:index/getChallengesStandard:getChallengesStandard", {
     }, opts);
 }
 
 /**
- * A collection of values returned by getChallenges.
+ * A collection of values returned by getChallengesStandard.
  */
-export interface GetChallengesResult {
-    readonly challenges: outputs.GetChallengesChallenge[];
+export interface GetChallengesStandardResult {
+    readonly challenges: outputs.GetChallengesStandardChallenge[];
     /**
      * The ID of this resource.
      */
     readonly id: string;
 }
-export function getChallengesOutput(opts?: pulumi.InvokeOutputOptions): pulumi.Output<GetChallengesResult> {
+export function getChallengesStandardOutput(opts?: pulumi.InvokeOutputOptions): pulumi.Output<GetChallengesStandardResult> {
     opts = pulumi.mergeOptions(utilities.resourceOptsDefaults(), opts || {});
-    return pulumi.runtime.invokeOutput("ctfd:index/getChallenges:getChallenges", {
+    return pulumi.runtime.invokeOutput("ctfd:index/getChallengesStandard:getChallengesStandard", {
     }, opts);
 }

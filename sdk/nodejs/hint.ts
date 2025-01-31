@@ -13,7 +13,7 @@ import * as utilities from "./utilities";
  * import * as pulumi from "@pulumi/pulumi";
  * import * as ctfd from "@ctfer-io/pulumi-ctfd";
  *
- * const http = new ctfd.Challenge("http", {
+ * const http = new ctfd.ChallengeDynamic("http", {
  *     category: "misc",
  *     description: "...",
  *     value: 500,

@@ -38,7 +38,7 @@ import (
 //
 //	func main() {
 //		pulumi.Run(func(ctx *pulumi.Context) error {
-//			http, err := ctfd.NewChallenge(ctx, "http", &ctfd.ChallengeArgs{
+//			http, err := ctfd.NewChallengeDynamic(ctx, "http", &ctfd.ChallengeDynamicArgs{
 //				Category:    pulumi.String("misc"),
 //				Description: pulumi.String("..."),
 //				Value:       pulumi.Int(500),
@@ -74,8 +74,6 @@ type File struct {
 
 	// Challenge of the file.
 	ChallengeId pulumi.StringPtrOutput `pulumi:"challengeId"`
-	// Raw content of the file, perfectly fit the use-cases of a .txt document or anything with a simple binary content. You could provide it from the file-system using `file("${path.module}/...")`.
-	Content pulumi.StringOutput `pulumi:"content"`
 	// Base 64 content of the file, perfectly fit the use-cases of complex binaries. You could provide it from the file-system using `filebase64("${path.module}/...")`.
 	Contentb64 pulumi.StringOutput `pulumi:"contentb64"`
 	// Location where the file is stored on the CTFd instance, for download purposes.
@@ -93,14 +91,10 @@ func NewFile(ctx *pulumi.Context,
 		args = &FileArgs{}
 	}
 
-	if args.Content != nil {
-		args.Content = pulumi.ToSecret(args.Content).(pulumi.StringPtrInput)
-	}
 	if args.Contentb64 != nil {
 		args.Contentb64 = pulumi.ToSecret(args.Contentb64).(pulumi.StringPtrInput)
 	}
 	secrets := pulumi.AdditionalSecretOutputs([]string{
-		"content",
 		"contentb64",
 	})
 	opts = append(opts, secrets)
@@ -129,8 +123,6 @@ func GetFile(ctx *pulumi.Context,
 type fileState struct {
 	// Challenge of the file.
 	ChallengeId *string `pulumi:"challengeId"`
-	// Raw content of the file, perfectly fit the use-cases of a .txt document or anything with a simple binary content. You could provide it from the file-system using `file("${path.module}/...")`.
-	Content *string `pulumi:"content"`
 	// Base 64 content of the file, perfectly fit the use-cases of complex binaries. You could provide it from the file-system using `filebase64("${path.module}/...")`.
 	Contentb64 *string `pulumi:"contentb64"`
 	// Location where the file is stored on the CTFd instance, for download purposes.
@@ -144,8 +136,6 @@ type fileState struct {
 type FileState struct {
 	// Challenge of the file.
 	ChallengeId pulumi.StringPtrInput
-	// Raw content of the file, perfectly fit the use-cases of a .txt document or anything with a simple binary content. You could provide it from the file-system using `file("${path.module}/...")`.
-	Content pulumi.StringPtrInput
 	// Base 64 content of the file, perfectly fit the use-cases of complex binaries. You could provide it from the file-system using `filebase64("${path.module}/...")`.
 	Contentb64 pulumi.StringPtrInput
 	// Location where the file is stored on the CTFd instance, for download purposes.
@@ -163,8 +153,6 @@ func (FileState) ElementType() reflect.Type {
 type fileArgs struct {
 	// Challenge of the file.
 	ChallengeId *string `pulumi:"challengeId"`
-	// Raw content of the file, perfectly fit the use-cases of a .txt document or anything with a simple binary content. You could provide it from the file-system using `file("${path.module}/...")`.
-	Content *string `pulumi:"content"`
 	// Base 64 content of the file, perfectly fit the use-cases of complex binaries. You could provide it from the file-system using `filebase64("${path.module}/...")`.
 	Contentb64 *string `pulumi:"contentb64"`
 	// Location where the file is stored on the CTFd instance, for download purposes.
@@ -177,8 +165,6 @@ type fileArgs struct {
 type FileArgs struct {
 	// Challenge of the file.
 	ChallengeId pulumi.StringPtrInput
-	// Raw content of the file, perfectly fit the use-cases of a .txt document or anything with a simple binary content. You could provide it from the file-system using `file("${path.module}/...")`.
-	Content pulumi.StringPtrInput
 	// Base 64 content of the file, perfectly fit the use-cases of complex binaries. You could provide it from the file-system using `filebase64("${path.module}/...")`.
 	Contentb64 pulumi.StringPtrInput
 	// Location where the file is stored on the CTFd instance, for download purposes.
@@ -277,11 +263,6 @@ func (o FileOutput) ToFileOutputWithContext(ctx context.Context) FileOutput {
 // Challenge of the file.
 func (o FileOutput) ChallengeId() pulumi.StringPtrOutput {
 	return o.ApplyT(func(v *File) pulumi.StringPtrOutput { return v.ChallengeId }).(pulumi.StringPtrOutput)
-}
-
-// Raw content of the file, perfectly fit the use-cases of a .txt document or anything with a simple binary content. You could provide it from the file-system using `file("${path.module}/...")`.
-func (o FileOutput) Content() pulumi.StringOutput {
-	return o.ApplyT(func(v *File) pulumi.StringOutput { return v.Content }).(pulumi.StringOutput)
 }
 
 // Base 64 content of the file, perfectly fit the use-cases of complex binaries. You could provide it from the file-system using `filebase64("${path.module}/...")`.

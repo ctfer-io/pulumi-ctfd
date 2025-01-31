@@ -12,8 +12,12 @@ namespace CTFerio.Ctfd.Outputs
 {
 
     [OutputType]
-    public sealed class GetChallengesChallengeResult
+    public sealed class GetChallengesStandardChallengeResult
     {
+        /// <summary>
+        /// Attribution to the creator(s) of the challenge.
+        /// </summary>
+        public readonly string Attribution;
         /// <summary>
         /// Category of the challenge that CTFd groups by on the web UI.
         /// </summary>
@@ -22,15 +26,10 @@ namespace CTFerio.Ctfd.Outputs
         /// Connection Information to connect to the challenge instance, useful for pwn or web pentest.
         /// </summary>
         public readonly string ConnectionInfo;
-        public readonly int Decay;
         /// <summary>
         /// Description of the challenge, consider using multiline descriptions for better style.
         /// </summary>
         public readonly string Description;
-        /// <summary>
-        /// Decay function to define how the challenge value evolve through solves, either linear or logarithmic.
-        /// </summary>
-        public readonly string Function;
         /// <summary>
         /// Identifier of the challenge.
         /// </summary>
@@ -39,7 +38,6 @@ namespace CTFerio.Ctfd.Outputs
         /// Maximum amount of attempts before being unable to flag the challenge.
         /// </summary>
         public readonly int MaxAttempts;
-        public readonly int Minimum;
         /// <summary>
         /// Name of the challenge, displayed as it.
         /// </summary>
@@ -51,7 +49,7 @@ namespace CTFerio.Ctfd.Outputs
         /// <summary>
         /// List of required challenges that needs to get flagged before this one being accessible. Useful for skill-trees-like strategy CTF.
         /// </summary>
-        public readonly Outputs.GetChallengesChallengeRequirementsResult Requirements;
+        public readonly Outputs.GetChallengesStandardChallengeRequirementsResult Requirements;
         /// <summary>
         /// State of the challenge, either hidden or visible.
         /// </summary>
@@ -64,35 +62,27 @@ namespace CTFerio.Ctfd.Outputs
         /// List of challenge topics that are displayed to the administrators for maintenance and planification.
         /// </summary>
         public readonly ImmutableArray<string> Topics;
-        /// <summary>
-        /// Type of the challenge defining its layout, either standard or dynamic.
-        /// </summary>
-        public readonly string Type;
         public readonly int Value;
 
         [OutputConstructor]
-        private GetChallengesChallengeResult(
+        private GetChallengesStandardChallengeResult(
+            string attribution,
+
             string category,
 
             string connectionInfo,
 
-            int decay,
-
             string description,
-
-            string function,
 
             string id,
 
             int maxAttempts,
 
-            int minimum,
-
             string name,
 
             int next,
 
-            Outputs.GetChallengesChallengeRequirementsResult requirements,
+            Outputs.GetChallengesStandardChallengeRequirementsResult requirements,
 
             string state,
 
@@ -100,25 +90,20 @@ namespace CTFerio.Ctfd.Outputs
 
             ImmutableArray<string> topics,
 
-            string type,
-
             int value)
         {
+            Attribution = attribution;
             Category = category;
             ConnectionInfo = connectionInfo;
-            Decay = decay;
             Description = description;
-            Function = function;
             Id = id;
             MaxAttempts = maxAttempts;
-            Minimum = minimum;
             Name = name;
             Next = next;
             Requirements = requirements;
             State = state;
             Tags = tags;
             Topics = topics;
-            Type = type;
             Value = value;
         }
     }
