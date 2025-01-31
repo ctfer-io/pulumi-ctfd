@@ -5,10 +5,15 @@ import * as pulumi from "@pulumi/pulumi";
 import * as utilities from "./utilities";
 
 // Export members:
-export { ChallengeArgs, ChallengeState } from "./challenge";
-export type Challenge = import("./challenge").Challenge;
-export const Challenge: typeof import("./challenge").Challenge = null as any;
-utilities.lazyLoad(exports, ["Challenge"], () => require("./challenge"));
+export { ChallengeDynamicArgs, ChallengeDynamicState } from "./challengeDynamic";
+export type ChallengeDynamic = import("./challengeDynamic").ChallengeDynamic;
+export const ChallengeDynamic: typeof import("./challengeDynamic").ChallengeDynamic = null as any;
+utilities.lazyLoad(exports, ["ChallengeDynamic"], () => require("./challengeDynamic"));
+
+export { ChallengeStandardArgs, ChallengeStandardState } from "./challengeStandard";
+export type ChallengeStandard = import("./challengeStandard").ChallengeStandard;
+export const ChallengeStandard: typeof import("./challengeStandard").ChallengeStandard = null as any;
+utilities.lazyLoad(exports, ["ChallengeStandard"], () => require("./challengeStandard"));
 
 export { FileArgs, FileState } from "./file";
 export type File = import("./file").File;
@@ -20,10 +25,15 @@ export type Flag = import("./flag").Flag;
 export const Flag: typeof import("./flag").Flag = null as any;
 utilities.lazyLoad(exports, ["Flag"], () => require("./flag"));
 
-export { GetChallengesResult } from "./getChallenges";
-export const getChallenges: typeof import("./getChallenges").getChallenges = null as any;
-export const getChallengesOutput: typeof import("./getChallenges").getChallengesOutput = null as any;
-utilities.lazyLoad(exports, ["getChallenges","getChallengesOutput"], () => require("./getChallenges"));
+export { GetChallengesDynamicResult } from "./getChallengesDynamic";
+export const getChallengesDynamic: typeof import("./getChallengesDynamic").getChallengesDynamic = null as any;
+export const getChallengesDynamicOutput: typeof import("./getChallengesDynamic").getChallengesDynamicOutput = null as any;
+utilities.lazyLoad(exports, ["getChallengesDynamic","getChallengesDynamicOutput"], () => require("./getChallengesDynamic"));
+
+export { GetChallengesStandardResult } from "./getChallengesStandard";
+export const getChallengesStandard: typeof import("./getChallengesStandard").getChallengesStandard = null as any;
+export const getChallengesStandardOutput: typeof import("./getChallengesStandard").getChallengesStandardOutput = null as any;
+utilities.lazyLoad(exports, ["getChallengesStandard","getChallengesStandardOutput"], () => require("./getChallengesStandard"));
 
 export { GetTeamsResult } from "./getTeams";
 export const getTeams: typeof import("./getTeams").getTeams = null as any;
@@ -69,8 +79,10 @@ const _module = {
     version: utilities.getVersion(),
     construct: (name: string, type: string, urn: string): pulumi.Resource => {
         switch (type) {
-            case "ctfd:index/challenge:Challenge":
-                return new Challenge(name, <any>undefined, { urn })
+            case "ctfd:index/challengeDynamic:ChallengeDynamic":
+                return new ChallengeDynamic(name, <any>undefined, { urn })
+            case "ctfd:index/challengeStandard:ChallengeStandard":
+                return new ChallengeStandard(name, <any>undefined, { urn })
             case "ctfd:index/file:File":
                 return new File(name, <any>undefined, { urn })
             case "ctfd:index/flag:Flag":
@@ -86,7 +98,8 @@ const _module = {
         }
     },
 };
-pulumi.runtime.registerResourceModule("ctfd", "index/challenge", _module)
+pulumi.runtime.registerResourceModule("ctfd", "index/challengeDynamic", _module)
+pulumi.runtime.registerResourceModule("ctfd", "index/challengeStandard", _module)
 pulumi.runtime.registerResourceModule("ctfd", "index/file", _module)
 pulumi.runtime.registerResourceModule("ctfd", "index/flag", _module)
 pulumi.runtime.registerResourceModule("ctfd", "index/hint", _module)

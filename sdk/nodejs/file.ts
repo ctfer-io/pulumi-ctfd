@@ -14,7 +14,7 @@ import * as utilities from "./utilities";
  * import * as ctfd from "@ctfer-io/pulumi-ctfd";
  * import * as fs from "fs";
  *
- * const http = new ctfd.Challenge("http", {
+ * const http = new ctfd.ChallengeDynamic("http", {
  *     category: "misc",
  *     description: "...",
  *     value: 500,
@@ -67,10 +67,6 @@ export class File extends pulumi.CustomResource {
      */
     public readonly challengeId!: pulumi.Output<string | undefined>;
     /**
-     * Raw content of the file, perfectly fit the use-cases of a .txt document or anything with a simple binary content. You could provide it from the file-system using `file("${path.module}/...")`.
-     */
-    public readonly content!: pulumi.Output<string>;
-    /**
      * Base 64 content of the file, perfectly fit the use-cases of complex binaries. You could provide it from the file-system using `filebase64("${path.module}/...")`.
      */
     public readonly contentb64!: pulumi.Output<string>;
@@ -101,7 +97,6 @@ export class File extends pulumi.CustomResource {
         if (opts.id) {
             const state = argsOrState as FileState | undefined;
             resourceInputs["challengeId"] = state ? state.challengeId : undefined;
-            resourceInputs["content"] = state ? state.content : undefined;
             resourceInputs["contentb64"] = state ? state.contentb64 : undefined;
             resourceInputs["location"] = state ? state.location : undefined;
             resourceInputs["name"] = state ? state.name : undefined;
@@ -109,14 +104,13 @@ export class File extends pulumi.CustomResource {
         } else {
             const args = argsOrState as FileArgs | undefined;
             resourceInputs["challengeId"] = args ? args.challengeId : undefined;
-            resourceInputs["content"] = args?.content ? pulumi.secret(args.content) : undefined;
             resourceInputs["contentb64"] = args?.contentb64 ? pulumi.secret(args.contentb64) : undefined;
             resourceInputs["location"] = args ? args.location : undefined;
             resourceInputs["name"] = args ? args.name : undefined;
             resourceInputs["sha1sum"] = undefined /*out*/;
         }
         opts = pulumi.mergeOptions(utilities.resourceOptsDefaults(), opts);
-        const secretOpts = { additionalSecretOutputs: ["content", "contentb64"] };
+        const secretOpts = { additionalSecretOutputs: ["contentb64"] };
         opts = pulumi.mergeOptions(opts, secretOpts);
         super(File.__pulumiType, name, resourceInputs, opts);
     }
@@ -130,10 +124,6 @@ export interface FileState {
      * Challenge of the file.
      */
     challengeId?: pulumi.Input<string>;
-    /**
-     * Raw content of the file, perfectly fit the use-cases of a .txt document or anything with a simple binary content. You could provide it from the file-system using `file("${path.module}/...")`.
-     */
-    content?: pulumi.Input<string>;
     /**
      * Base 64 content of the file, perfectly fit the use-cases of complex binaries. You could provide it from the file-system using `filebase64("${path.module}/...")`.
      */
@@ -160,10 +150,6 @@ export interface FileArgs {
      * Challenge of the file.
      */
     challengeId?: pulumi.Input<string>;
-    /**
-     * Raw content of the file, perfectly fit the use-cases of a .txt document or anything with a simple binary content. You could provide it from the file-system using `file("${path.module}/...")`.
-     */
-    content?: pulumi.Input<string>;
     /**
      * Base 64 content of the file, perfectly fit the use-cases of complex binaries. You could provide it from the file-system using `filebase64("${path.module}/...")`.
      */

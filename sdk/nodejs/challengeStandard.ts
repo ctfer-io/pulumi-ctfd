@@ -9,7 +9,7 @@ import * as utilities from "./utilities";
 /**
  * CTFd is built around the Challenge resource, which contains all the attributes to define a part of the Capture The Flag event.
  *
- * This provider builds a cleaner API on top of CTFd's one to improve its adoption and lifecycle management.
+ * It is the first historic implementation of its kind, with basic functionalities.
  *
  * ## Example Usage
  *
@@ -18,14 +18,10 @@ import * as utilities from "./utilities";
  * import * as ctfd from "@ctfer-io/pulumi-ctfd";
  * import * as fs from "fs";
  *
- * const http = new ctfd.Challenge("http", {
+ * const http = new ctfd.ChallengeStandard("http", {
  *     category: "misc",
  *     description: "...",
  *     value: 500,
- *     decay: 100,
- *     minimum: 50,
- *     state: "visible",
- *     "function": "logarithmic",
  *     topics: ["Misc"],
  *     tags: [
  *         "misc",
@@ -53,9 +49,9 @@ import * as utilities from "./utilities";
  * });
  * ```
  */
-export class Challenge extends pulumi.CustomResource {
+export class ChallengeStandard extends pulumi.CustomResource {
     /**
-     * Get an existing Challenge resource's state with the given name, ID, and optional extra
+     * Get an existing ChallengeStandard resource's state with the given name, ID, and optional extra
      * properties used to qualify the lookup.
      *
      * @param name The _unique_ name of the resulting resource.
@@ -63,24 +59,28 @@ export class Challenge extends pulumi.CustomResource {
      * @param state Any extra arguments used during the lookup.
      * @param opts Optional settings to control the behavior of the CustomResource.
      */
-    public static get(name: string, id: pulumi.Input<pulumi.ID>, state?: ChallengeState, opts?: pulumi.CustomResourceOptions): Challenge {
-        return new Challenge(name, <any>state, { ...opts, id: id });
+    public static get(name: string, id: pulumi.Input<pulumi.ID>, state?: ChallengeStandardState, opts?: pulumi.CustomResourceOptions): ChallengeStandard {
+        return new ChallengeStandard(name, <any>state, { ...opts, id: id });
     }
 
     /** @internal */
-    public static readonly __pulumiType = 'ctfd:index/challenge:Challenge';
+    public static readonly __pulumiType = 'ctfd:index/challengeStandard:ChallengeStandard';
 
     /**
-     * Returns true if the given object is an instance of Challenge.  This is designed to work even
+     * Returns true if the given object is an instance of ChallengeStandard.  This is designed to work even
      * when multiple copies of the Pulumi SDK have been loaded into the same process.
      */
-    public static isInstance(obj: any): obj is Challenge {
+    public static isInstance(obj: any): obj is ChallengeStandard {
         if (obj === undefined || obj === null) {
             return false;
         }
-        return obj['__pulumiType'] === Challenge.__pulumiType;
+        return obj['__pulumiType'] === ChallengeStandard.__pulumiType;
     }
 
+    /**
+     * Attribution to the creator(s) of the challenge.
+     */
+    public readonly attribution!: pulumi.Output<string | undefined>;
     /**
      * Category of the challenge that CTFd groups by on the web UI.
      */
@@ -90,25 +90,13 @@ export class Challenge extends pulumi.CustomResource {
      */
     public readonly connectionInfo!: pulumi.Output<string>;
     /**
-     * The decay defines from each number of solves does the decay function triggers until reaching minimum. This function is defined by CTFd and could be configured through `.function`.
-     */
-    public readonly decay!: pulumi.Output<number>;
-    /**
      * Description of the challenge, consider using multiline descriptions for better style.
      */
     public readonly description!: pulumi.Output<string>;
     /**
-     * Decay function to define how the challenge value evolve through solves, either linear or logarithmic.
-     */
-    public readonly function!: pulumi.Output<string>;
-    /**
      * Maximum amount of attempts before being unable to flag the challenge.
      */
     public readonly maxAttempts!: pulumi.Output<number>;
-    /**
-     * The minimum points for a dynamic-score challenge to reach with the decay function. Once there, no solve could have more value.
-     */
-    public readonly minimum!: pulumi.Output<number>;
     /**
      * Name of the challenge, displayed as it.
      */
@@ -120,7 +108,7 @@ export class Challenge extends pulumi.CustomResource {
     /**
      * List of required challenges that needs to get flagged before this one being accessible. Useful for skill-trees-like strategy CTF.
      */
-    public readonly requirements!: pulumi.Output<outputs.ChallengeRequirements | undefined>;
+    public readonly requirements!: pulumi.Output<outputs.ChallengeStandardRequirements | undefined>;
     /**
      * State of the challenge, either hidden or visible.
      */
@@ -134,44 +122,37 @@ export class Challenge extends pulumi.CustomResource {
      */
     public readonly topics!: pulumi.Output<string[]>;
     /**
-     * Type of the challenge defining its layout/behavior, either standard or dynamic (default).
-     */
-    public readonly type!: pulumi.Output<string>;
-    /**
-     * The value (points) of the challenge once solved. Internally, the provider will handle what target is legitimate depending on the `.type` value, i.e. either `value` for "standard" or `initial` for "dynamic".
+     * The value (points) of the challenge once solved.
      */
     public readonly value!: pulumi.Output<number>;
 
     /**
-     * Create a Challenge resource with the given unique name, arguments, and options.
+     * Create a ChallengeStandard resource with the given unique name, arguments, and options.
      *
      * @param name The _unique_ name of the resource.
      * @param args The arguments to use to populate this resource's properties.
      * @param opts A bag of options that control this resource's behavior.
      */
-    constructor(name: string, args: ChallengeArgs, opts?: pulumi.CustomResourceOptions)
-    constructor(name: string, argsOrState?: ChallengeArgs | ChallengeState, opts?: pulumi.CustomResourceOptions) {
+    constructor(name: string, args: ChallengeStandardArgs, opts?: pulumi.CustomResourceOptions)
+    constructor(name: string, argsOrState?: ChallengeStandardArgs | ChallengeStandardState, opts?: pulumi.CustomResourceOptions) {
         let resourceInputs: pulumi.Inputs = {};
         opts = opts || {};
         if (opts.id) {
-            const state = argsOrState as ChallengeState | undefined;
+            const state = argsOrState as ChallengeStandardState | undefined;
+            resourceInputs["attribution"] = state ? state.attribution : undefined;
             resourceInputs["category"] = state ? state.category : undefined;
             resourceInputs["connectionInfo"] = state ? state.connectionInfo : undefined;
-            resourceInputs["decay"] = state ? state.decay : undefined;
             resourceInputs["description"] = state ? state.description : undefined;
-            resourceInputs["function"] = state ? state.function : undefined;
             resourceInputs["maxAttempts"] = state ? state.maxAttempts : undefined;
-            resourceInputs["minimum"] = state ? state.minimum : undefined;
             resourceInputs["name"] = state ? state.name : undefined;
             resourceInputs["next"] = state ? state.next : undefined;
             resourceInputs["requirements"] = state ? state.requirements : undefined;
             resourceInputs["state"] = state ? state.state : undefined;
             resourceInputs["tags"] = state ? state.tags : undefined;
             resourceInputs["topics"] = state ? state.topics : undefined;
-            resourceInputs["type"] = state ? state.type : undefined;
             resourceInputs["value"] = state ? state.value : undefined;
         } else {
-            const args = argsOrState as ChallengeArgs | undefined;
+            const args = argsOrState as ChallengeStandardArgs | undefined;
             if ((!args || args.category === undefined) && !opts.urn) {
                 throw new Error("Missing required property 'category'");
             }
@@ -181,31 +162,32 @@ export class Challenge extends pulumi.CustomResource {
             if ((!args || args.value === undefined) && !opts.urn) {
                 throw new Error("Missing required property 'value'");
             }
+            resourceInputs["attribution"] = args ? args.attribution : undefined;
             resourceInputs["category"] = args ? args.category : undefined;
             resourceInputs["connectionInfo"] = args ? args.connectionInfo : undefined;
-            resourceInputs["decay"] = args ? args.decay : undefined;
             resourceInputs["description"] = args ? args.description : undefined;
-            resourceInputs["function"] = args ? args.function : undefined;
             resourceInputs["maxAttempts"] = args ? args.maxAttempts : undefined;
-            resourceInputs["minimum"] = args ? args.minimum : undefined;
             resourceInputs["name"] = args ? args.name : undefined;
             resourceInputs["next"] = args ? args.next : undefined;
             resourceInputs["requirements"] = args ? args.requirements : undefined;
             resourceInputs["state"] = args ? args.state : undefined;
             resourceInputs["tags"] = args ? args.tags : undefined;
             resourceInputs["topics"] = args ? args.topics : undefined;
-            resourceInputs["type"] = args ? args.type : undefined;
             resourceInputs["value"] = args ? args.value : undefined;
         }
         opts = pulumi.mergeOptions(utilities.resourceOptsDefaults(), opts);
-        super(Challenge.__pulumiType, name, resourceInputs, opts);
+        super(ChallengeStandard.__pulumiType, name, resourceInputs, opts);
     }
 }
 
 /**
- * Input properties used for looking up and filtering Challenge resources.
+ * Input properties used for looking up and filtering ChallengeStandard resources.
  */
-export interface ChallengeState {
+export interface ChallengeStandardState {
+    /**
+     * Attribution to the creator(s) of the challenge.
+     */
+    attribution?: pulumi.Input<string>;
     /**
      * Category of the challenge that CTFd groups by on the web UI.
      */
@@ -215,25 +197,13 @@ export interface ChallengeState {
      */
     connectionInfo?: pulumi.Input<string>;
     /**
-     * The decay defines from each number of solves does the decay function triggers until reaching minimum. This function is defined by CTFd and could be configured through `.function`.
-     */
-    decay?: pulumi.Input<number>;
-    /**
      * Description of the challenge, consider using multiline descriptions for better style.
      */
     description?: pulumi.Input<string>;
     /**
-     * Decay function to define how the challenge value evolve through solves, either linear or logarithmic.
-     */
-    function?: pulumi.Input<string>;
-    /**
      * Maximum amount of attempts before being unable to flag the challenge.
      */
     maxAttempts?: pulumi.Input<number>;
-    /**
-     * The minimum points for a dynamic-score challenge to reach with the decay function. Once there, no solve could have more value.
-     */
-    minimum?: pulumi.Input<number>;
     /**
      * Name of the challenge, displayed as it.
      */
@@ -245,7 +215,7 @@ export interface ChallengeState {
     /**
      * List of required challenges that needs to get flagged before this one being accessible. Useful for skill-trees-like strategy CTF.
      */
-    requirements?: pulumi.Input<inputs.ChallengeRequirements>;
+    requirements?: pulumi.Input<inputs.ChallengeStandardRequirements>;
     /**
      * State of the challenge, either hidden or visible.
      */
@@ -259,19 +229,19 @@ export interface ChallengeState {
      */
     topics?: pulumi.Input<pulumi.Input<string>[]>;
     /**
-     * Type of the challenge defining its layout/behavior, either standard or dynamic (default).
-     */
-    type?: pulumi.Input<string>;
-    /**
-     * The value (points) of the challenge once solved. Internally, the provider will handle what target is legitimate depending on the `.type` value, i.e. either `value` for "standard" or `initial` for "dynamic".
+     * The value (points) of the challenge once solved.
      */
     value?: pulumi.Input<number>;
 }
 
 /**
- * The set of arguments for constructing a Challenge resource.
+ * The set of arguments for constructing a ChallengeStandard resource.
  */
-export interface ChallengeArgs {
+export interface ChallengeStandardArgs {
+    /**
+     * Attribution to the creator(s) of the challenge.
+     */
+    attribution?: pulumi.Input<string>;
     /**
      * Category of the challenge that CTFd groups by on the web UI.
      */
@@ -281,25 +251,13 @@ export interface ChallengeArgs {
      */
     connectionInfo?: pulumi.Input<string>;
     /**
-     * The decay defines from each number of solves does the decay function triggers until reaching minimum. This function is defined by CTFd and could be configured through `.function`.
-     */
-    decay?: pulumi.Input<number>;
-    /**
      * Description of the challenge, consider using multiline descriptions for better style.
      */
     description: pulumi.Input<string>;
     /**
-     * Decay function to define how the challenge value evolve through solves, either linear or logarithmic.
-     */
-    function?: pulumi.Input<string>;
-    /**
      * Maximum amount of attempts before being unable to flag the challenge.
      */
     maxAttempts?: pulumi.Input<number>;
-    /**
-     * The minimum points for a dynamic-score challenge to reach with the decay function. Once there, no solve could have more value.
-     */
-    minimum?: pulumi.Input<number>;
     /**
      * Name of the challenge, displayed as it.
      */
@@ -311,7 +269,7 @@ export interface ChallengeArgs {
     /**
      * List of required challenges that needs to get flagged before this one being accessible. Useful for skill-trees-like strategy CTF.
      */
-    requirements?: pulumi.Input<inputs.ChallengeRequirements>;
+    requirements?: pulumi.Input<inputs.ChallengeStandardRequirements>;
     /**
      * State of the challenge, either hidden or visible.
      */
@@ -325,11 +283,7 @@ export interface ChallengeArgs {
      */
     topics?: pulumi.Input<pulumi.Input<string>[]>;
     /**
-     * Type of the challenge defining its layout/behavior, either standard or dynamic (default).
-     */
-    type?: pulumi.Input<string>;
-    /**
-     * The value (points) of the challenge once solved. Internally, the provider will handle what target is legitimate depending on the `.type` value, i.e. either `value` for "standard" or `initial` for "dynamic".
+     * The value (points) of the challenge once solved.
      */
     value: pulumi.Input<number>;
 }

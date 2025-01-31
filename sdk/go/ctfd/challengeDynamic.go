@@ -14,7 +14,7 @@ import (
 
 // CTFd is built around the Challenge resource, which contains all the attributes to define a part of the Capture The Flag event.
 //
-// This provider builds a cleaner API on top of CTFd's one to improve its adoption and lifecycle management.
+// This implementation has support of a more dynamic behavior for its scoring through time/solves thus is different from a standard challenge.
 //
 // ## Example Usage
 //
@@ -41,7 +41,7 @@ import (
 //
 //	func main() {
 //		pulumi.Run(func(ctx *pulumi.Context) error {
-//			http, err := ctfd.NewChallenge(ctx, "http", &ctfd.ChallengeArgs{
+//			http, err := ctfd.NewChallengeDynamic(ctx, "http", &ctfd.ChallengeDynamicArgs{
 //				Category:    pulumi.String("misc"),
 //				Description: pulumi.String("..."),
 //				Value:       pulumi.Int(500),
@@ -98,9 +98,11 @@ import (
 //	}
 //
 // ```
-type Challenge struct {
+type ChallengeDynamic struct {
 	pulumi.CustomResourceState
 
+	// Attribution to the creator(s) of the challenge.
+	Attribution pulumi.StringPtrOutput `pulumi:"attribution"`
 	// Category of the challenge that CTFd groups by on the web UI.
 	Category pulumi.StringOutput `pulumi:"category"`
 	// Connection Information to connect to the challenge instance, useful for pwn, web and infrastructure pentests.
@@ -120,22 +122,20 @@ type Challenge struct {
 	// Suggestion for the end-user as next challenge to work on.
 	Next pulumi.IntPtrOutput `pulumi:"next"`
 	// List of required challenges that needs to get flagged before this one being accessible. Useful for skill-trees-like strategy CTF.
-	Requirements ChallengeRequirementsPtrOutput `pulumi:"requirements"`
+	Requirements ChallengeDynamicRequirementsPtrOutput `pulumi:"requirements"`
 	// State of the challenge, either hidden or visible.
 	State pulumi.StringOutput `pulumi:"state"`
 	// List of challenge tags that will be displayed to the end-user. You could use them to give some quick insights of what a challenge involves.
 	Tags pulumi.StringArrayOutput `pulumi:"tags"`
 	// List of challenge topics that are displayed to the administrators for maintenance and planification.
 	Topics pulumi.StringArrayOutput `pulumi:"topics"`
-	// Type of the challenge defining its layout/behavior, either standard or dynamic (default).
-	Type pulumi.StringOutput `pulumi:"type"`
-	// The value (points) of the challenge once solved. Internally, the provider will handle what target is legitimate depending on the `.type` value, i.e. either `value` for "standard" or `initial` for "dynamic".
+	// The value (points) of the challenge once solved. It is mapped to `initial` under the hood, but displayed as `value` for consistency with the standard challenge.
 	Value pulumi.IntOutput `pulumi:"value"`
 }
 
-// NewChallenge registers a new resource with the given unique name, arguments, and options.
-func NewChallenge(ctx *pulumi.Context,
-	name string, args *ChallengeArgs, opts ...pulumi.ResourceOption) (*Challenge, error) {
+// NewChallengeDynamic registers a new resource with the given unique name, arguments, and options.
+func NewChallengeDynamic(ctx *pulumi.Context,
+	name string, args *ChallengeDynamicArgs, opts ...pulumi.ResourceOption) (*ChallengeDynamic, error) {
 	if args == nil {
 		return nil, errors.New("missing one or more required arguments")
 	}
@@ -143,35 +143,43 @@ func NewChallenge(ctx *pulumi.Context,
 	if args.Category == nil {
 		return nil, errors.New("invalid value for required argument 'Category'")
 	}
+	if args.Decay == nil {
+		return nil, errors.New("invalid value for required argument 'Decay'")
+	}
 	if args.Description == nil {
 		return nil, errors.New("invalid value for required argument 'Description'")
+	}
+	if args.Minimum == nil {
+		return nil, errors.New("invalid value for required argument 'Minimum'")
 	}
 	if args.Value == nil {
 		return nil, errors.New("invalid value for required argument 'Value'")
 	}
 	opts = internal.PkgResourceDefaultOpts(opts)
-	var resource Challenge
-	err := ctx.RegisterResource("ctfd:index/challenge:Challenge", name, args, &resource, opts...)
+	var resource ChallengeDynamic
+	err := ctx.RegisterResource("ctfd:index/challengeDynamic:ChallengeDynamic", name, args, &resource, opts...)
 	if err != nil {
 		return nil, err
 	}
 	return &resource, nil
 }
 
-// GetChallenge gets an existing Challenge resource's state with the given name, ID, and optional
+// GetChallengeDynamic gets an existing ChallengeDynamic resource's state with the given name, ID, and optional
 // state properties that are used to uniquely qualify the lookup (nil if not required).
-func GetChallenge(ctx *pulumi.Context,
-	name string, id pulumi.IDInput, state *ChallengeState, opts ...pulumi.ResourceOption) (*Challenge, error) {
-	var resource Challenge
-	err := ctx.ReadResource("ctfd:index/challenge:Challenge", name, id, state, &resource, opts...)
+func GetChallengeDynamic(ctx *pulumi.Context,
+	name string, id pulumi.IDInput, state *ChallengeDynamicState, opts ...pulumi.ResourceOption) (*ChallengeDynamic, error) {
+	var resource ChallengeDynamic
+	err := ctx.ReadResource("ctfd:index/challengeDynamic:ChallengeDynamic", name, id, state, &resource, opts...)
 	if err != nil {
 		return nil, err
 	}
 	return &resource, nil
 }
 
-// Input properties used for looking up and filtering Challenge resources.
-type challengeState struct {
+// Input properties used for looking up and filtering ChallengeDynamic resources.
+type challengeDynamicState struct {
+	// Attribution to the creator(s) of the challenge.
+	Attribution *string `pulumi:"attribution"`
 	// Category of the challenge that CTFd groups by on the web UI.
 	Category *string `pulumi:"category"`
 	// Connection Information to connect to the challenge instance, useful for pwn, web and infrastructure pentests.
@@ -191,20 +199,20 @@ type challengeState struct {
 	// Suggestion for the end-user as next challenge to work on.
 	Next *int `pulumi:"next"`
 	// List of required challenges that needs to get flagged before this one being accessible. Useful for skill-trees-like strategy CTF.
-	Requirements *ChallengeRequirements `pulumi:"requirements"`
+	Requirements *ChallengeDynamicRequirements `pulumi:"requirements"`
 	// State of the challenge, either hidden or visible.
 	State *string `pulumi:"state"`
 	// List of challenge tags that will be displayed to the end-user. You could use them to give some quick insights of what a challenge involves.
 	Tags []string `pulumi:"tags"`
 	// List of challenge topics that are displayed to the administrators for maintenance and planification.
 	Topics []string `pulumi:"topics"`
-	// Type of the challenge defining its layout/behavior, either standard or dynamic (default).
-	Type *string `pulumi:"type"`
-	// The value (points) of the challenge once solved. Internally, the provider will handle what target is legitimate depending on the `.type` value, i.e. either `value` for "standard" or `initial` for "dynamic".
+	// The value (points) of the challenge once solved. It is mapped to `initial` under the hood, but displayed as `value` for consistency with the standard challenge.
 	Value *int `pulumi:"value"`
 }
 
-type ChallengeState struct {
+type ChallengeDynamicState struct {
+	// Attribution to the creator(s) of the challenge.
+	Attribution pulumi.StringPtrInput
 	// Category of the challenge that CTFd groups by on the web UI.
 	Category pulumi.StringPtrInput
 	// Connection Information to connect to the challenge instance, useful for pwn, web and infrastructure pentests.
@@ -224,30 +232,30 @@ type ChallengeState struct {
 	// Suggestion for the end-user as next challenge to work on.
 	Next pulumi.IntPtrInput
 	// List of required challenges that needs to get flagged before this one being accessible. Useful for skill-trees-like strategy CTF.
-	Requirements ChallengeRequirementsPtrInput
+	Requirements ChallengeDynamicRequirementsPtrInput
 	// State of the challenge, either hidden or visible.
 	State pulumi.StringPtrInput
 	// List of challenge tags that will be displayed to the end-user. You could use them to give some quick insights of what a challenge involves.
 	Tags pulumi.StringArrayInput
 	// List of challenge topics that are displayed to the administrators for maintenance and planification.
 	Topics pulumi.StringArrayInput
-	// Type of the challenge defining its layout/behavior, either standard or dynamic (default).
-	Type pulumi.StringPtrInput
-	// The value (points) of the challenge once solved. Internally, the provider will handle what target is legitimate depending on the `.type` value, i.e. either `value` for "standard" or `initial` for "dynamic".
+	// The value (points) of the challenge once solved. It is mapped to `initial` under the hood, but displayed as `value` for consistency with the standard challenge.
 	Value pulumi.IntPtrInput
 }
 
-func (ChallengeState) ElementType() reflect.Type {
-	return reflect.TypeOf((*challengeState)(nil)).Elem()
+func (ChallengeDynamicState) ElementType() reflect.Type {
+	return reflect.TypeOf((*challengeDynamicState)(nil)).Elem()
 }
 
-type challengeArgs struct {
+type challengeDynamicArgs struct {
+	// Attribution to the creator(s) of the challenge.
+	Attribution *string `pulumi:"attribution"`
 	// Category of the challenge that CTFd groups by on the web UI.
 	Category string `pulumi:"category"`
 	// Connection Information to connect to the challenge instance, useful for pwn, web and infrastructure pentests.
 	ConnectionInfo *string `pulumi:"connectionInfo"`
 	// The decay defines from each number of solves does the decay function triggers until reaching minimum. This function is defined by CTFd and could be configured through `.function`.
-	Decay *int `pulumi:"decay"`
+	Decay int `pulumi:"decay"`
 	// Description of the challenge, consider using multiline descriptions for better style.
 	Description string `pulumi:"description"`
 	// Decay function to define how the challenge value evolve through solves, either linear or logarithmic.
@@ -255,33 +263,33 @@ type challengeArgs struct {
 	// Maximum amount of attempts before being unable to flag the challenge.
 	MaxAttempts *int `pulumi:"maxAttempts"`
 	// The minimum points for a dynamic-score challenge to reach with the decay function. Once there, no solve could have more value.
-	Minimum *int `pulumi:"minimum"`
+	Minimum int `pulumi:"minimum"`
 	// Name of the challenge, displayed as it.
 	Name *string `pulumi:"name"`
 	// Suggestion for the end-user as next challenge to work on.
 	Next *int `pulumi:"next"`
 	// List of required challenges that needs to get flagged before this one being accessible. Useful for skill-trees-like strategy CTF.
-	Requirements *ChallengeRequirements `pulumi:"requirements"`
+	Requirements *ChallengeDynamicRequirements `pulumi:"requirements"`
 	// State of the challenge, either hidden or visible.
 	State *string `pulumi:"state"`
 	// List of challenge tags that will be displayed to the end-user. You could use them to give some quick insights of what a challenge involves.
 	Tags []string `pulumi:"tags"`
 	// List of challenge topics that are displayed to the administrators for maintenance and planification.
 	Topics []string `pulumi:"topics"`
-	// Type of the challenge defining its layout/behavior, either standard or dynamic (default).
-	Type *string `pulumi:"type"`
-	// The value (points) of the challenge once solved. Internally, the provider will handle what target is legitimate depending on the `.type` value, i.e. either `value` for "standard" or `initial` for "dynamic".
+	// The value (points) of the challenge once solved. It is mapped to `initial` under the hood, but displayed as `value` for consistency with the standard challenge.
 	Value int `pulumi:"value"`
 }
 
-// The set of arguments for constructing a Challenge resource.
-type ChallengeArgs struct {
+// The set of arguments for constructing a ChallengeDynamic resource.
+type ChallengeDynamicArgs struct {
+	// Attribution to the creator(s) of the challenge.
+	Attribution pulumi.StringPtrInput
 	// Category of the challenge that CTFd groups by on the web UI.
 	Category pulumi.StringInput
 	// Connection Information to connect to the challenge instance, useful for pwn, web and infrastructure pentests.
 	ConnectionInfo pulumi.StringPtrInput
 	// The decay defines from each number of solves does the decay function triggers until reaching minimum. This function is defined by CTFd and could be configured through `.function`.
-	Decay pulumi.IntPtrInput
+	Decay pulumi.IntInput
 	// Description of the challenge, consider using multiline descriptions for better style.
 	Description pulumi.StringInput
 	// Decay function to define how the challenge value evolve through solves, either linear or logarithmic.
@@ -289,232 +297,230 @@ type ChallengeArgs struct {
 	// Maximum amount of attempts before being unable to flag the challenge.
 	MaxAttempts pulumi.IntPtrInput
 	// The minimum points for a dynamic-score challenge to reach with the decay function. Once there, no solve could have more value.
-	Minimum pulumi.IntPtrInput
+	Minimum pulumi.IntInput
 	// Name of the challenge, displayed as it.
 	Name pulumi.StringPtrInput
 	// Suggestion for the end-user as next challenge to work on.
 	Next pulumi.IntPtrInput
 	// List of required challenges that needs to get flagged before this one being accessible. Useful for skill-trees-like strategy CTF.
-	Requirements ChallengeRequirementsPtrInput
+	Requirements ChallengeDynamicRequirementsPtrInput
 	// State of the challenge, either hidden or visible.
 	State pulumi.StringPtrInput
 	// List of challenge tags that will be displayed to the end-user. You could use them to give some quick insights of what a challenge involves.
 	Tags pulumi.StringArrayInput
 	// List of challenge topics that are displayed to the administrators for maintenance and planification.
 	Topics pulumi.StringArrayInput
-	// Type of the challenge defining its layout/behavior, either standard or dynamic (default).
-	Type pulumi.StringPtrInput
-	// The value (points) of the challenge once solved. Internally, the provider will handle what target is legitimate depending on the `.type` value, i.e. either `value` for "standard" or `initial` for "dynamic".
+	// The value (points) of the challenge once solved. It is mapped to `initial` under the hood, but displayed as `value` for consistency with the standard challenge.
 	Value pulumi.IntInput
 }
 
-func (ChallengeArgs) ElementType() reflect.Type {
-	return reflect.TypeOf((*challengeArgs)(nil)).Elem()
+func (ChallengeDynamicArgs) ElementType() reflect.Type {
+	return reflect.TypeOf((*challengeDynamicArgs)(nil)).Elem()
 }
 
-type ChallengeInput interface {
+type ChallengeDynamicInput interface {
 	pulumi.Input
 
-	ToChallengeOutput() ChallengeOutput
-	ToChallengeOutputWithContext(ctx context.Context) ChallengeOutput
+	ToChallengeDynamicOutput() ChallengeDynamicOutput
+	ToChallengeDynamicOutputWithContext(ctx context.Context) ChallengeDynamicOutput
 }
 
-func (*Challenge) ElementType() reflect.Type {
-	return reflect.TypeOf((**Challenge)(nil)).Elem()
+func (*ChallengeDynamic) ElementType() reflect.Type {
+	return reflect.TypeOf((**ChallengeDynamic)(nil)).Elem()
 }
 
-func (i *Challenge) ToChallengeOutput() ChallengeOutput {
-	return i.ToChallengeOutputWithContext(context.Background())
+func (i *ChallengeDynamic) ToChallengeDynamicOutput() ChallengeDynamicOutput {
+	return i.ToChallengeDynamicOutputWithContext(context.Background())
 }
 
-func (i *Challenge) ToChallengeOutputWithContext(ctx context.Context) ChallengeOutput {
-	return pulumi.ToOutputWithContext(ctx, i).(ChallengeOutput)
+func (i *ChallengeDynamic) ToChallengeDynamicOutputWithContext(ctx context.Context) ChallengeDynamicOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(ChallengeDynamicOutput)
 }
 
-// ChallengeArrayInput is an input type that accepts ChallengeArray and ChallengeArrayOutput values.
-// You can construct a concrete instance of `ChallengeArrayInput` via:
+// ChallengeDynamicArrayInput is an input type that accepts ChallengeDynamicArray and ChallengeDynamicArrayOutput values.
+// You can construct a concrete instance of `ChallengeDynamicArrayInput` via:
 //
-//	ChallengeArray{ ChallengeArgs{...} }
-type ChallengeArrayInput interface {
+//	ChallengeDynamicArray{ ChallengeDynamicArgs{...} }
+type ChallengeDynamicArrayInput interface {
 	pulumi.Input
 
-	ToChallengeArrayOutput() ChallengeArrayOutput
-	ToChallengeArrayOutputWithContext(context.Context) ChallengeArrayOutput
+	ToChallengeDynamicArrayOutput() ChallengeDynamicArrayOutput
+	ToChallengeDynamicArrayOutputWithContext(context.Context) ChallengeDynamicArrayOutput
 }
 
-type ChallengeArray []ChallengeInput
+type ChallengeDynamicArray []ChallengeDynamicInput
 
-func (ChallengeArray) ElementType() reflect.Type {
-	return reflect.TypeOf((*[]*Challenge)(nil)).Elem()
+func (ChallengeDynamicArray) ElementType() reflect.Type {
+	return reflect.TypeOf((*[]*ChallengeDynamic)(nil)).Elem()
 }
 
-func (i ChallengeArray) ToChallengeArrayOutput() ChallengeArrayOutput {
-	return i.ToChallengeArrayOutputWithContext(context.Background())
+func (i ChallengeDynamicArray) ToChallengeDynamicArrayOutput() ChallengeDynamicArrayOutput {
+	return i.ToChallengeDynamicArrayOutputWithContext(context.Background())
 }
 
-func (i ChallengeArray) ToChallengeArrayOutputWithContext(ctx context.Context) ChallengeArrayOutput {
-	return pulumi.ToOutputWithContext(ctx, i).(ChallengeArrayOutput)
+func (i ChallengeDynamicArray) ToChallengeDynamicArrayOutputWithContext(ctx context.Context) ChallengeDynamicArrayOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(ChallengeDynamicArrayOutput)
 }
 
-// ChallengeMapInput is an input type that accepts ChallengeMap and ChallengeMapOutput values.
-// You can construct a concrete instance of `ChallengeMapInput` via:
+// ChallengeDynamicMapInput is an input type that accepts ChallengeDynamicMap and ChallengeDynamicMapOutput values.
+// You can construct a concrete instance of `ChallengeDynamicMapInput` via:
 //
-//	ChallengeMap{ "key": ChallengeArgs{...} }
-type ChallengeMapInput interface {
+//	ChallengeDynamicMap{ "key": ChallengeDynamicArgs{...} }
+type ChallengeDynamicMapInput interface {
 	pulumi.Input
 
-	ToChallengeMapOutput() ChallengeMapOutput
-	ToChallengeMapOutputWithContext(context.Context) ChallengeMapOutput
+	ToChallengeDynamicMapOutput() ChallengeDynamicMapOutput
+	ToChallengeDynamicMapOutputWithContext(context.Context) ChallengeDynamicMapOutput
 }
 
-type ChallengeMap map[string]ChallengeInput
+type ChallengeDynamicMap map[string]ChallengeDynamicInput
 
-func (ChallengeMap) ElementType() reflect.Type {
-	return reflect.TypeOf((*map[string]*Challenge)(nil)).Elem()
+func (ChallengeDynamicMap) ElementType() reflect.Type {
+	return reflect.TypeOf((*map[string]*ChallengeDynamic)(nil)).Elem()
 }
 
-func (i ChallengeMap) ToChallengeMapOutput() ChallengeMapOutput {
-	return i.ToChallengeMapOutputWithContext(context.Background())
+func (i ChallengeDynamicMap) ToChallengeDynamicMapOutput() ChallengeDynamicMapOutput {
+	return i.ToChallengeDynamicMapOutputWithContext(context.Background())
 }
 
-func (i ChallengeMap) ToChallengeMapOutputWithContext(ctx context.Context) ChallengeMapOutput {
-	return pulumi.ToOutputWithContext(ctx, i).(ChallengeMapOutput)
+func (i ChallengeDynamicMap) ToChallengeDynamicMapOutputWithContext(ctx context.Context) ChallengeDynamicMapOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(ChallengeDynamicMapOutput)
 }
 
-type ChallengeOutput struct{ *pulumi.OutputState }
+type ChallengeDynamicOutput struct{ *pulumi.OutputState }
 
-func (ChallengeOutput) ElementType() reflect.Type {
-	return reflect.TypeOf((**Challenge)(nil)).Elem()
+func (ChallengeDynamicOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((**ChallengeDynamic)(nil)).Elem()
 }
 
-func (o ChallengeOutput) ToChallengeOutput() ChallengeOutput {
+func (o ChallengeDynamicOutput) ToChallengeDynamicOutput() ChallengeDynamicOutput {
 	return o
 }
 
-func (o ChallengeOutput) ToChallengeOutputWithContext(ctx context.Context) ChallengeOutput {
+func (o ChallengeDynamicOutput) ToChallengeDynamicOutputWithContext(ctx context.Context) ChallengeDynamicOutput {
 	return o
+}
+
+// Attribution to the creator(s) of the challenge.
+func (o ChallengeDynamicOutput) Attribution() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v *ChallengeDynamic) pulumi.StringPtrOutput { return v.Attribution }).(pulumi.StringPtrOutput)
 }
 
 // Category of the challenge that CTFd groups by on the web UI.
-func (o ChallengeOutput) Category() pulumi.StringOutput {
-	return o.ApplyT(func(v *Challenge) pulumi.StringOutput { return v.Category }).(pulumi.StringOutput)
+func (o ChallengeDynamicOutput) Category() pulumi.StringOutput {
+	return o.ApplyT(func(v *ChallengeDynamic) pulumi.StringOutput { return v.Category }).(pulumi.StringOutput)
 }
 
 // Connection Information to connect to the challenge instance, useful for pwn, web and infrastructure pentests.
-func (o ChallengeOutput) ConnectionInfo() pulumi.StringOutput {
-	return o.ApplyT(func(v *Challenge) pulumi.StringOutput { return v.ConnectionInfo }).(pulumi.StringOutput)
+func (o ChallengeDynamicOutput) ConnectionInfo() pulumi.StringOutput {
+	return o.ApplyT(func(v *ChallengeDynamic) pulumi.StringOutput { return v.ConnectionInfo }).(pulumi.StringOutput)
 }
 
 // The decay defines from each number of solves does the decay function triggers until reaching minimum. This function is defined by CTFd and could be configured through `.function`.
-func (o ChallengeOutput) Decay() pulumi.IntOutput {
-	return o.ApplyT(func(v *Challenge) pulumi.IntOutput { return v.Decay }).(pulumi.IntOutput)
+func (o ChallengeDynamicOutput) Decay() pulumi.IntOutput {
+	return o.ApplyT(func(v *ChallengeDynamic) pulumi.IntOutput { return v.Decay }).(pulumi.IntOutput)
 }
 
 // Description of the challenge, consider using multiline descriptions for better style.
-func (o ChallengeOutput) Description() pulumi.StringOutput {
-	return o.ApplyT(func(v *Challenge) pulumi.StringOutput { return v.Description }).(pulumi.StringOutput)
+func (o ChallengeDynamicOutput) Description() pulumi.StringOutput {
+	return o.ApplyT(func(v *ChallengeDynamic) pulumi.StringOutput { return v.Description }).(pulumi.StringOutput)
 }
 
 // Decay function to define how the challenge value evolve through solves, either linear or logarithmic.
-func (o ChallengeOutput) Function() pulumi.StringOutput {
-	return o.ApplyT(func(v *Challenge) pulumi.StringOutput { return v.Function }).(pulumi.StringOutput)
+func (o ChallengeDynamicOutput) Function() pulumi.StringOutput {
+	return o.ApplyT(func(v *ChallengeDynamic) pulumi.StringOutput { return v.Function }).(pulumi.StringOutput)
 }
 
 // Maximum amount of attempts before being unable to flag the challenge.
-func (o ChallengeOutput) MaxAttempts() pulumi.IntOutput {
-	return o.ApplyT(func(v *Challenge) pulumi.IntOutput { return v.MaxAttempts }).(pulumi.IntOutput)
+func (o ChallengeDynamicOutput) MaxAttempts() pulumi.IntOutput {
+	return o.ApplyT(func(v *ChallengeDynamic) pulumi.IntOutput { return v.MaxAttempts }).(pulumi.IntOutput)
 }
 
 // The minimum points for a dynamic-score challenge to reach with the decay function. Once there, no solve could have more value.
-func (o ChallengeOutput) Minimum() pulumi.IntOutput {
-	return o.ApplyT(func(v *Challenge) pulumi.IntOutput { return v.Minimum }).(pulumi.IntOutput)
+func (o ChallengeDynamicOutput) Minimum() pulumi.IntOutput {
+	return o.ApplyT(func(v *ChallengeDynamic) pulumi.IntOutput { return v.Minimum }).(pulumi.IntOutput)
 }
 
 // Name of the challenge, displayed as it.
-func (o ChallengeOutput) Name() pulumi.StringOutput {
-	return o.ApplyT(func(v *Challenge) pulumi.StringOutput { return v.Name }).(pulumi.StringOutput)
+func (o ChallengeDynamicOutput) Name() pulumi.StringOutput {
+	return o.ApplyT(func(v *ChallengeDynamic) pulumi.StringOutput { return v.Name }).(pulumi.StringOutput)
 }
 
 // Suggestion for the end-user as next challenge to work on.
-func (o ChallengeOutput) Next() pulumi.IntPtrOutput {
-	return o.ApplyT(func(v *Challenge) pulumi.IntPtrOutput { return v.Next }).(pulumi.IntPtrOutput)
+func (o ChallengeDynamicOutput) Next() pulumi.IntPtrOutput {
+	return o.ApplyT(func(v *ChallengeDynamic) pulumi.IntPtrOutput { return v.Next }).(pulumi.IntPtrOutput)
 }
 
 // List of required challenges that needs to get flagged before this one being accessible. Useful for skill-trees-like strategy CTF.
-func (o ChallengeOutput) Requirements() ChallengeRequirementsPtrOutput {
-	return o.ApplyT(func(v *Challenge) ChallengeRequirementsPtrOutput { return v.Requirements }).(ChallengeRequirementsPtrOutput)
+func (o ChallengeDynamicOutput) Requirements() ChallengeDynamicRequirementsPtrOutput {
+	return o.ApplyT(func(v *ChallengeDynamic) ChallengeDynamicRequirementsPtrOutput { return v.Requirements }).(ChallengeDynamicRequirementsPtrOutput)
 }
 
 // State of the challenge, either hidden or visible.
-func (o ChallengeOutput) State() pulumi.StringOutput {
-	return o.ApplyT(func(v *Challenge) pulumi.StringOutput { return v.State }).(pulumi.StringOutput)
+func (o ChallengeDynamicOutput) State() pulumi.StringOutput {
+	return o.ApplyT(func(v *ChallengeDynamic) pulumi.StringOutput { return v.State }).(pulumi.StringOutput)
 }
 
 // List of challenge tags that will be displayed to the end-user. You could use them to give some quick insights of what a challenge involves.
-func (o ChallengeOutput) Tags() pulumi.StringArrayOutput {
-	return o.ApplyT(func(v *Challenge) pulumi.StringArrayOutput { return v.Tags }).(pulumi.StringArrayOutput)
+func (o ChallengeDynamicOutput) Tags() pulumi.StringArrayOutput {
+	return o.ApplyT(func(v *ChallengeDynamic) pulumi.StringArrayOutput { return v.Tags }).(pulumi.StringArrayOutput)
 }
 
 // List of challenge topics that are displayed to the administrators for maintenance and planification.
-func (o ChallengeOutput) Topics() pulumi.StringArrayOutput {
-	return o.ApplyT(func(v *Challenge) pulumi.StringArrayOutput { return v.Topics }).(pulumi.StringArrayOutput)
+func (o ChallengeDynamicOutput) Topics() pulumi.StringArrayOutput {
+	return o.ApplyT(func(v *ChallengeDynamic) pulumi.StringArrayOutput { return v.Topics }).(pulumi.StringArrayOutput)
 }
 
-// Type of the challenge defining its layout/behavior, either standard or dynamic (default).
-func (o ChallengeOutput) Type() pulumi.StringOutput {
-	return o.ApplyT(func(v *Challenge) pulumi.StringOutput { return v.Type }).(pulumi.StringOutput)
+// The value (points) of the challenge once solved. It is mapped to `initial` under the hood, but displayed as `value` for consistency with the standard challenge.
+func (o ChallengeDynamicOutput) Value() pulumi.IntOutput {
+	return o.ApplyT(func(v *ChallengeDynamic) pulumi.IntOutput { return v.Value }).(pulumi.IntOutput)
 }
 
-// The value (points) of the challenge once solved. Internally, the provider will handle what target is legitimate depending on the `.type` value, i.e. either `value` for "standard" or `initial` for "dynamic".
-func (o ChallengeOutput) Value() pulumi.IntOutput {
-	return o.ApplyT(func(v *Challenge) pulumi.IntOutput { return v.Value }).(pulumi.IntOutput)
+type ChallengeDynamicArrayOutput struct{ *pulumi.OutputState }
+
+func (ChallengeDynamicArrayOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*[]*ChallengeDynamic)(nil)).Elem()
 }
 
-type ChallengeArrayOutput struct{ *pulumi.OutputState }
-
-func (ChallengeArrayOutput) ElementType() reflect.Type {
-	return reflect.TypeOf((*[]*Challenge)(nil)).Elem()
-}
-
-func (o ChallengeArrayOutput) ToChallengeArrayOutput() ChallengeArrayOutput {
+func (o ChallengeDynamicArrayOutput) ToChallengeDynamicArrayOutput() ChallengeDynamicArrayOutput {
 	return o
 }
 
-func (o ChallengeArrayOutput) ToChallengeArrayOutputWithContext(ctx context.Context) ChallengeArrayOutput {
+func (o ChallengeDynamicArrayOutput) ToChallengeDynamicArrayOutputWithContext(ctx context.Context) ChallengeDynamicArrayOutput {
 	return o
 }
 
-func (o ChallengeArrayOutput) Index(i pulumi.IntInput) ChallengeOutput {
-	return pulumi.All(o, i).ApplyT(func(vs []interface{}) *Challenge {
-		return vs[0].([]*Challenge)[vs[1].(int)]
-	}).(ChallengeOutput)
+func (o ChallengeDynamicArrayOutput) Index(i pulumi.IntInput) ChallengeDynamicOutput {
+	return pulumi.All(o, i).ApplyT(func(vs []interface{}) *ChallengeDynamic {
+		return vs[0].([]*ChallengeDynamic)[vs[1].(int)]
+	}).(ChallengeDynamicOutput)
 }
 
-type ChallengeMapOutput struct{ *pulumi.OutputState }
+type ChallengeDynamicMapOutput struct{ *pulumi.OutputState }
 
-func (ChallengeMapOutput) ElementType() reflect.Type {
-	return reflect.TypeOf((*map[string]*Challenge)(nil)).Elem()
+func (ChallengeDynamicMapOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*map[string]*ChallengeDynamic)(nil)).Elem()
 }
 
-func (o ChallengeMapOutput) ToChallengeMapOutput() ChallengeMapOutput {
+func (o ChallengeDynamicMapOutput) ToChallengeDynamicMapOutput() ChallengeDynamicMapOutput {
 	return o
 }
 
-func (o ChallengeMapOutput) ToChallengeMapOutputWithContext(ctx context.Context) ChallengeMapOutput {
+func (o ChallengeDynamicMapOutput) ToChallengeDynamicMapOutputWithContext(ctx context.Context) ChallengeDynamicMapOutput {
 	return o
 }
 
-func (o ChallengeMapOutput) MapIndex(k pulumi.StringInput) ChallengeOutput {
-	return pulumi.All(o, k).ApplyT(func(vs []interface{}) *Challenge {
-		return vs[0].(map[string]*Challenge)[vs[1].(string)]
-	}).(ChallengeOutput)
+func (o ChallengeDynamicMapOutput) MapIndex(k pulumi.StringInput) ChallengeDynamicOutput {
+	return pulumi.All(o, k).ApplyT(func(vs []interface{}) *ChallengeDynamic {
+		return vs[0].(map[string]*ChallengeDynamic)[vs[1].(string)]
+	}).(ChallengeDynamicOutput)
 }
 
 func init() {
-	pulumi.RegisterInputType(reflect.TypeOf((*ChallengeInput)(nil)).Elem(), &Challenge{})
-	pulumi.RegisterInputType(reflect.TypeOf((*ChallengeArrayInput)(nil)).Elem(), ChallengeArray{})
-	pulumi.RegisterInputType(reflect.TypeOf((*ChallengeMapInput)(nil)).Elem(), ChallengeMap{})
-	pulumi.RegisterOutputType(ChallengeOutput{})
-	pulumi.RegisterOutputType(ChallengeArrayOutput{})
-	pulumi.RegisterOutputType(ChallengeMapOutput{})
+	pulumi.RegisterInputType(reflect.TypeOf((*ChallengeDynamicInput)(nil)).Elem(), &ChallengeDynamic{})
+	pulumi.RegisterInputType(reflect.TypeOf((*ChallengeDynamicArrayInput)(nil)).Elem(), ChallengeDynamicArray{})
+	pulumi.RegisterInputType(reflect.TypeOf((*ChallengeDynamicMapInput)(nil)).Elem(), ChallengeDynamicMap{})
+	pulumi.RegisterOutputType(ChallengeDynamicOutput{})
+	pulumi.RegisterOutputType(ChallengeDynamicArrayOutput{})
+	pulumi.RegisterOutputType(ChallengeDynamicMapOutput{})
 }

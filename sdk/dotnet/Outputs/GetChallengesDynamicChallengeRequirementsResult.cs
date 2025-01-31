@@ -12,20 +12,20 @@ namespace CTFerio.Ctfd.Outputs
 {
 
     [OutputType]
-    public sealed class ChallengeRequirements
+    public sealed class GetChallengesDynamicChallengeRequirementsResult
     {
         /// <summary>
         /// Behavior if not unlocked, either hidden or anonymized.
         /// </summary>
-        public readonly string? Behavior;
+        public readonly string Behavior;
         /// <summary>
         /// List of the challenges ID.
         /// </summary>
         public readonly ImmutableArray<string> Prerequisites;
 
         [OutputConstructor]
-        private ChallengeRequirements(
-            string? behavior,
+        private GetChallengesDynamicChallengeRequirementsResult(
+            string behavior,
 
             ImmutableArray<string> prerequisites)
         {

@@ -28,7 +28,7 @@ import (
 //
 //	func main() {
 //		pulumi.Run(func(ctx *pulumi.Context) error {
-//			http, err := ctfd.NewChallenge(ctx, "http", &ctfd.ChallengeArgs{
+//			http, err := ctfd.NewChallengeDynamic(ctx, "http", &ctfd.ChallengeDynamicArgs{
 //				Category:    pulumi.String("misc"),
 //				Description: pulumi.String("..."),
 //				Value:       pulumi.Int(500),

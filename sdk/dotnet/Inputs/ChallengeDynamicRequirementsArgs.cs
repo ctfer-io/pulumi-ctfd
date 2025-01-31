@@ -11,7 +11,7 @@ using Pulumi;
 namespace CTFerio.Ctfd.Inputs
 {
 
-    public sealed class ChallengeRequirementsArgs : global::Pulumi.ResourceArgs
+    public sealed class ChallengeDynamicRequirementsArgs : global::Pulumi.ResourceArgs
     {
         /// <summary>
         /// Behavior if not unlocked, either hidden or anonymized.
@@ -31,9 +31,9 @@ namespace CTFerio.Ctfd.Inputs
             set => _prerequisites = value;
         }
 
-        public ChallengeRequirementsArgs()
+        public ChallengeDynamicRequirementsArgs()
         {
         }
-        public static new ChallengeRequirementsArgs Empty => new ChallengeRequirementsArgs();
+        public static new ChallengeDynamicRequirementsArgs Empty => new ChallengeDynamicRequirementsArgs();
     }
 }

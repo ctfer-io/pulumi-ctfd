@@ -31,7 +31,7 @@ namespace CTFerio.Ctfd
     /// 
     /// return await Deployment.RunAsync(() =&gt; 
     /// {
-    ///     var http = new Ctfd.Challenge("http", new()
+    ///     var http = new Ctfd.ChallengeDynamic("http", new()
     ///     {
     ///         Category = "misc",
     ///         Description = "...",
@@ -68,12 +68,6 @@ namespace CTFerio.Ctfd
         /// </summary>
         [Output("challengeId")]
         public Output<string?> ChallengeId { get; private set; } = null!;
-
-        /// <summary>
-        /// Raw content of the file, perfectly fit the use-cases of a .txt document or anything with a simple binary content. You could provide it from the file-system using `file("${path.module}/...")`.
-        /// </summary>
-        [Output("content")]
-        public Output<string> Content { get; private set; } = null!;
 
         /// <summary>
         /// Base 64 content of the file, perfectly fit the use-cases of complex binaries. You could provide it from the file-system using `filebase64("${path.module}/...")`.
@@ -125,7 +119,6 @@ namespace CTFerio.Ctfd
                 PluginDownloadURL = "github://api.github.com/ctfer-io/",
                 AdditionalSecretOutputs =
                 {
-                    "content",
                     "contentb64",
                 },
             };
@@ -156,22 +149,6 @@ namespace CTFerio.Ctfd
         /// </summary>
         [Input("challengeId")]
         public Input<string>? ChallengeId { get; set; }
-
-        [Input("content")]
-        private Input<string>? _content;
-
-        /// <summary>
-        /// Raw content of the file, perfectly fit the use-cases of a .txt document or anything with a simple binary content. You could provide it from the file-system using `file("${path.module}/...")`.
-        /// </summary>
-        public Input<string>? Content
-        {
-            get => _content;
-            set
-            {
-                var emptySecret = Output.CreateSecret(0);
-                _content = Output.Tuple<Input<string>?, int>(value, emptySecret).Apply(t => t.Item1);
-            }
-        }
 
         [Input("contentb64")]
         private Input<string>? _contentb64;
@@ -214,22 +191,6 @@ namespace CTFerio.Ctfd
         /// </summary>
         [Input("challengeId")]
         public Input<string>? ChallengeId { get; set; }
-
-        [Input("content")]
-        private Input<string>? _content;
-
-        /// <summary>
-        /// Raw content of the file, perfectly fit the use-cases of a .txt document or anything with a simple binary content. You could provide it from the file-system using `file("${path.module}/...")`.
-        /// </summary>
-        public Input<string>? Content
-        {
-            get => _content;
-            set
-            {
-                var emptySecret = Output.CreateSecret(0);
-                _content = Output.Tuple<Input<string>?, int>(value, emptySecret).Apply(t => t.Item1);
-            }
-        }
 
         [Input("contentb64")]
         private Input<string>? _contentb64;

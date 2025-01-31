@@ -15,14 +15,16 @@ else:
 from . import _utilities
 
 __all__ = [
-    'ChallengeRequirementsArgs',
-    'ChallengeRequirementsArgsDict',
+    'ChallengeDynamicRequirementsArgs',
+    'ChallengeDynamicRequirementsArgsDict',
+    'ChallengeStandardRequirementsArgs',
+    'ChallengeStandardRequirementsArgsDict',
 ]
 
 MYPY = False
 
 if not MYPY:
-    class ChallengeRequirementsArgsDict(TypedDict):
+    class ChallengeDynamicRequirementsArgsDict(TypedDict):
         behavior: NotRequired[pulumi.Input[str]]
         """
         Behavior if not unlocked, either hidden or anonymized.
@@ -32,10 +34,62 @@ if not MYPY:
         List of the challenges ID.
         """
 elif False:
-    ChallengeRequirementsArgsDict: TypeAlias = Mapping[str, Any]
+    ChallengeDynamicRequirementsArgsDict: TypeAlias = Mapping[str, Any]
 
 @pulumi.input_type
-class ChallengeRequirementsArgs:
+class ChallengeDynamicRequirementsArgs:
+    def __init__(__self__, *,
+                 behavior: Optional[pulumi.Input[str]] = None,
+                 prerequisites: Optional[pulumi.Input[Sequence[pulumi.Input[str]]]] = None):
+        """
+        :param pulumi.Input[str] behavior: Behavior if not unlocked, either hidden or anonymized.
+        :param pulumi.Input[Sequence[pulumi.Input[str]]] prerequisites: List of the challenges ID.
+        """
+        if behavior is not None:
+            pulumi.set(__self__, "behavior", behavior)
+        if prerequisites is not None:
+            pulumi.set(__self__, "prerequisites", prerequisites)
+
+    @property
+    @pulumi.getter
+    def behavior(self) -> Optional[pulumi.Input[str]]:
+        """
+        Behavior if not unlocked, either hidden or anonymized.
+        """
+        return pulumi.get(self, "behavior")
+
+    @behavior.setter
+    def behavior(self, value: Optional[pulumi.Input[str]]):
+        pulumi.set(self, "behavior", value)
+
+    @property
+    @pulumi.getter
+    def prerequisites(self) -> Optional[pulumi.Input[Sequence[pulumi.Input[str]]]]:
+        """
+        List of the challenges ID.
+        """
+        return pulumi.get(self, "prerequisites")
+
+    @prerequisites.setter
+    def prerequisites(self, value: Optional[pulumi.Input[Sequence[pulumi.Input[str]]]]):
+        pulumi.set(self, "prerequisites", value)
+
+
+if not MYPY:
+    class ChallengeStandardRequirementsArgsDict(TypedDict):
+        behavior: NotRequired[pulumi.Input[str]]
+        """
+        Behavior if not unlocked, either hidden or anonymized.
+        """
+        prerequisites: NotRequired[pulumi.Input[Sequence[pulumi.Input[str]]]]
+        """
+        List of the challenges ID.
+        """
+elif False:
+    ChallengeStandardRequirementsArgsDict: TypeAlias = Mapping[str, Any]
+
+@pulumi.input_type
+class ChallengeStandardRequirementsArgs:
     def __init__(__self__, *,
                  behavior: Optional[pulumi.Input[str]] = None,
                  prerequisites: Optional[pulumi.Input[Sequence[pulumi.Input[str]]]] = None):

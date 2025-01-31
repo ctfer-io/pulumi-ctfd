@@ -5,7 +5,7 @@ import * as pulumi from "@pulumi/pulumi";
 import * as inputs from "../types/input";
 import * as outputs from "../types/output";
 
-export interface ChallengeRequirements {
+export interface ChallengeDynamicRequirements {
     /**
      * Behavior if not unlocked, either hidden or anonymized.
      */
@@ -16,7 +16,22 @@ export interface ChallengeRequirements {
     prerequisites?: string[];
 }
 
-export interface GetChallengesChallenge {
+export interface ChallengeStandardRequirements {
+    /**
+     * Behavior if not unlocked, either hidden or anonymized.
+     */
+    behavior: string;
+    /**
+     * List of the challenges ID.
+     */
+    prerequisites?: string[];
+}
+
+export interface GetChallengesDynamicChallenge {
+    /**
+     * Attribution to the creator(s) of the challenge.
+     */
+    attribution: string;
     /**
      * Category of the challenge that CTFd groups by on the web UI.
      */
@@ -25,15 +40,10 @@ export interface GetChallengesChallenge {
      * Connection Information to connect to the challenge instance, useful for pwn or web pentest.
      */
     connectionInfo: string;
-    decay: number;
     /**
      * Description of the challenge, consider using multiline descriptions for better style.
      */
     description: string;
-    /**
-     * Decay function to define how the challenge value evolve through solves, either linear or logarithmic.
-     */
-    function: string;
     /**
      * Identifier of the challenge.
      */
@@ -42,7 +52,6 @@ export interface GetChallengesChallenge {
      * Maximum amount of attempts before being unable to flag the challenge.
      */
     maxAttempts: number;
-    minimum: number;
     /**
      * Name of the challenge, displayed as it.
      */
@@ -54,7 +63,7 @@ export interface GetChallengesChallenge {
     /**
      * List of required challenges that needs to get flagged before this one being accessible. Useful for skill-trees-like strategy CTF.
      */
-    requirements: outputs.GetChallengesChallengeRequirements;
+    requirements: outputs.GetChallengesDynamicChallengeRequirements;
     /**
      * State of the challenge, either hidden or visible.
      */
@@ -67,14 +76,73 @@ export interface GetChallengesChallenge {
      * List of challenge topics that are displayed to the administrators for maintenance and planification.
      */
     topics: string[];
-    /**
-     * Type of the challenge defining its layout, either standard or dynamic.
-     */
-    type: string;
     value: number;
 }
 
-export interface GetChallengesChallengeRequirements {
+export interface GetChallengesDynamicChallengeRequirements {
+    /**
+     * Behavior if not unlocked, either hidden or anonymized.
+     */
+    behavior: string;
+    /**
+     * List of the challenges ID.
+     */
+    prerequisites: string[];
+}
+
+export interface GetChallengesStandardChallenge {
+    /**
+     * Attribution to the creator(s) of the challenge.
+     */
+    attribution: string;
+    /**
+     * Category of the challenge that CTFd groups by on the web UI.
+     */
+    category: string;
+    /**
+     * Connection Information to connect to the challenge instance, useful for pwn or web pentest.
+     */
+    connectionInfo: string;
+    /**
+     * Description of the challenge, consider using multiline descriptions for better style.
+     */
+    description: string;
+    /**
+     * Identifier of the challenge.
+     */
+    id: string;
+    /**
+     * Maximum amount of attempts before being unable to flag the challenge.
+     */
+    maxAttempts: number;
+    /**
+     * Name of the challenge, displayed as it.
+     */
+    name: string;
+    /**
+     * Suggestion for the end-user as next challenge to work on.
+     */
+    next: number;
+    /**
+     * List of required challenges that needs to get flagged before this one being accessible. Useful for skill-trees-like strategy CTF.
+     */
+    requirements: outputs.GetChallengesStandardChallengeRequirements;
+    /**
+     * State of the challenge, either hidden or visible.
+     */
+    state: string;
+    /**
+     * List of challenge tags that will be displayed to the end-user. You could use them to give some quick insights of what a challenge involves.
+     */
+    tags: string[];
+    /**
+     * List of challenge topics that are displayed to the administrators for maintenance and planification.
+     */
+    topics: string[];
+    value: number;
+}
+
+export interface GetChallengesStandardChallengeRequirements {
     /**
      * Behavior if not unlocked, either hidden or anonymized.
      */

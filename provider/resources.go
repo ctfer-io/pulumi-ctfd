@@ -8,7 +8,7 @@ import (
 	_ "embed"
 
 	"github.com/ctfer-io/pulumi-ctfd/provider/pkg/version"
-	ctfd "github.com/ctfer-io/terraform-provider-ctfd/provider"
+	ctfd "github.com/ctfer-io/terraform-provider-ctfd/v2/provider"
 	pf "github.com/pulumi/pulumi-terraform-bridge/v3/pkg/pf/tfbridge"
 	"github.com/pulumi/pulumi-terraform-bridge/v3/pkg/tfbridge"
 	"github.com/pulumi/pulumi-terraform-bridge/v3/pkg/tfbridge/tokens"
@@ -24,24 +24,28 @@ var metadata []byte
 
 func Provider() tfbridge.ProviderInfo {
 	prov := tfbridge.ProviderInfo{
-		P:                 pf.ShimProvider(ctfd.New(version.Version)()),
-		Version:           version.Version,
-		Name:              "ctfd",
-		DisplayName:       "CTFd",
-		Publisher:         "CTFer.io",
-		PluginDownloadURL: "github://api.github.com/ctfer-io/",
-		Description:       "The CTFd provider for Pulumi, to manage its resources as code.",
-		Keywords:          []string{"pulumi", "ctfd", "category/cloud"},
-		LogoURL:           "https://raw.githubusercontent.com/ctfer-io/pulumi-ctfd/main/res/ctfd.png",
-		License:           "Apache-2.0",
-		Homepage:          "https://ctfer.io",
-		Repository:        "https://github.com/ctfer-io/pulumi-ctfd",
-		GitHubOrg:         "ctfer-io",
-		MetadataInfo:      tfbridge.NewProviderMetadata(metadata),
-		Config:            map[string]*tfbridge.SchemaInfo{},
+		P:                       pf.ShimProvider(ctfd.New(version.Version)()),
+		Version:                 version.Version,
+		Name:                    "ctfd",
+		DisplayName:             "CTFd",
+		Publisher:               "CTFer.io",
+		PluginDownloadURL:       "github://api.github.com/ctfer-io/",
+		Description:             "The CTFd provider for Pulumi, to manage its resources as code.",
+		Keywords:                []string{"pulumi", "ctfd", "category/cloud"},
+		LogoURL:                 "https://raw.githubusercontent.com/ctfer-io/pulumi-ctfd/main/res/ctfd.png",
+		License:                 "Apache-2.0",
+		Homepage:                "https://ctfer.io",
+		Repository:              "https://github.com/ctfer-io/pulumi-ctfd",
+		GitHubOrg:               "ctfer-io",
+		TFProviderModuleVersion: "v2",
+		MetadataInfo:            tfbridge.NewProviderMetadata(metadata),
+		Config:                  map[string]*tfbridge.SchemaInfo{},
 		Resources: map[string]*tfbridge.ResourceInfo{
-			"ctfd_challenge": {
-				Tok: tfbridge.MakeResource(mainPkg, mainMod, "Challenge"),
+			"ctfd_challenge_standard": {
+				Tok: tfbridge.MakeResource(mainPkg, mainMod, "ChallengeStandard"),
+			},
+			"ctfd_challenge_dynamic": {
+				Tok: tfbridge.MakeResource(mainPkg, mainMod, "ChallengeDynamic"),
 			},
 			"ctfd_file": {
 				Tok: tfbridge.MakeResource(mainPkg, mainMod, "File"),
@@ -60,11 +64,11 @@ func Provider() tfbridge.ProviderInfo {
 			},
 		},
 		DataSources: map[string]*tfbridge.DataSourceInfo{
-			// Map each resource in the Terraform provider to a Pulumi function. An example
-			// is below.
-			// "aws_ami": {Tok: tfbridge.MakeDataSource(mainPkg, mainMod, "getAmi")},
-			"ctfd_challenges": {
-				Tok: tfbridge.MakeDataSource(mainPkg, mainMod, "getChallenges"),
+			"ctfd_challenges_standard": {
+				Tok: tfbridge.MakeDataSource(mainPkg, mainMod, "getChallengesStandard"),
+			},
+			"ctfd_challenges_dynamic": {
+				Tok: tfbridge.MakeDataSource(mainPkg, mainMod, "getChallengesDynamic"),
 			},
 			"ctfd_teams": {
 				Tok: tfbridge.MakeDataSource(mainPkg, mainMod, "getTeams"),

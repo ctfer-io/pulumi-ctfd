@@ -13,7 +13,7 @@ namespace CTFerio.Ctfd
     /// <summary>
     /// CTFd is built around the Challenge resource, which contains all the attributes to define a part of the Capture The Flag event.
     /// 
-    /// This provider builds a cleaner API on top of CTFd's one to improve its adoption and lifecycle management.
+    /// This implementation has support of a more dynamic behavior for its scoring through time/solves thus is different from a standard challenge.
     /// 
     /// ## Example Usage
     /// 
@@ -33,7 +33,7 @@ namespace CTFerio.Ctfd
     /// 
     /// return await Deployment.RunAsync(() =&gt; 
     /// {
-    ///     var http = new Ctfd.Challenge("http", new()
+    ///     var http = new Ctfd.ChallengeDynamic("http", new()
     ///     {
     ///         Category = "misc",
     ///         Description = "...",
@@ -86,9 +86,15 @@ namespace CTFerio.Ctfd
     /// });
     /// ```
     /// </summary>
-    [CtfdResourceType("ctfd:index/challenge:Challenge")]
-    public partial class Challenge : global::Pulumi.CustomResource
+    [CtfdResourceType("ctfd:index/challengeDynamic:ChallengeDynamic")]
+    public partial class ChallengeDynamic : global::Pulumi.CustomResource
     {
+        /// <summary>
+        /// Attribution to the creator(s) of the challenge.
+        /// </summary>
+        [Output("attribution")]
+        public Output<string?> Attribution { get; private set; } = null!;
+
         /// <summary>
         /// Category of the challenge that CTFd groups by on the web UI.
         /// </summary>
@@ -147,7 +153,7 @@ namespace CTFerio.Ctfd
         /// List of required challenges that needs to get flagged before this one being accessible. Useful for skill-trees-like strategy CTF.
         /// </summary>
         [Output("requirements")]
-        public Output<Outputs.ChallengeRequirements?> Requirements { get; private set; } = null!;
+        public Output<Outputs.ChallengeDynamicRequirements?> Requirements { get; private set; } = null!;
 
         /// <summary>
         /// State of the challenge, either hidden or visible.
@@ -168,32 +174,26 @@ namespace CTFerio.Ctfd
         public Output<ImmutableArray<string>> Topics { get; private set; } = null!;
 
         /// <summary>
-        /// Type of the challenge defining its layout/behavior, either standard or dynamic (default).
-        /// </summary>
-        [Output("type")]
-        public Output<string> Type { get; private set; } = null!;
-
-        /// <summary>
-        /// The value (points) of the challenge once solved. Internally, the provider will handle what target is legitimate depending on the `.type` value, i.e. either `value` for "standard" or `initial` for "dynamic".
+        /// The value (points) of the challenge once solved. It is mapped to `initial` under the hood, but displayed as `value` for consistency with the standard challenge.
         /// </summary>
         [Output("value")]
         public Output<int> Value { get; private set; } = null!;
 
 
         /// <summary>
-        /// Create a Challenge resource with the given unique name, arguments, and options.
+        /// Create a ChallengeDynamic resource with the given unique name, arguments, and options.
         /// </summary>
         ///
         /// <param name="name">The unique name of the resource</param>
         /// <param name="args">The arguments used to populate this resource's properties</param>
         /// <param name="options">A bag of options that control this resource's behavior</param>
-        public Challenge(string name, ChallengeArgs args, CustomResourceOptions? options = null)
-            : base("ctfd:index/challenge:Challenge", name, args ?? new ChallengeArgs(), MakeResourceOptions(options, ""))
+        public ChallengeDynamic(string name, ChallengeDynamicArgs args, CustomResourceOptions? options = null)
+            : base("ctfd:index/challengeDynamic:ChallengeDynamic", name, args ?? new ChallengeDynamicArgs(), MakeResourceOptions(options, ""))
         {
         }
 
-        private Challenge(string name, Input<string> id, ChallengeState? state = null, CustomResourceOptions? options = null)
-            : base("ctfd:index/challenge:Challenge", name, state, MakeResourceOptions(options, id))
+        private ChallengeDynamic(string name, Input<string> id, ChallengeDynamicState? state = null, CustomResourceOptions? options = null)
+            : base("ctfd:index/challengeDynamic:ChallengeDynamic", name, state, MakeResourceOptions(options, id))
         {
         }
 
@@ -210,7 +210,7 @@ namespace CTFerio.Ctfd
             return merged;
         }
         /// <summary>
-        /// Get an existing Challenge resource's state with the given name, ID, and optional extra
+        /// Get an existing ChallengeDynamic resource's state with the given name, ID, and optional extra
         /// properties used to qualify the lookup.
         /// </summary>
         ///
@@ -218,14 +218,20 @@ namespace CTFerio.Ctfd
         /// <param name="id">The unique provider ID of the resource to lookup.</param>
         /// <param name="state">Any extra arguments used during the lookup.</param>
         /// <param name="options">A bag of options that control this resource's behavior</param>
-        public static Challenge Get(string name, Input<string> id, ChallengeState? state = null, CustomResourceOptions? options = null)
+        public static ChallengeDynamic Get(string name, Input<string> id, ChallengeDynamicState? state = null, CustomResourceOptions? options = null)
         {
-            return new Challenge(name, id, state, options);
+            return new ChallengeDynamic(name, id, state, options);
         }
     }
 
-    public sealed class ChallengeArgs : global::Pulumi.ResourceArgs
+    public sealed class ChallengeDynamicArgs : global::Pulumi.ResourceArgs
     {
+        /// <summary>
+        /// Attribution to the creator(s) of the challenge.
+        /// </summary>
+        [Input("attribution")]
+        public Input<string>? Attribution { get; set; }
+
         /// <summary>
         /// Category of the challenge that CTFd groups by on the web UI.
         /// </summary>
@@ -241,8 +247,8 @@ namespace CTFerio.Ctfd
         /// <summary>
         /// The decay defines from each number of solves does the decay function triggers until reaching minimum. This function is defined by CTFd and could be configured through `.function`.
         /// </summary>
-        [Input("decay")]
-        public Input<int>? Decay { get; set; }
+        [Input("decay", required: true)]
+        public Input<int> Decay { get; set; } = null!;
 
         /// <summary>
         /// Description of the challenge, consider using multiline descriptions for better style.
@@ -265,8 +271,8 @@ namespace CTFerio.Ctfd
         /// <summary>
         /// The minimum points for a dynamic-score challenge to reach with the decay function. Once there, no solve could have more value.
         /// </summary>
-        [Input("minimum")]
-        public Input<int>? Minimum { get; set; }
+        [Input("minimum", required: true)]
+        public Input<int> Minimum { get; set; } = null!;
 
         /// <summary>
         /// Name of the challenge, displayed as it.
@@ -284,7 +290,7 @@ namespace CTFerio.Ctfd
         /// List of required challenges that needs to get flagged before this one being accessible. Useful for skill-trees-like strategy CTF.
         /// </summary>
         [Input("requirements")]
-        public Input<Inputs.ChallengeRequirementsArgs>? Requirements { get; set; }
+        public Input<Inputs.ChallengeDynamicRequirementsArgs>? Requirements { get; set; }
 
         /// <summary>
         /// State of the challenge, either hidden or visible.
@@ -317,25 +323,25 @@ namespace CTFerio.Ctfd
         }
 
         /// <summary>
-        /// Type of the challenge defining its layout/behavior, either standard or dynamic (default).
-        /// </summary>
-        [Input("type")]
-        public Input<string>? Type { get; set; }
-
-        /// <summary>
-        /// The value (points) of the challenge once solved. Internally, the provider will handle what target is legitimate depending on the `.type` value, i.e. either `value` for "standard" or `initial` for "dynamic".
+        /// The value (points) of the challenge once solved. It is mapped to `initial` under the hood, but displayed as `value` for consistency with the standard challenge.
         /// </summary>
         [Input("value", required: true)]
         public Input<int> Value { get; set; } = null!;
 
-        public ChallengeArgs()
+        public ChallengeDynamicArgs()
         {
         }
-        public static new ChallengeArgs Empty => new ChallengeArgs();
+        public static new ChallengeDynamicArgs Empty => new ChallengeDynamicArgs();
     }
 
-    public sealed class ChallengeState : global::Pulumi.ResourceArgs
+    public sealed class ChallengeDynamicState : global::Pulumi.ResourceArgs
     {
+        /// <summary>
+        /// Attribution to the creator(s) of the challenge.
+        /// </summary>
+        [Input("attribution")]
+        public Input<string>? Attribution { get; set; }
+
         /// <summary>
         /// Category of the challenge that CTFd groups by on the web UI.
         /// </summary>
@@ -394,7 +400,7 @@ namespace CTFerio.Ctfd
         /// List of required challenges that needs to get flagged before this one being accessible. Useful for skill-trees-like strategy CTF.
         /// </summary>
         [Input("requirements")]
-        public Input<Inputs.ChallengeRequirementsGetArgs>? Requirements { get; set; }
+        public Input<Inputs.ChallengeDynamicRequirementsGetArgs>? Requirements { get; set; }
 
         /// <summary>
         /// State of the challenge, either hidden or visible.
@@ -427,20 +433,14 @@ namespace CTFerio.Ctfd
         }
 
         /// <summary>
-        /// Type of the challenge defining its layout/behavior, either standard or dynamic (default).
-        /// </summary>
-        [Input("type")]
-        public Input<string>? Type { get; set; }
-
-        /// <summary>
-        /// The value (points) of the challenge once solved. Internally, the provider will handle what target is legitimate depending on the `.type` value, i.e. either `value` for "standard" or `initial` for "dynamic".
+        /// The value (points) of the challenge once solved. It is mapped to `initial` under the hood, but displayed as `value` for consistency with the standard challenge.
         /// </summary>
         [Input("value")]
         public Input<int>? Value { get; set; }
 
-        public ChallengeState()
+        public ChallengeDynamicState()
         {
         }
-        public static new ChallengeState Empty => new ChallengeState();
+        public static new ChallengeDynamicState Empty => new ChallengeDynamicState();
     }
 }

@@ -5,7 +5,18 @@ import * as pulumi from "@pulumi/pulumi";
 import * as inputs from "../types/input";
 import * as outputs from "../types/output";
 
-export interface ChallengeRequirements {
+export interface ChallengeDynamicRequirements {
+    /**
+     * Behavior if not unlocked, either hidden or anonymized.
+     */
+    behavior?: pulumi.Input<string>;
+    /**
+     * List of the challenges ID.
+     */
+    prerequisites?: pulumi.Input<pulumi.Input<string>[]>;
+}
+
+export interface ChallengeStandardRequirements {
     /**
      * Behavior if not unlocked, either hidden or anonymized.
      */
