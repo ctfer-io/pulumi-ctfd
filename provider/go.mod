@@ -1,4 +1,4 @@
-module github.com/ctfer-io/pulumi-ctfd/provider
+module github.com/ctfer-io/pulumi-ctfd/provider/v2
 
 go 1.23.2
 

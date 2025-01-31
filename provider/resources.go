@@ -7,7 +7,7 @@ import (
 	// Allow embedding bridge-metadata.json in the provider.
 	_ "embed"
 
-	"github.com/ctfer-io/pulumi-ctfd/provider/pkg/version"
+	"github.com/ctfer-io/pulumi-ctfd/provider/v2/pkg/version"
 	ctfd "github.com/ctfer-io/terraform-provider-ctfd/v2/provider"
 	pf "github.com/pulumi/pulumi-terraform-bridge/v3/pkg/pf/tfbridge"
 	"github.com/pulumi/pulumi-terraform-bridge/v3/pkg/tfbridge"

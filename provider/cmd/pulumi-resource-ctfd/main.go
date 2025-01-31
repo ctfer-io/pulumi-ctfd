@@ -20,7 +20,7 @@ import (
 	"context"
 	_ "embed"
 
-	ctfd "github.com/ctfer-io/pulumi-ctfd/provider"
+	ctfd "github.com/ctfer-io/pulumi-ctfd/provider/v2"
 	"github.com/pulumi/pulumi-terraform-bridge/v3/pkg/pf/tfbridge"
 )
 
