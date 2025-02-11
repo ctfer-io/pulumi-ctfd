@@ -55,7 +55,7 @@ For instance, you can set the url using `pulumi config set url https://my-ctf.la
 package main
 
 import (
-    "github.com/ctfer-io/pulumi-ctfd/sdk/go/ctfd"
+    "github.com/ctfer-io/pulumi-ctfd/sdk/v2/go/ctfd"
     "github.com/pulumi/pulumi/sdk/v3/go/pulumi"
     "github.com/pulumi/pulumi/sdk/v3/go/pulumi/config"
 )

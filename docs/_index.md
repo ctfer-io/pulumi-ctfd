@@ -81,7 +81,7 @@ let ch = new ctfd.Challenge('some-challenge', {
 package main
 
 import (
-    "github.com/ctfer-io/pulumi-ctfd/sdk/go/ctfd"
+    "github.com/ctfer-io/pulumi-ctfd/sdk/v2/go/ctfd"
     "github.com/pulumi/pulumi/sdk/v3/go/pulumi"
 )
 
