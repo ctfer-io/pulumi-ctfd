@@ -30,18 +30,12 @@ class _ExportableConfig(types.ModuleType):
         return __config__.get('apiKey')
 
     @property
-    def nonce(self) -> Optional[str]:
+    def password(self) -> Optional[str]:
         """
-        User session nonce, comes with session. Could use `CTFD_NONCE` environment variable instead.
+        The administrator or service account password to login with. Could use `CTFD_ADMIN_PASSWORD` environment variable
+        instead.
         """
-        return __config__.get('nonce')
-
-    @property
-    def session(self) -> Optional[str]:
-        """
-        User session token, comes with nonce. Could use `CTFD_SESSION` environment variable instead.
-        """
-        return __config__.get('session')
+        return __config__.get('password')
 
     @property
     def url(self) -> Optional[str]:
@@ -49,4 +43,12 @@ class _ExportableConfig(types.ModuleType):
         CTFd base URL (e.g. `https://my-ctf.lan`). Could use `CTFD_URL` environment variable instead.
         """
         return __config__.get('url')
+
+    @property
+    def username(self) -> Optional[str]:
+        """
+        The administrator or service account username to login with. Could use `CTFD_ADMIN_USERNAME` environment variable
+        instead.
+        """
+        return __config__.get('username')
 

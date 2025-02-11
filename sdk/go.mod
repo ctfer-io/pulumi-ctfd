@@ -1,4 +1,4 @@
-module github.com/ctfer-io/pulumi-ctfd/sdk
+module github.com/ctfer-io/pulumi-ctfd/sdk/v2
 
 go 1.22.3
 

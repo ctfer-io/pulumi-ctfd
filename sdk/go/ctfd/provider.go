@@ -7,7 +7,7 @@ import (
 	"context"
 	"reflect"
 
-	"github.com/ctfer-io/pulumi-ctfd/sdk/go/ctfd/internal"
+	"github.com/ctfer-io/pulumi-ctfd/sdk/v2/go/ctfd/internal"
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
 )
 
@@ -22,12 +22,14 @@ type Provider struct {
 	// authenticate yourself, we do not recommend it as you will probably generate a long-live token without any rotation
 	// policy.
 	ApiKey pulumi.StringPtrOutput `pulumi:"apiKey"`
-	// User session nonce, comes with session. Could use `CTFD_NONCE` environment variable instead.
-	Nonce pulumi.StringPtrOutput `pulumi:"nonce"`
-	// User session token, comes with nonce. Could use `CTFD_SESSION` environment variable instead.
-	Session pulumi.StringPtrOutput `pulumi:"session"`
+	// The administrator or service account password to login with. Could use `CTFD_ADMIN_PASSWORD` environment variable
+	// instead.
+	Password pulumi.StringPtrOutput `pulumi:"password"`
 	// CTFd base URL (e.g. `https://my-ctf.lan`). Could use `CTFD_URL` environment variable instead.
 	Url pulumi.StringPtrOutput `pulumi:"url"`
+	// The administrator or service account username to login with. Could use `CTFD_ADMIN_USERNAME` environment variable
+	// instead.
+	Username pulumi.StringPtrOutput `pulumi:"username"`
 }
 
 // NewProvider registers a new resource with the given unique name, arguments, and options.
@@ -40,16 +42,16 @@ func NewProvider(ctx *pulumi.Context,
 	if args.ApiKey != nil {
 		args.ApiKey = pulumi.ToSecret(args.ApiKey).(pulumi.StringPtrInput)
 	}
-	if args.Nonce != nil {
-		args.Nonce = pulumi.ToSecret(args.Nonce).(pulumi.StringPtrInput)
+	if args.Password != nil {
+		args.Password = pulumi.ToSecret(args.Password).(pulumi.StringPtrInput)
 	}
-	if args.Session != nil {
-		args.Session = pulumi.ToSecret(args.Session).(pulumi.StringPtrInput)
+	if args.Username != nil {
+		args.Username = pulumi.ToSecret(args.Username).(pulumi.StringPtrInput)
 	}
 	secrets := pulumi.AdditionalSecretOutputs([]string{
 		"apiKey",
-		"nonce",
-		"session",
+		"password",
+		"username",
 	})
 	opts = append(opts, secrets)
 	opts = internal.PkgResourceDefaultOpts(opts)
@@ -66,12 +68,14 @@ type providerArgs struct {
 	// authenticate yourself, we do not recommend it as you will probably generate a long-live token without any rotation
 	// policy.
 	ApiKey *string `pulumi:"apiKey"`
-	// User session nonce, comes with session. Could use `CTFD_NONCE` environment variable instead.
-	Nonce *string `pulumi:"nonce"`
-	// User session token, comes with nonce. Could use `CTFD_SESSION` environment variable instead.
-	Session *string `pulumi:"session"`
+	// The administrator or service account password to login with. Could use `CTFD_ADMIN_PASSWORD` environment variable
+	// instead.
+	Password *string `pulumi:"password"`
 	// CTFd base URL (e.g. `https://my-ctf.lan`). Could use `CTFD_URL` environment variable instead.
 	Url *string `pulumi:"url"`
+	// The administrator or service account username to login with. Could use `CTFD_ADMIN_USERNAME` environment variable
+	// instead.
+	Username *string `pulumi:"username"`
 }
 
 // The set of arguments for constructing a Provider resource.
@@ -80,12 +84,14 @@ type ProviderArgs struct {
 	// authenticate yourself, we do not recommend it as you will probably generate a long-live token without any rotation
 	// policy.
 	ApiKey pulumi.StringPtrInput
-	// User session nonce, comes with session. Could use `CTFD_NONCE` environment variable instead.
-	Nonce pulumi.StringPtrInput
-	// User session token, comes with nonce. Could use `CTFD_SESSION` environment variable instead.
-	Session pulumi.StringPtrInput
+	// The administrator or service account password to login with. Could use `CTFD_ADMIN_PASSWORD` environment variable
+	// instead.
+	Password pulumi.StringPtrInput
 	// CTFd base URL (e.g. `https://my-ctf.lan`). Could use `CTFD_URL` environment variable instead.
 	Url pulumi.StringPtrInput
+	// The administrator or service account username to login with. Could use `CTFD_ADMIN_USERNAME` environment variable
+	// instead.
+	Username pulumi.StringPtrInput
 }
 
 func (ProviderArgs) ElementType() reflect.Type {
@@ -132,19 +138,21 @@ func (o ProviderOutput) ApiKey() pulumi.StringPtrOutput {
 	return o.ApplyT(func(v *Provider) pulumi.StringPtrOutput { return v.ApiKey }).(pulumi.StringPtrOutput)
 }
 
-// User session nonce, comes with session. Could use `CTFD_NONCE` environment variable instead.
-func (o ProviderOutput) Nonce() pulumi.StringPtrOutput {
-	return o.ApplyT(func(v *Provider) pulumi.StringPtrOutput { return v.Nonce }).(pulumi.StringPtrOutput)
-}
-
-// User session token, comes with nonce. Could use `CTFD_SESSION` environment variable instead.
-func (o ProviderOutput) Session() pulumi.StringPtrOutput {
-	return o.ApplyT(func(v *Provider) pulumi.StringPtrOutput { return v.Session }).(pulumi.StringPtrOutput)
+// The administrator or service account password to login with. Could use `CTFD_ADMIN_PASSWORD` environment variable
+// instead.
+func (o ProviderOutput) Password() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v *Provider) pulumi.StringPtrOutput { return v.Password }).(pulumi.StringPtrOutput)
 }
 
 // CTFd base URL (e.g. `https://my-ctf.lan`). Could use `CTFD_URL` environment variable instead.
 func (o ProviderOutput) Url() pulumi.StringPtrOutput {
 	return o.ApplyT(func(v *Provider) pulumi.StringPtrOutput { return v.Url }).(pulumi.StringPtrOutput)
+}
+
+// The administrator or service account username to login with. Could use `CTFD_ADMIN_USERNAME` environment variable
+// instead.
+func (o ProviderOutput) Username() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v *Provider) pulumi.StringPtrOutput { return v.Username }).(pulumi.StringPtrOutput)
 }
 
 func init() {

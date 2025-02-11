@@ -3,7 +3,7 @@
         "resources": {
             "ctfd_challenge_dynamic": {
                 "current": "ctfd:index/challengeDynamic:ChallengeDynamic",
-                "majorVersion": 1,
+                "majorVersion": 2,
                 "fields": {
                     "requirements": {
                         "fields": {
@@ -22,7 +22,7 @@
             },
             "ctfd_challenge_standard": {
                 "current": "ctfd:index/challengeStandard:ChallengeStandard",
-                "majorVersion": 1,
+                "majorVersion": 2,
                 "fields": {
                     "requirements": {
                         "fields": {
@@ -41,15 +41,15 @@
             },
             "ctfd_file": {
                 "current": "ctfd:index/file:File",
-                "majorVersion": 1
+                "majorVersion": 2
             },
             "ctfd_flag": {
                 "current": "ctfd:index/flag:Flag",
-                "majorVersion": 1
+                "majorVersion": 2
             },
             "ctfd_hint": {
                 "current": "ctfd:index/hint:Hint",
-                "majorVersion": 1,
+                "majorVersion": 2,
                 "fields": {
                     "requirements": {
                         "maxItemsOne": false
@@ -58,7 +58,7 @@
             },
             "ctfd_team": {
                 "current": "ctfd:index/team:Team",
-                "majorVersion": 1,
+                "majorVersion": 2,
                 "fields": {
                     "members": {
                         "maxItemsOne": false
@@ -67,13 +67,13 @@
             },
             "ctfd_user": {
                 "current": "ctfd:index/user:User",
-                "majorVersion": 1
+                "majorVersion": 2
             }
         },
         "datasources": {
             "ctfd_challenges_dynamic": {
                 "current": "ctfd:index/getChallengesDynamic:getChallengesDynamic",
-                "majorVersion": 1,
+                "majorVersion": 2,
                 "fields": {
                     "challenges": {
                         "maxItemsOne": false,
@@ -99,7 +99,7 @@
             },
             "ctfd_challenges_standard": {
                 "current": "ctfd:index/getChallengesStandard:getChallengesStandard",
-                "majorVersion": 1,
+                "majorVersion": 2,
                 "fields": {
                     "challenges": {
                         "maxItemsOne": false,
@@ -125,7 +125,7 @@
             },
             "ctfd_teams": {
                 "current": "ctfd:index/getTeams:getTeams",
-                "majorVersion": 1,
+                "majorVersion": 2,
                 "fields": {
                     "members": {
                         "maxItemsOne": false
@@ -134,7 +134,7 @@
             },
             "ctfd_users": {
                 "current": "ctfd:index/getUsers:getUsers",
-                "majorVersion": 1
+                "majorVersion": 2
             }
         }
     },

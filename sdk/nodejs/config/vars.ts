@@ -21,23 +21,13 @@ Object.defineProperty(exports, "apiKey", {
 });
 
 /**
- * User session nonce, comes with session. Could use `CTFD_NONCE` environment variable instead.
+ * The administrator or service account password to login with. Could use `CTFD_ADMIN_PASSWORD` environment variable
+ * instead.
  */
-export declare const nonce: string | undefined;
-Object.defineProperty(exports, "nonce", {
+export declare const password: string | undefined;
+Object.defineProperty(exports, "password", {
     get() {
-        return __config.get("nonce");
-    },
-    enumerable: true,
-});
-
-/**
- * User session token, comes with nonce. Could use `CTFD_SESSION` environment variable instead.
- */
-export declare const session: string | undefined;
-Object.defineProperty(exports, "session", {
-    get() {
-        return __config.get("session");
+        return __config.get("password");
     },
     enumerable: true,
 });
@@ -49,6 +39,18 @@ export declare const url: string | undefined;
 Object.defineProperty(exports, "url", {
     get() {
         return __config.get("url");
+    },
+    enumerable: true,
+});
+
+/**
+ * The administrator or service account username to login with. Could use `CTFD_ADMIN_USERNAME` environment variable
+ * instead.
+ */
+export declare const username: string | undefined;
+Object.defineProperty(exports, "username", {
+    get() {
+        return __config.get("username");
     },
     enumerable: true,
 });

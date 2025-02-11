@@ -44,24 +44,15 @@ namespace CTFerio.Ctfd
             set => _apiKey.Set(value);
         }
 
-        private static readonly __Value<string?> _nonce = new __Value<string?>(() => __config.Get("nonce"));
+        private static readonly __Value<string?> _password = new __Value<string?>(() => __config.Get("password"));
         /// <summary>
-        /// User session nonce, comes with session. Could use `CTFD_NONCE` environment variable instead.
+        /// The administrator or service account password to login with. Could use `CTFD_ADMIN_PASSWORD` environment variable
+        /// instead.
         /// </summary>
-        public static string? Nonce
+        public static string? Password
         {
-            get => _nonce.Get();
-            set => _nonce.Set(value);
-        }
-
-        private static readonly __Value<string?> _session = new __Value<string?>(() => __config.Get("session"));
-        /// <summary>
-        /// User session token, comes with nonce. Could use `CTFD_SESSION` environment variable instead.
-        /// </summary>
-        public static string? Session
-        {
-            get => _session.Get();
-            set => _session.Set(value);
+            get => _password.Get();
+            set => _password.Set(value);
         }
 
         private static readonly __Value<string?> _url = new __Value<string?>(() => __config.Get("url"));
@@ -72,6 +63,17 @@ namespace CTFerio.Ctfd
         {
             get => _url.Get();
             set => _url.Set(value);
+        }
+
+        private static readonly __Value<string?> _username = new __Value<string?>(() => __config.Get("username"));
+        /// <summary>
+        /// The administrator or service account username to login with. Could use `CTFD_ADMIN_USERNAME` environment variable
+        /// instead.
+        /// </summary>
+        public static string? Username
+        {
+            get => _username.Get();
+            set => _username.Set(value);
         }
 
     }
