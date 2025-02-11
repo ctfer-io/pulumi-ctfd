@@ -21,18 +21,20 @@ authenticate yourself, we do not recommend it as you will probably generate a lo
 policy.
 """
 
-nonce: Optional[str]
+password: Optional[str]
 """
-User session nonce, comes with session. Could use `CTFD_NONCE` environment variable instead.
-"""
-
-session: Optional[str]
-"""
-User session token, comes with nonce. Could use `CTFD_SESSION` environment variable instead.
+The administrator or service account password to login with. Could use `CTFD_ADMIN_PASSWORD` environment variable
+instead.
 """
 
 url: Optional[str]
 """
 CTFd base URL (e.g. `https://my-ctf.lan`). Could use `CTFD_URL` environment variable instead.
+"""
+
+username: Optional[str]
+"""
+The administrator or service account username to login with. Could use `CTFD_ADMIN_USERNAME` environment variable
+instead.
 """
 

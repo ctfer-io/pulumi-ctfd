@@ -20,26 +20,28 @@ __all__ = ['ProviderArgs', 'Provider']
 class ProviderArgs:
     def __init__(__self__, *,
                  api_key: Optional[pulumi.Input[str]] = None,
-                 nonce: Optional[pulumi.Input[str]] = None,
-                 session: Optional[pulumi.Input[str]] = None,
-                 url: Optional[pulumi.Input[str]] = None):
+                 password: Optional[pulumi.Input[str]] = None,
+                 url: Optional[pulumi.Input[str]] = None,
+                 username: Optional[pulumi.Input[str]] = None):
         """
         The set of arguments for constructing a Provider resource.
         :param pulumi.Input[str] api_key: User API key. Could use `CTFD_API_KEY` environment variable instead. Despite being the most convenient way to
                authenticate yourself, we do not recommend it as you will probably generate a long-live token without any rotation
                policy.
-        :param pulumi.Input[str] nonce: User session nonce, comes with session. Could use `CTFD_NONCE` environment variable instead.
-        :param pulumi.Input[str] session: User session token, comes with nonce. Could use `CTFD_SESSION` environment variable instead.
+        :param pulumi.Input[str] password: The administrator or service account password to login with. Could use `CTFD_ADMIN_PASSWORD` environment variable
+               instead.
         :param pulumi.Input[str] url: CTFd base URL (e.g. `https://my-ctf.lan`). Could use `CTFD_URL` environment variable instead.
+        :param pulumi.Input[str] username: The administrator or service account username to login with. Could use `CTFD_ADMIN_USERNAME` environment variable
+               instead.
         """
         if api_key is not None:
             pulumi.set(__self__, "api_key", api_key)
-        if nonce is not None:
-            pulumi.set(__self__, "nonce", nonce)
-        if session is not None:
-            pulumi.set(__self__, "session", session)
+        if password is not None:
+            pulumi.set(__self__, "password", password)
         if url is not None:
             pulumi.set(__self__, "url", url)
+        if username is not None:
+            pulumi.set(__self__, "username", username)
 
     @property
     @pulumi.getter(name="apiKey")
@@ -57,27 +59,16 @@ class ProviderArgs:
 
     @property
     @pulumi.getter
-    def nonce(self) -> Optional[pulumi.Input[str]]:
+    def password(self) -> Optional[pulumi.Input[str]]:
         """
-        User session nonce, comes with session. Could use `CTFD_NONCE` environment variable instead.
+        The administrator or service account password to login with. Could use `CTFD_ADMIN_PASSWORD` environment variable
+        instead.
         """
-        return pulumi.get(self, "nonce")
+        return pulumi.get(self, "password")
 
-    @nonce.setter
-    def nonce(self, value: Optional[pulumi.Input[str]]):
-        pulumi.set(self, "nonce", value)
-
-    @property
-    @pulumi.getter
-    def session(self) -> Optional[pulumi.Input[str]]:
-        """
-        User session token, comes with nonce. Could use `CTFD_SESSION` environment variable instead.
-        """
-        return pulumi.get(self, "session")
-
-    @session.setter
-    def session(self, value: Optional[pulumi.Input[str]]):
-        pulumi.set(self, "session", value)
+    @password.setter
+    def password(self, value: Optional[pulumi.Input[str]]):
+        pulumi.set(self, "password", value)
 
     @property
     @pulumi.getter
@@ -91,6 +82,19 @@ class ProviderArgs:
     def url(self, value: Optional[pulumi.Input[str]]):
         pulumi.set(self, "url", value)
 
+    @property
+    @pulumi.getter
+    def username(self) -> Optional[pulumi.Input[str]]:
+        """
+        The administrator or service account username to login with. Could use `CTFD_ADMIN_USERNAME` environment variable
+        instead.
+        """
+        return pulumi.get(self, "username")
+
+    @username.setter
+    def username(self, value: Optional[pulumi.Input[str]]):
+        pulumi.set(self, "username", value)
+
 
 class Provider(pulumi.ProviderResource):
     @overload
@@ -98,9 +102,9 @@ class Provider(pulumi.ProviderResource):
                  resource_name: str,
                  opts: Optional[pulumi.ResourceOptions] = None,
                  api_key: Optional[pulumi.Input[str]] = None,
-                 nonce: Optional[pulumi.Input[str]] = None,
-                 session: Optional[pulumi.Input[str]] = None,
+                 password: Optional[pulumi.Input[str]] = None,
                  url: Optional[pulumi.Input[str]] = None,
+                 username: Optional[pulumi.Input[str]] = None,
                  __props__=None):
         """
         The provider type for the ctfd package. By default, resources use package-wide configuration
@@ -113,9 +117,11 @@ class Provider(pulumi.ProviderResource):
         :param pulumi.Input[str] api_key: User API key. Could use `CTFD_API_KEY` environment variable instead. Despite being the most convenient way to
                authenticate yourself, we do not recommend it as you will probably generate a long-live token without any rotation
                policy.
-        :param pulumi.Input[str] nonce: User session nonce, comes with session. Could use `CTFD_NONCE` environment variable instead.
-        :param pulumi.Input[str] session: User session token, comes with nonce. Could use `CTFD_SESSION` environment variable instead.
+        :param pulumi.Input[str] password: The administrator or service account password to login with. Could use `CTFD_ADMIN_PASSWORD` environment variable
+               instead.
         :param pulumi.Input[str] url: CTFd base URL (e.g. `https://my-ctf.lan`). Could use `CTFD_URL` environment variable instead.
+        :param pulumi.Input[str] username: The administrator or service account username to login with. Could use `CTFD_ADMIN_USERNAME` environment variable
+               instead.
         """
         ...
     @overload
@@ -145,9 +151,9 @@ class Provider(pulumi.ProviderResource):
                  resource_name: str,
                  opts: Optional[pulumi.ResourceOptions] = None,
                  api_key: Optional[pulumi.Input[str]] = None,
-                 nonce: Optional[pulumi.Input[str]] = None,
-                 session: Optional[pulumi.Input[str]] = None,
+                 password: Optional[pulumi.Input[str]] = None,
                  url: Optional[pulumi.Input[str]] = None,
+                 username: Optional[pulumi.Input[str]] = None,
                  __props__=None):
         opts = pulumi.ResourceOptions.merge(_utilities.get_resource_opts_defaults(), opts)
         if not isinstance(opts, pulumi.ResourceOptions):
@@ -158,10 +164,10 @@ class Provider(pulumi.ProviderResource):
             __props__ = ProviderArgs.__new__(ProviderArgs)
 
             __props__.__dict__["api_key"] = None if api_key is None else pulumi.Output.secret(api_key)
-            __props__.__dict__["nonce"] = None if nonce is None else pulumi.Output.secret(nonce)
-            __props__.__dict__["session"] = None if session is None else pulumi.Output.secret(session)
+            __props__.__dict__["password"] = None if password is None else pulumi.Output.secret(password)
             __props__.__dict__["url"] = url
-        secret_opts = pulumi.ResourceOptions(additional_secret_outputs=["apiKey", "nonce", "session"])
+            __props__.__dict__["username"] = None if username is None else pulumi.Output.secret(username)
+        secret_opts = pulumi.ResourceOptions(additional_secret_outputs=["apiKey", "password", "username"])
         opts = pulumi.ResourceOptions.merge(opts, secret_opts)
         super(Provider, __self__).__init__(
             'ctfd',
@@ -181,19 +187,12 @@ class Provider(pulumi.ProviderResource):
 
     @property
     @pulumi.getter
-    def nonce(self) -> pulumi.Output[Optional[str]]:
+    def password(self) -> pulumi.Output[Optional[str]]:
         """
-        User session nonce, comes with session. Could use `CTFD_NONCE` environment variable instead.
+        The administrator or service account password to login with. Could use `CTFD_ADMIN_PASSWORD` environment variable
+        instead.
         """
-        return pulumi.get(self, "nonce")
-
-    @property
-    @pulumi.getter
-    def session(self) -> pulumi.Output[Optional[str]]:
-        """
-        User session token, comes with nonce. Could use `CTFD_SESSION` environment variable instead.
-        """
-        return pulumi.get(self, "session")
+        return pulumi.get(self, "password")
 
     @property
     @pulumi.getter
@@ -202,4 +201,13 @@ class Provider(pulumi.ProviderResource):
         CTFd base URL (e.g. `https://my-ctf.lan`). Could use `CTFD_URL` environment variable instead.
         """
         return pulumi.get(self, "url")
+
+    @property
+    @pulumi.getter
+    def username(self) -> pulumi.Output[Optional[str]]:
+        """
+        The administrator or service account username to login with. Could use `CTFD_ADMIN_USERNAME` environment variable
+        instead.
+        """
+        return pulumi.get(self, "username")
 

@@ -8,7 +8,7 @@ import (
 	"reflect"
 
 	"errors"
-	"github.com/ctfer-io/pulumi-ctfd/sdk/go/ctfd/internal"
+	"github.com/ctfer-io/pulumi-ctfd/sdk/v2/go/ctfd/internal"
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
 )
 
@@ -26,7 +26,7 @@ import (
 //	"encoding/base64"
 //	"os"
 //
-//	"github.com/ctfer-io/pulumi-ctfd/sdk/go/ctfd"
+//	"github.com/ctfer-io/pulumi-ctfd/sdk/v2/go/ctfd"
 //	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
 //
 // )

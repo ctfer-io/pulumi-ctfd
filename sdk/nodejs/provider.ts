@@ -32,17 +32,19 @@ export class Provider extends pulumi.ProviderResource {
      */
     public readonly apiKey!: pulumi.Output<string | undefined>;
     /**
-     * User session nonce, comes with session. Could use `CTFD_NONCE` environment variable instead.
+     * The administrator or service account password to login with. Could use `CTFD_ADMIN_PASSWORD` environment variable
+     * instead.
      */
-    public readonly nonce!: pulumi.Output<string | undefined>;
-    /**
-     * User session token, comes with nonce. Could use `CTFD_SESSION` environment variable instead.
-     */
-    public readonly session!: pulumi.Output<string | undefined>;
+    public readonly password!: pulumi.Output<string | undefined>;
     /**
      * CTFd base URL (e.g. `https://my-ctf.lan`). Could use `CTFD_URL` environment variable instead.
      */
     public readonly url!: pulumi.Output<string | undefined>;
+    /**
+     * The administrator or service account username to login with. Could use `CTFD_ADMIN_USERNAME` environment variable
+     * instead.
+     */
+    public readonly username!: pulumi.Output<string | undefined>;
 
     /**
      * Create a Provider resource with the given unique name, arguments, and options.
@@ -56,12 +58,12 @@ export class Provider extends pulumi.ProviderResource {
         opts = opts || {};
         {
             resourceInputs["apiKey"] = args?.apiKey ? pulumi.secret(args.apiKey) : undefined;
-            resourceInputs["nonce"] = args?.nonce ? pulumi.secret(args.nonce) : undefined;
-            resourceInputs["session"] = args?.session ? pulumi.secret(args.session) : undefined;
+            resourceInputs["password"] = args?.password ? pulumi.secret(args.password) : undefined;
             resourceInputs["url"] = args ? args.url : undefined;
+            resourceInputs["username"] = args?.username ? pulumi.secret(args.username) : undefined;
         }
         opts = pulumi.mergeOptions(utilities.resourceOptsDefaults(), opts);
-        const secretOpts = { additionalSecretOutputs: ["apiKey", "nonce", "session"] };
+        const secretOpts = { additionalSecretOutputs: ["apiKey", "password", "username"] };
         opts = pulumi.mergeOptions(opts, secretOpts);
         super(Provider.__pulumiType, name, resourceInputs, opts);
     }
@@ -78,15 +80,17 @@ export interface ProviderArgs {
      */
     apiKey?: pulumi.Input<string>;
     /**
-     * User session nonce, comes with session. Could use `CTFD_NONCE` environment variable instead.
+     * The administrator or service account password to login with. Could use `CTFD_ADMIN_PASSWORD` environment variable
+     * instead.
      */
-    nonce?: pulumi.Input<string>;
-    /**
-     * User session token, comes with nonce. Could use `CTFD_SESSION` environment variable instead.
-     */
-    session?: pulumi.Input<string>;
+    password?: pulumi.Input<string>;
     /**
      * CTFd base URL (e.g. `https://my-ctf.lan`). Could use `CTFD_URL` environment variable instead.
      */
     url?: pulumi.Input<string>;
+    /**
+     * The administrator or service account username to login with. Could use `CTFD_ADMIN_USERNAME` environment variable
+     * instead.
+     */
+    username?: pulumi.Input<string>;
 }
