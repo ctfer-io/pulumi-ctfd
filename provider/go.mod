@@ -40,6 +40,8 @@ require (
 	github.com/cloudflare/circl v1.3.7 // indirect
 	github.com/containerd/console v1.0.4-0.20230313162750-1ae8d489ac81 // indirect
 	github.com/ctfer-io/go-ctfd v0.10.2 // indirect
+	github.com/ctfer-io/pulumi-ctfd/provider v0.0.0-20241216163456-c0d18a3ed1f4 // indirect
+	github.com/ctfer-io/terraform-provider-ctfd v1.0.1 // indirect
 	github.com/cyphar/filepath-securejoin v0.3.6 // indirect
 	github.com/deckarep/golang-set/v2 v2.5.0 // indirect
 	github.com/djherbis/times v1.5.0 // indirect
