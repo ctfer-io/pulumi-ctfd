@@ -89,6 +89,8 @@ type Hint struct {
 	Cost pulumi.IntOutput `pulumi:"cost"`
 	// List of the other hints it depends on.
 	Requirements pulumi.StringArrayOutput `pulumi:"requirements"`
+	// Title of the hint, displayed to end users before unlocking.
+	Title pulumi.StringPtrOutput `pulumi:"title"`
 }
 
 // NewHint registers a new resource with the given unique name, arguments, and options.
@@ -135,6 +137,8 @@ type hintState struct {
 	Cost *int `pulumi:"cost"`
 	// List of the other hints it depends on.
 	Requirements []string `pulumi:"requirements"`
+	// Title of the hint, displayed to end users before unlocking.
+	Title *string `pulumi:"title"`
 }
 
 type HintState struct {
@@ -146,6 +150,8 @@ type HintState struct {
 	Cost pulumi.IntPtrInput
 	// List of the other hints it depends on.
 	Requirements pulumi.StringArrayInput
+	// Title of the hint, displayed to end users before unlocking.
+	Title pulumi.StringPtrInput
 }
 
 func (HintState) ElementType() reflect.Type {
@@ -161,6 +167,8 @@ type hintArgs struct {
 	Cost *int `pulumi:"cost"`
 	// List of the other hints it depends on.
 	Requirements []string `pulumi:"requirements"`
+	// Title of the hint, displayed to end users before unlocking.
+	Title *string `pulumi:"title"`
 }
 
 // The set of arguments for constructing a Hint resource.
@@ -173,6 +181,8 @@ type HintArgs struct {
 	Cost pulumi.IntPtrInput
 	// List of the other hints it depends on.
 	Requirements pulumi.StringArrayInput
+	// Title of the hint, displayed to end users before unlocking.
+	Title pulumi.StringPtrInput
 }
 
 func (HintArgs) ElementType() reflect.Type {
@@ -280,6 +290,11 @@ func (o HintOutput) Cost() pulumi.IntOutput {
 // List of the other hints it depends on.
 func (o HintOutput) Requirements() pulumi.StringArrayOutput {
 	return o.ApplyT(func(v *Hint) pulumi.StringArrayOutput { return v.Requirements }).(pulumi.StringArrayOutput)
+}
+
+// Title of the hint, displayed to end users before unlocking.
+func (o HintOutput) Title() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v *Hint) pulumi.StringPtrOutput { return v.Title }).(pulumi.StringPtrOutput)
 }
 
 type HintArrayOutput struct{ *pulumi.OutputState }

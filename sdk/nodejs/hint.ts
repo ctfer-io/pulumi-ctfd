@@ -88,6 +88,10 @@ export class Hint extends pulumi.CustomResource {
      * List of the other hints it depends on.
      */
     public readonly requirements!: pulumi.Output<string[]>;
+    /**
+     * Title of the hint, displayed to end users before unlocking.
+     */
+    public readonly title!: pulumi.Output<string | undefined>;
 
     /**
      * Create a Hint resource with the given unique name, arguments, and options.
@@ -106,6 +110,7 @@ export class Hint extends pulumi.CustomResource {
             resourceInputs["content"] = state ? state.content : undefined;
             resourceInputs["cost"] = state ? state.cost : undefined;
             resourceInputs["requirements"] = state ? state.requirements : undefined;
+            resourceInputs["title"] = state ? state.title : undefined;
         } else {
             const args = argsOrState as HintArgs | undefined;
             if ((!args || args.challengeId === undefined) && !opts.urn) {
@@ -118,6 +123,7 @@ export class Hint extends pulumi.CustomResource {
             resourceInputs["content"] = args ? args.content : undefined;
             resourceInputs["cost"] = args ? args.cost : undefined;
             resourceInputs["requirements"] = args ? args.requirements : undefined;
+            resourceInputs["title"] = args ? args.title : undefined;
         }
         opts = pulumi.mergeOptions(utilities.resourceOptsDefaults(), opts);
         super(Hint.__pulumiType, name, resourceInputs, opts);
@@ -144,6 +150,10 @@ export interface HintState {
      * List of the other hints it depends on.
      */
     requirements?: pulumi.Input<pulumi.Input<string>[]>;
+    /**
+     * Title of the hint, displayed to end users before unlocking.
+     */
+    title?: pulumi.Input<string>;
 }
 
 /**
@@ -166,4 +176,8 @@ export interface HintArgs {
      * List of the other hints it depends on.
      */
     requirements?: pulumi.Input<pulumi.Input<string>[]>;
+    /**
+     * Title of the hint, displayed to end users before unlocking.
+     */
+    title?: pulumi.Input<string>;
 }

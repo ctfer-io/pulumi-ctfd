@@ -97,6 +97,12 @@ namespace CTFerio.Ctfd
         [Output("requirements")]
         public Output<ImmutableArray<string>> Requirements { get; private set; } = null!;
 
+        /// <summary>
+        /// Title of the hint, displayed to end users before unlocking.
+        /// </summary>
+        [Output("title")]
+        public Output<string?> Title { get; private set; } = null!;
+
 
         /// <summary>
         /// Create a Hint resource with the given unique name, arguments, and options.
@@ -174,6 +180,12 @@ namespace CTFerio.Ctfd
             set => _requirements = value;
         }
 
+        /// <summary>
+        /// Title of the hint, displayed to end users before unlocking.
+        /// </summary>
+        [Input("title")]
+        public Input<string>? Title { get; set; }
+
         public HintArgs()
         {
         }
@@ -211,6 +223,12 @@ namespace CTFerio.Ctfd
             get => _requirements ?? (_requirements = new InputList<string>());
             set => _requirements = value;
         }
+
+        /// <summary>
+        /// Title of the hint, displayed to end users before unlocking.
+        /// </summary>
+        [Input("title")]
+        public Input<string>? Title { get; set; }
 
         public HintState()
         {

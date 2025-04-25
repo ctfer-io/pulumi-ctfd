@@ -138,9 +138,17 @@
                     "type": "string",
                     "description": "Connection Information to connect to the challenge instance, useful for pwn or web pentest.\n"
                 },
+                "decay": {
+                    "type": "integer",
+                    "description": "The decay defines from each number of solves does the decay function triggers until reaching minimum. This function is defined by CTFd and could be configured through `.function`.\n"
+                },
                 "description": {
                     "type": "string",
                     "description": "Description of the challenge, consider using multiline descriptions for better style.\n"
+                },
+                "function": {
+                    "type": "string",
+                    "description": "Decay function to define how the challenge value evolve through solves, either linear or logarithmic.\n"
                 },
                 "id": {
                     "type": "string",
@@ -149,6 +157,10 @@
                 "maxAttempts": {
                     "type": "integer",
                     "description": "Maximum amount of attempts before being unable to flag the challenge.\n"
+                },
+                "minimum": {
+                    "type": "integer",
+                    "description": "The minimum points for a dynamic-score challenge to reach with the decay function. Once there, no solve could have more value.\n"
                 },
                 "name": {
                     "type": "string",
@@ -181,7 +193,8 @@
                     "description": "List of challenge topics that are displayed to the administrators for maintenance and planification.\n"
                 },
                 "value": {
-                    "type": "integer"
+                    "type": "integer",
+                    "description": "The value (points) of the challenge once solved. It is mapped to `initial` under the hood, but displayed as `value` for consistency with the standard challenge.\n"
                 }
             },
             "type": "object",
@@ -189,9 +202,12 @@
                 "attribution",
                 "category",
                 "connectionInfo",
+                "decay",
                 "description",
+                "function",
                 "id",
                 "maxAttempts",
+                "minimum",
                 "name",
                 "next",
                 "requirements",
@@ -981,6 +997,10 @@
                         "type": "string"
                     },
                     "description": "List of the other hints it depends on.\n"
+                },
+                "title": {
+                    "type": "string",
+                    "description": "Title of the hint, displayed to end users before unlocking.\n"
                 }
             },
             "required": [
@@ -1008,6 +1028,10 @@
                         "type": "string"
                     },
                     "description": "List of the other hints it depends on.\n"
+                },
+                "title": {
+                    "type": "string",
+                    "description": "Title of the hint, displayed to end users before unlocking.\n"
                 }
             },
             "requiredInputs": [
@@ -1035,6 +1059,10 @@
                             "type": "string"
                         },
                         "description": "List of the other hints it depends on.\n"
+                    },
+                    "title": {
+                        "type": "string",
+                        "description": "Title of the hint, displayed to end users before unlocking.\n"
                     }
                 },
                 "type": "object"
