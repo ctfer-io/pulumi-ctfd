@@ -27,9 +27,17 @@ namespace CTFerio.Ctfd.Outputs
         /// </summary>
         public readonly string ConnectionInfo;
         /// <summary>
+        /// The decay defines from each number of solves does the decay function triggers until reaching minimum. This function is defined by CTFd and could be configured through `.function`.
+        /// </summary>
+        public readonly int Decay;
+        /// <summary>
         /// Description of the challenge, consider using multiline descriptions for better style.
         /// </summary>
         public readonly string Description;
+        /// <summary>
+        /// Decay function to define how the challenge value evolve through solves, either linear or logarithmic.
+        /// </summary>
+        public readonly string Function;
         /// <summary>
         /// Identifier of the challenge.
         /// </summary>
@@ -38,6 +46,10 @@ namespace CTFerio.Ctfd.Outputs
         /// Maximum amount of attempts before being unable to flag the challenge.
         /// </summary>
         public readonly int MaxAttempts;
+        /// <summary>
+        /// The minimum points for a dynamic-score challenge to reach with the decay function. Once there, no solve could have more value.
+        /// </summary>
+        public readonly int Minimum;
         /// <summary>
         /// Name of the challenge, displayed as it.
         /// </summary>
@@ -62,6 +74,9 @@ namespace CTFerio.Ctfd.Outputs
         /// List of challenge topics that are displayed to the administrators for maintenance and planification.
         /// </summary>
         public readonly ImmutableArray<string> Topics;
+        /// <summary>
+        /// The value (points) of the challenge once solved. It is mapped to `initial` under the hood, but displayed as `value` for consistency with the standard challenge.
+        /// </summary>
         public readonly int Value;
 
         [OutputConstructor]
@@ -72,11 +87,17 @@ namespace CTFerio.Ctfd.Outputs
 
             string connectionInfo,
 
+            int decay,
+
             string description,
+
+            string function,
 
             string id,
 
             int maxAttempts,
+
+            int minimum,
 
             string name,
 
@@ -95,9 +116,12 @@ namespace CTFerio.Ctfd.Outputs
             Attribution = attribution;
             Category = category;
             ConnectionInfo = connectionInfo;
+            Decay = decay;
             Description = description;
+            Function = function;
             Id = id;
             MaxAttempts = maxAttempts;
+            Minimum = minimum;
             Name = name;
             Next = next;
             Requirements = requirements;

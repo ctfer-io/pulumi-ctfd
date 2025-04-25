@@ -41,9 +41,17 @@ export interface GetChallengesDynamicChallenge {
      */
     connectionInfo: string;
     /**
+     * The decay defines from each number of solves does the decay function triggers until reaching minimum. This function is defined by CTFd and could be configured through `.function`.
+     */
+    decay: number;
+    /**
      * Description of the challenge, consider using multiline descriptions for better style.
      */
     description: string;
+    /**
+     * Decay function to define how the challenge value evolve through solves, either linear or logarithmic.
+     */
+    function: string;
     /**
      * Identifier of the challenge.
      */
@@ -52,6 +60,10 @@ export interface GetChallengesDynamicChallenge {
      * Maximum amount of attempts before being unable to flag the challenge.
      */
     maxAttempts: number;
+    /**
+     * The minimum points for a dynamic-score challenge to reach with the decay function. Once there, no solve could have more value.
+     */
+    minimum: number;
     /**
      * Name of the challenge, displayed as it.
      */
@@ -76,6 +88,9 @@ export interface GetChallengesDynamicChallenge {
      * List of challenge topics that are displayed to the administrators for maintenance and planification.
      */
     topics: string[];
+    /**
+     * The value (points) of the challenge once solved. It is mapped to `initial` under the hood, but displayed as `value` for consistency with the standard challenge.
+     */
     value: number;
 }
 

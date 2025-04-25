@@ -332,12 +332,18 @@ type GetChallengesDynamicChallenge struct {
 	Category string `pulumi:"category"`
 	// Connection Information to connect to the challenge instance, useful for pwn or web pentest.
 	ConnectionInfo string `pulumi:"connectionInfo"`
+	// The decay defines from each number of solves does the decay function triggers until reaching minimum. This function is defined by CTFd and could be configured through `.function`.
+	Decay int `pulumi:"decay"`
 	// Description of the challenge, consider using multiline descriptions for better style.
 	Description string `pulumi:"description"`
+	// Decay function to define how the challenge value evolve through solves, either linear or logarithmic.
+	Function string `pulumi:"function"`
 	// Identifier of the challenge.
 	Id string `pulumi:"id"`
 	// Maximum amount of attempts before being unable to flag the challenge.
 	MaxAttempts int `pulumi:"maxAttempts"`
+	// The minimum points for a dynamic-score challenge to reach with the decay function. Once there, no solve could have more value.
+	Minimum int `pulumi:"minimum"`
 	// Name of the challenge, displayed as it.
 	Name string `pulumi:"name"`
 	// Suggestion for the end-user as next challenge to work on.
@@ -350,7 +356,8 @@ type GetChallengesDynamicChallenge struct {
 	Tags []string `pulumi:"tags"`
 	// List of challenge topics that are displayed to the administrators for maintenance and planification.
 	Topics []string `pulumi:"topics"`
-	Value  int      `pulumi:"value"`
+	// The value (points) of the challenge once solved. It is mapped to `initial` under the hood, but displayed as `value` for consistency with the standard challenge.
+	Value int `pulumi:"value"`
 }
 
 // GetChallengesDynamicChallengeInput is an input type that accepts GetChallengesDynamicChallengeArgs and GetChallengesDynamicChallengeOutput values.
@@ -371,12 +378,18 @@ type GetChallengesDynamicChallengeArgs struct {
 	Category pulumi.StringInput `pulumi:"category"`
 	// Connection Information to connect to the challenge instance, useful for pwn or web pentest.
 	ConnectionInfo pulumi.StringInput `pulumi:"connectionInfo"`
+	// The decay defines from each number of solves does the decay function triggers until reaching minimum. This function is defined by CTFd and could be configured through `.function`.
+	Decay pulumi.IntInput `pulumi:"decay"`
 	// Description of the challenge, consider using multiline descriptions for better style.
 	Description pulumi.StringInput `pulumi:"description"`
+	// Decay function to define how the challenge value evolve through solves, either linear or logarithmic.
+	Function pulumi.StringInput `pulumi:"function"`
 	// Identifier of the challenge.
 	Id pulumi.StringInput `pulumi:"id"`
 	// Maximum amount of attempts before being unable to flag the challenge.
 	MaxAttempts pulumi.IntInput `pulumi:"maxAttempts"`
+	// The minimum points for a dynamic-score challenge to reach with the decay function. Once there, no solve could have more value.
+	Minimum pulumi.IntInput `pulumi:"minimum"`
 	// Name of the challenge, displayed as it.
 	Name pulumi.StringInput `pulumi:"name"`
 	// Suggestion for the end-user as next challenge to work on.
@@ -389,7 +402,8 @@ type GetChallengesDynamicChallengeArgs struct {
 	Tags pulumi.StringArrayInput `pulumi:"tags"`
 	// List of challenge topics that are displayed to the administrators for maintenance and planification.
 	Topics pulumi.StringArrayInput `pulumi:"topics"`
-	Value  pulumi.IntInput         `pulumi:"value"`
+	// The value (points) of the challenge once solved. It is mapped to `initial` under the hood, but displayed as `value` for consistency with the standard challenge.
+	Value pulumi.IntInput `pulumi:"value"`
 }
 
 func (GetChallengesDynamicChallengeArgs) ElementType() reflect.Type {
@@ -458,9 +472,19 @@ func (o GetChallengesDynamicChallengeOutput) ConnectionInfo() pulumi.StringOutpu
 	return o.ApplyT(func(v GetChallengesDynamicChallenge) string { return v.ConnectionInfo }).(pulumi.StringOutput)
 }
 
+// The decay defines from each number of solves does the decay function triggers until reaching minimum. This function is defined by CTFd and could be configured through `.function`.
+func (o GetChallengesDynamicChallengeOutput) Decay() pulumi.IntOutput {
+	return o.ApplyT(func(v GetChallengesDynamicChallenge) int { return v.Decay }).(pulumi.IntOutput)
+}
+
 // Description of the challenge, consider using multiline descriptions for better style.
 func (o GetChallengesDynamicChallengeOutput) Description() pulumi.StringOutput {
 	return o.ApplyT(func(v GetChallengesDynamicChallenge) string { return v.Description }).(pulumi.StringOutput)
+}
+
+// Decay function to define how the challenge value evolve through solves, either linear or logarithmic.
+func (o GetChallengesDynamicChallengeOutput) Function() pulumi.StringOutput {
+	return o.ApplyT(func(v GetChallengesDynamicChallenge) string { return v.Function }).(pulumi.StringOutput)
 }
 
 // Identifier of the challenge.
@@ -471,6 +495,11 @@ func (o GetChallengesDynamicChallengeOutput) Id() pulumi.StringOutput {
 // Maximum amount of attempts before being unable to flag the challenge.
 func (o GetChallengesDynamicChallengeOutput) MaxAttempts() pulumi.IntOutput {
 	return o.ApplyT(func(v GetChallengesDynamicChallenge) int { return v.MaxAttempts }).(pulumi.IntOutput)
+}
+
+// The minimum points for a dynamic-score challenge to reach with the decay function. Once there, no solve could have more value.
+func (o GetChallengesDynamicChallengeOutput) Minimum() pulumi.IntOutput {
+	return o.ApplyT(func(v GetChallengesDynamicChallenge) int { return v.Minimum }).(pulumi.IntOutput)
 }
 
 // Name of the challenge, displayed as it.
@@ -503,6 +532,7 @@ func (o GetChallengesDynamicChallengeOutput) Topics() pulumi.StringArrayOutput {
 	return o.ApplyT(func(v GetChallengesDynamicChallenge) []string { return v.Topics }).(pulumi.StringArrayOutput)
 }
 
+// The value (points) of the challenge once solved. It is mapped to `initial` under the hood, but displayed as `value` for consistency with the standard challenge.
 func (o GetChallengesDynamicChallengeOutput) Value() pulumi.IntOutput {
 	return o.ApplyT(func(v GetChallengesDynamicChallenge) int { return v.Value }).(pulumi.IntOutput)
 }
