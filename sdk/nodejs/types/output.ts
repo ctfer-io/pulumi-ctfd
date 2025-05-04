@@ -27,6 +27,25 @@ export interface ChallengeStandardRequirements {
     prerequisites?: string[];
 }
 
+export interface GetBracketsUser {
+    /**
+     * Description that explains the goal of this bracket.
+     */
+    description: string;
+    /**
+     * Identifier of the bracket, used internally to handle the CTFd corresponding object.
+     */
+    id: string;
+    /**
+     * Name displayed to end-users (e.g. "Students", "Interns", "Engineers").
+     */
+    name: string;
+    /**
+     * Type of the bracket, either "users" or "teams".
+     */
+    type: string;
+}
+
 export interface GetChallengesDynamicChallenge {
     /**
      * Attribution to the creator(s) of the challenge.
@@ -166,5 +185,103 @@ export interface GetChallengesStandardChallengeRequirements {
      * List of the challenges ID.
      */
     prerequisites: string[];
+}
+
+export interface GetTeamsTeam {
+    /**
+     * Affiliation to a company or agency.
+     */
+    affiliation: string;
+    /**
+     * Is true if the team is banned from the CTF.
+     */
+    banned: boolean;
+    /**
+     * Member who is captain of the team. Must be part of the members too. Note it could cause a fatal error in case of resource import with an inconsistent CTFd configuration i.e. if a team has no captain yet (should not be possible).
+     */
+    captain: string;
+    /**
+     * Country the team represent or is hail from.
+     */
+    country: string;
+    /**
+     * Email of the team.
+     */
+    email: string;
+    /**
+     * Is true if the team is hidden to the participants.
+     */
+    hidden: boolean;
+    /**
+     * Identifier of the user.
+     */
+    id: string;
+    /**
+     * List of members (User), defined by their IDs.
+     */
+    members: string[];
+    /**
+     * Name of the team.
+     */
+    name: string;
+    /**
+     * Password of the team. Notice that during a CTF you may not want to update those to avoid defaulting team accesses.
+     */
+    password: string;
+    /**
+     * Website, blog, or anything similar (displayed to other participants).
+     */
+    website: string;
+}
+
+export interface GetUsersUser {
+    /**
+     * Affiliation to a team, company or agency.
+     */
+    affiliation: string;
+    /**
+     * Is true if the user is banned from the CTF.
+     */
+    banned: boolean;
+    /**
+     * Country the user represent or is native from.
+     */
+    country: string;
+    /**
+     * Email of the user, may be used to verify the account.
+     */
+    email: string;
+    /**
+     * Is true if the user is hidden to the participants.
+     */
+    hidden: boolean;
+    /**
+     * Identifier of the user.
+     */
+    id: string;
+    /**
+     * Language the user is fluent in.
+     */
+    language: string;
+    /**
+     * Name or pseudo of the user.
+     */
+    name: string;
+    /**
+     * Password of the user. Notice that during a CTF you may not want to update those to avoid defaulting user accesses.
+     */
+    password: string;
+    /**
+     * Generic type for RBAC purposes.
+     */
+    type: string;
+    /**
+     * Is true if the user has verified its account by email, or if set by an admin.
+     */
+    verified: boolean;
+    /**
+     * Website, blog, or anything similar (displayed to other participants).
+     */
+    website: string;
 }
 

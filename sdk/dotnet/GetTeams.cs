@@ -27,85 +27,19 @@ namespace CTFerio.Ctfd
     public sealed class GetTeamsResult
     {
         /// <summary>
-        /// Affiliation to a company or agency.
-        /// </summary>
-        public readonly string Affiliation;
-        /// <summary>
-        /// Is true if the team is banned from the CTF.
-        /// </summary>
-        public readonly bool Banned;
-        /// <summary>
-        /// Member who is captain of the team. Must be part of the members too. Note it could cause a fatal error in case of resource import with an inconsistent CTFd configuration i.e. if a team has no captain yet (should not be possible).
-        /// </summary>
-        public readonly string Captain;
-        /// <summary>
-        /// Country the team represent or is hail from.
-        /// </summary>
-        public readonly string Country;
-        /// <summary>
-        /// Email of the team.
-        /// </summary>
-        public readonly string Email;
-        /// <summary>
-        /// Is true if the team is hidden to the participants.
-        /// </summary>
-        public readonly bool Hidden;
-        /// <summary>
-        /// Identifier of the user.
+        /// The ID of this resource.
         /// </summary>
         public readonly string Id;
-        /// <summary>
-        /// List of members (User), defined by their IDs.
-        /// </summary>
-        public readonly ImmutableArray<string> Members;
-        /// <summary>
-        /// Name of the team.
-        /// </summary>
-        public readonly string Name;
-        /// <summary>
-        /// Password of the team. Notice that during a CTF you may not want to update those to avoid defaulting team accesses.
-        /// </summary>
-        public readonly string Password;
-        /// <summary>
-        /// Website, blog, or anything similar (displayed to other participants).
-        /// </summary>
-        public readonly string Website;
+        public readonly ImmutableArray<Outputs.GetTeamsTeamResult> Teams;
 
         [OutputConstructor]
         private GetTeamsResult(
-            string affiliation,
-
-            bool banned,
-
-            string captain,
-
-            string country,
-
-            string email,
-
-            bool hidden,
-
             string id,
 
-            ImmutableArray<string> members,
-
-            string name,
-
-            string password,
-
-            string website)
+            ImmutableArray<Outputs.GetTeamsTeamResult> teams)
         {
-            Affiliation = affiliation;
-            Banned = banned;
-            Captain = captain;
-            Country = country;
-            Email = email;
-            Hidden = hidden;
             Id = id;
-            Members = members;
-            Name = name;
-            Password = password;
-            Website = website;
+            Teams = teams;
         }
     }
 }

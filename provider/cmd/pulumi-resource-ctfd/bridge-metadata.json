@@ -1,6 +1,10 @@
 {
     "auto-aliasing": {
         "resources": {
+            "ctfd_bracket": {
+                "current": "ctfd:index/bracket:Bracket",
+                "majorVersion": 2
+            },
             "ctfd_challenge_dynamic": {
                 "current": "ctfd:index/challengeDynamic:ChallengeDynamic",
                 "majorVersion": 2,
@@ -71,6 +75,15 @@
             }
         },
         "datasources": {
+            "ctfd_brackets": {
+                "current": "ctfd:index/getBrackets:getBrackets",
+                "majorVersion": 2,
+                "fields": {
+                    "users": {
+                        "maxItemsOne": false
+                    }
+                }
+            },
             "ctfd_challenges_dynamic": {
                 "current": "ctfd:index/getChallengesDynamic:getChallengesDynamic",
                 "majorVersion": 2,
@@ -127,14 +140,26 @@
                 "current": "ctfd:index/getTeams:getTeams",
                 "majorVersion": 2,
                 "fields": {
-                    "members": {
-                        "maxItemsOne": false
+                    "teams": {
+                        "maxItemsOne": false,
+                        "elem": {
+                            "fields": {
+                                "members": {
+                                    "maxItemsOne": false
+                                }
+                            }
+                        }
                     }
                 }
             },
             "ctfd_users": {
                 "current": "ctfd:index/getUsers:getUsers",
-                "majorVersion": 2
+                "majorVersion": 2,
+                "fields": {
+                    "users": {
+                        "maxItemsOne": false
+                    }
+                }
             }
         }
     },

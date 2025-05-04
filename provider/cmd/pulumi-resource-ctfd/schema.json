@@ -124,6 +124,38 @@
                 }
             }
         },
+        "ctfd:index/getBracketsUser:getBracketsUser": {
+            "properties": {
+                "description": {
+                    "type": "string",
+                    "description": "Description that explains the goal of this bracket.\n"
+                },
+                "id": {
+                    "type": "string",
+                    "description": "Identifier of the bracket, used internally to handle the CTFd corresponding object.\n"
+                },
+                "name": {
+                    "type": "string",
+                    "description": "Name displayed to end-users (e.g. \"Students\", \"Interns\", \"Engineers\").\n"
+                },
+                "type": {
+                    "type": "string",
+                    "description": "Type of the bracket, either \"users\" or \"teams\".\n"
+                }
+            },
+            "type": "object",
+            "required": [
+                "description",
+                "id",
+                "name",
+                "type"
+            ],
+            "language": {
+                "nodejs": {
+                    "requiredInputs": []
+                }
+            }
+        },
         "ctfd:index/getChallengesDynamicChallenge:getChallengesDynamicChallenge": {
             "properties": {
                 "attribution": {
@@ -353,6 +385,148 @@
                     "requiredInputs": []
                 }
             }
+        },
+        "ctfd:index/getTeamsTeam:getTeamsTeam": {
+            "properties": {
+                "affiliation": {
+                    "type": "string",
+                    "description": "Affiliation to a company or agency.\n"
+                },
+                "banned": {
+                    "type": "boolean",
+                    "description": "Is true if the team is banned from the CTF.\n"
+                },
+                "captain": {
+                    "type": "string",
+                    "description": "Member who is captain of the team. Must be part of the members too. Note it could cause a fatal error in case of resource import with an inconsistent CTFd configuration i.e. if a team has no captain yet (should not be possible).\n"
+                },
+                "country": {
+                    "type": "string",
+                    "description": "Country the team represent or is hail from.\n"
+                },
+                "email": {
+                    "type": "string",
+                    "description": "Email of the team.\n"
+                },
+                "hidden": {
+                    "type": "boolean",
+                    "description": "Is true if the team is hidden to the participants.\n"
+                },
+                "id": {
+                    "type": "string",
+                    "description": "Identifier of the user.\n"
+                },
+                "members": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    },
+                    "description": "List of members (User), defined by their IDs.\n"
+                },
+                "name": {
+                    "type": "string",
+                    "description": "Name of the team.\n"
+                },
+                "password": {
+                    "type": "string",
+                    "description": "Password of the team. Notice that during a CTF you may not want to update those to avoid defaulting team accesses.\n"
+                },
+                "website": {
+                    "type": "string",
+                    "description": "Website, blog, or anything similar (displayed to other participants).\n"
+                }
+            },
+            "type": "object",
+            "required": [
+                "affiliation",
+                "banned",
+                "captain",
+                "country",
+                "email",
+                "hidden",
+                "id",
+                "members",
+                "name",
+                "password",
+                "website"
+            ],
+            "language": {
+                "nodejs": {
+                    "requiredInputs": []
+                }
+            }
+        },
+        "ctfd:index/getUsersUser:getUsersUser": {
+            "properties": {
+                "affiliation": {
+                    "type": "string",
+                    "description": "Affiliation to a team, company or agency.\n"
+                },
+                "banned": {
+                    "type": "boolean",
+                    "description": "Is true if the user is banned from the CTF.\n"
+                },
+                "country": {
+                    "type": "string",
+                    "description": "Country the user represent or is native from.\n"
+                },
+                "email": {
+                    "type": "string",
+                    "description": "Email of the user, may be used to verify the account.\n"
+                },
+                "hidden": {
+                    "type": "boolean",
+                    "description": "Is true if the user is hidden to the participants.\n"
+                },
+                "id": {
+                    "type": "string",
+                    "description": "Identifier of the user.\n"
+                },
+                "language": {
+                    "type": "string",
+                    "description": "Language the user is fluent in.\n"
+                },
+                "name": {
+                    "type": "string",
+                    "description": "Name or pseudo of the user.\n"
+                },
+                "password": {
+                    "type": "string",
+                    "description": "Password of the user. Notice that during a CTF you may not want to update those to avoid defaulting user accesses.\n"
+                },
+                "type": {
+                    "type": "string",
+                    "description": "Generic type for RBAC purposes.\n"
+                },
+                "verified": {
+                    "type": "boolean",
+                    "description": "Is true if the user has verified its account by email, or if set by an admin.\n"
+                },
+                "website": {
+                    "type": "string",
+                    "description": "Website, blog, or anything similar (displayed to other participants).\n"
+                }
+            },
+            "type": "object",
+            "required": [
+                "affiliation",
+                "banned",
+                "country",
+                "email",
+                "hidden",
+                "id",
+                "language",
+                "name",
+                "password",
+                "type",
+                "verified",
+                "website"
+            ],
+            "language": {
+                "nodejs": {
+                    "requiredInputs": []
+                }
+            }
         }
     },
     "provider": {
@@ -401,6 +575,59 @@
         }
     },
     "resources": {
+        "ctfd:index/bracket:Bracket": {
+            "description": "A bracket for users or teams to compete in parallel.\n\n## Example Usage\n\n\u003c!--Start PulumiCodeChooser --\u003e\n```typescript\nimport * as pulumi from \"@pulumi/pulumi\";\nimport * as ctfd from \"@ctfer-io/pulumi-ctfd\";\n\nconst juniors = new ctfd.Bracket(\"juniors\", {\n    description: \"Bracket for 14-25 years old players.\",\n    type: \"users\",\n});\nconst player1 = new ctfd.User(\"player1\", {\n    email: \"player1@ctfer.io\",\n    password: \"password\",\n    bracketId: juniors.id,\n});\n```\n```python\nimport pulumi\nimport ctfer-io_pulumi-ctfd as ctfd\n\njuniors = ctfd.Bracket(\"juniors\",\n    description=\"Bracket for 14-25 years old players.\",\n    type=\"users\")\nplayer1 = ctfd.User(\"player1\",\n    email=\"player1@ctfer.io\",\n    password=\"password\",\n    bracket_id=juniors.id)\n```\n```csharp\nusing System.Collections.Generic;\nusing System.Linq;\nusing Pulumi;\nusing Ctfd = CTFerio.Ctfd;\n\nreturn await Deployment.RunAsync(() =\u003e \n{\n    var juniors = new Ctfd.Bracket(\"juniors\", new()\n    {\n        Description = \"Bracket for 14-25 years old players.\",\n        Type = \"users\",\n    });\n\n    var player1 = new Ctfd.User(\"player1\", new()\n    {\n        Email = \"player1@ctfer.io\",\n        Password = \"password\",\n        BracketId = juniors.Id,\n    });\n\n});\n```\n```go\npackage main\n\nimport (\n\t\"github.com/ctfer-io/pulumi-ctfd/sdk/v2/go/ctfd\"\n\t\"github.com/pulumi/pulumi/sdk/v3/go/pulumi\"\n)\n\nfunc main() {\n\tpulumi.Run(func(ctx *pulumi.Context) error {\n\t\tjuniors, err := ctfd.NewBracket(ctx, \"juniors\", \u0026ctfd.BracketArgs{\n\t\t\tDescription: pulumi.String(\"Bracket for 14-25 years old players.\"),\n\t\t\tType:        pulumi.String(\"users\"),\n\t\t})\n\t\tif err != nil {\n\t\t\treturn err\n\t\t}\n\t\t_, err = ctfd.NewUser(ctx, \"player1\", \u0026ctfd.UserArgs{\n\t\t\tEmail:     pulumi.String(\"player1@ctfer.io\"),\n\t\t\tPassword:  pulumi.String(\"password\"),\n\t\t\tBracketId: juniors.ID(),\n\t\t})\n\t\tif err != nil {\n\t\t\treturn err\n\t\t}\n\t\treturn nil\n\t})\n}\n```\n```java\npackage generated_program;\n\nimport com.pulumi.Context;\nimport com.pulumi.Pulumi;\nimport com.pulumi.core.Output;\nimport com.pulumi.ctfd.Bracket;\nimport com.pulumi.ctfd.BracketArgs;\nimport com.pulumi.ctfd.User;\nimport com.pulumi.ctfd.UserArgs;\nimport java.util.List;\nimport java.util.ArrayList;\nimport java.util.Map;\nimport java.io.File;\nimport java.nio.file.Files;\nimport java.nio.file.Paths;\n\npublic class App {\n    public static void main(String[] args) {\n        Pulumi.run(App::stack);\n    }\n\n    public static void stack(Context ctx) {\n        var juniors = new Bracket(\"juniors\", BracketArgs.builder()\n            .description(\"Bracket for 14-25 years old players.\")\n            .type(\"users\")\n            .build());\n\n        var player1 = new User(\"player1\", UserArgs.builder()\n            .email(\"player1@ctfer.io\")\n            .password(\"password\")\n            .bracketId(juniors.id())\n            .build());\n\n    }\n}\n```\n```yaml\nresources:\n  juniors:\n    type: ctfd:Bracket\n    properties:\n      description: Bracket for 14-25 years old players.\n      type: users\n  player1:\n    type: ctfd:User\n    properties:\n      email: player1@ctfer.io\n      password: password\n      bracketId: ${juniors.id}\n```\n\u003c!--End PulumiCodeChooser --\u003e\n",
+            "properties": {
+                "description": {
+                    "type": "string",
+                    "description": "Description that explains the goal of this bracket.\n"
+                },
+                "name": {
+                    "type": "string",
+                    "description": "Name displayed to end-users (e.g. \"Students\", \"Interns\", \"Engineers\").\n"
+                },
+                "type": {
+                    "type": "string",
+                    "description": "Type of the bracket, either \"users\" or \"teams\".\n"
+                }
+            },
+            "required": [
+                "name",
+                "type"
+            ],
+            "inputProperties": {
+                "description": {
+                    "type": "string",
+                    "description": "Description that explains the goal of this bracket.\n"
+                },
+                "name": {
+                    "type": "string",
+                    "description": "Name displayed to end-users (e.g. \"Students\", \"Interns\", \"Engineers\").\n"
+                },
+                "type": {
+                    "type": "string",
+                    "description": "Type of the bracket, either \"users\" or \"teams\".\n"
+                }
+            },
+            "stateInputs": {
+                "description": "Input properties used for looking up and filtering Bracket resources.\n",
+                "properties": {
+                    "description": {
+                        "type": "string",
+                        "description": "Description that explains the goal of this bracket.\n"
+                    },
+                    "name": {
+                        "type": "string",
+                        "description": "Name displayed to end-users (e.g. \"Students\", \"Interns\", \"Engineers\").\n"
+                    },
+                    "type": {
+                        "type": "string",
+                        "description": "Type of the bracket, either \"users\" or \"teams\".\n"
+                    }
+                },
+                "type": "object"
+            }
+        },
         "ctfd:index/challengeDynamic:ChallengeDynamic": {
             "description": "CTFd is built around the Challenge resource, which contains all the attributes to define a part of the Capture The Flag event.\n\nThis implementation has support of a more dynamic behavior for its scoring through time/solves thus is different from a standard challenge.\n\n## Example Usage\n\n\u003c!--Start PulumiCodeChooser --\u003e\n```typescript\nimport * as pulumi from \"@pulumi/pulumi\";\nimport * as ctfd from \"@ctfer-io/pulumi-ctfd\";\nimport * as fs from \"fs\";\n\nconst http = new ctfd.ChallengeDynamic(\"http\", {\n    category: \"misc\",\n    description: \"...\",\n    value: 500,\n    decay: 100,\n    minimum: 50,\n    state: \"visible\",\n    \"function\": \"logarithmic\",\n    topics: [\"Misc\"],\n    tags: [\n        \"misc\",\n        \"basic\",\n    ],\n});\nconst httpFlag = new ctfd.Flag(\"httpFlag\", {\n    challengeId: http.id,\n    content: \"CTF{some_flag}\",\n});\nconst httpHint1 = new ctfd.Hint(\"httpHint1\", {\n    challengeId: http.id,\n    content: \"Some super-helpful hint\",\n    cost: 50,\n});\nconst httpHint2 = new ctfd.Hint(\"httpHint2\", {\n    challengeId: http.id,\n    content: \"Even more helpful hint !\",\n    cost: 50,\n    requirements: [httpHint1.id],\n});\nconst httpFile = new ctfd.File(\"httpFile\", {\n    challengeId: http.id,\n    contentb64: fs.readFileSync(\".../image.png\", { encoding: \"base64\" }),\n});\n```\n```python\nimport pulumi\nimport base64\nimport ctfer-io_pulumi-ctfd as ctfd\n\nhttp = ctfd.ChallengeDynamic(\"http\",\n    category=\"misc\",\n    description=\"...\",\n    value=500,\n    decay=100,\n    minimum=50,\n    state=\"visible\",\n    function=\"logarithmic\",\n    topics=[\"Misc\"],\n    tags=[\n        \"misc\",\n        \"basic\",\n    ])\nhttp_flag = ctfd.Flag(\"httpFlag\",\n    challenge_id=http.id,\n    content=\"CTF{some_flag}\")\nhttp_hint1 = ctfd.Hint(\"httpHint1\",\n    challenge_id=http.id,\n    content=\"Some super-helpful hint\",\n    cost=50)\nhttp_hint2 = ctfd.Hint(\"httpHint2\",\n    challenge_id=http.id,\n    content=\"Even more helpful hint !\",\n    cost=50,\n    requirements=[http_hint1.id])\nhttp_file = ctfd.File(\"httpFile\",\n    challenge_id=http.id,\n    contentb64=(lambda path: base64.b64encode(open(path).read().encode()).decode())(\".../image.png\"))\n```\n```csharp\nusing System;\nusing System.Collections.Generic;\nusing System.IO;\nusing System.Linq;\nusing Pulumi;\nusing Ctfd = CTFerio.Ctfd;\n\n\t\nstring ReadFileBase64(string path) \n{\n    return Convert.ToBase64String(Encoding.UTF8.GetBytes(File.ReadAllText(path)));\n}\n\nreturn await Deployment.RunAsync(() =\u003e \n{\n    var http = new Ctfd.ChallengeDynamic(\"http\", new()\n    {\n        Category = \"misc\",\n        Description = \"...\",\n        Value = 500,\n        Decay = 100,\n        Minimum = 50,\n        State = \"visible\",\n        Function = \"logarithmic\",\n        Topics = new[]\n        {\n            \"Misc\",\n        },\n        Tags = new[]\n        {\n            \"misc\",\n            \"basic\",\n        },\n    });\n\n    var httpFlag = new Ctfd.Flag(\"httpFlag\", new()\n    {\n        ChallengeId = http.Id,\n        Content = \"CTF{some_flag}\",\n    });\n\n    var httpHint1 = new Ctfd.Hint(\"httpHint1\", new()\n    {\n        ChallengeId = http.Id,\n        Content = \"Some super-helpful hint\",\n        Cost = 50,\n    });\n\n    var httpHint2 = new Ctfd.Hint(\"httpHint2\", new()\n    {\n        ChallengeId = http.Id,\n        Content = \"Even more helpful hint !\",\n        Cost = 50,\n        Requirements = new[]\n        {\n            httpHint1.Id,\n        },\n    });\n\n    var httpFile = new Ctfd.File(\"httpFile\", new()\n    {\n        ChallengeId = http.Id,\n        Contentb64 = ReadFileBase64(\".../image.png\"),\n    });\n\n});\n```\n```go\npackage main\n\nimport (\n\t\"encoding/base64\"\n\t\"os\"\n\n\t\"github.com/ctfer-io/pulumi-ctfd/sdk/v2/go/ctfd\"\n\t\"github.com/pulumi/pulumi/sdk/v3/go/pulumi\"\n)\n\nfunc filebase64OrPanic(path string) string {\n\tif fileData, err := os.ReadFile(path); err == nil {\n\t\treturn base64.StdEncoding.EncodeToString(fileData[:])\n\t} else {\n\t\tpanic(err.Error())\n\t}\n}\n\nfunc main() {\n\tpulumi.Run(func(ctx *pulumi.Context) error {\n\t\thttp, err := ctfd.NewChallengeDynamic(ctx, \"http\", \u0026ctfd.ChallengeDynamicArgs{\n\t\t\tCategory:    pulumi.String(\"misc\"),\n\t\t\tDescription: pulumi.String(\"...\"),\n\t\t\tValue:       pulumi.Int(500),\n\t\t\tDecay:       pulumi.Int(100),\n\t\t\tMinimum:     pulumi.Int(50),\n\t\t\tState:       pulumi.String(\"visible\"),\n\t\t\tFunction:    pulumi.String(\"logarithmic\"),\n\t\t\tTopics: pulumi.StringArray{\n\t\t\t\tpulumi.String(\"Misc\"),\n\t\t\t},\n\t\t\tTags: pulumi.StringArray{\n\t\t\t\tpulumi.String(\"misc\"),\n\t\t\t\tpulumi.String(\"basic\"),\n\t\t\t},\n\t\t})\n\t\tif err != nil {\n\t\t\treturn err\n\t\t}\n\t\t_, err = ctfd.NewFlag(ctx, \"httpFlag\", \u0026ctfd.FlagArgs{\n\t\t\tChallengeId: http.ID(),\n\t\t\tContent:     pulumi.String(\"CTF{some_flag}\"),\n\t\t})\n\t\tif err != nil {\n\t\t\treturn err\n\t\t}\n\t\thttpHint1, err := ctfd.NewHint(ctx, \"httpHint1\", \u0026ctfd.HintArgs{\n\t\t\tChallengeId: http.ID(),\n\t\t\tContent:     pulumi.String(\"Some super-helpful hint\"),\n\t\t\tCost:        pulumi.Int(50),\n\t\t})\n\t\tif err != nil {\n\t\t\treturn err\n\t\t}\n\t\t_, err = ctfd.NewHint(ctx, \"httpHint2\", \u0026ctfd.HintArgs{\n\t\t\tChallengeId: http.ID(),\n\t\t\tContent:     pulumi.String(\"Even more helpful hint !\"),\n\t\t\tCost:        pulumi.Int(50),\n\t\t\tRequirements: pulumi.StringArray{\n\t\t\t\thttpHint1.ID(),\n\t\t\t},\n\t\t})\n\t\tif err != nil {\n\t\t\treturn err\n\t\t}\n\t\t_, err = ctfd.NewFile(ctx, \"httpFile\", \u0026ctfd.FileArgs{\n\t\t\tChallengeId: http.ID(),\n\t\t\tContentb64:  pulumi.String(filebase64OrPanic(\".../image.png\")),\n\t\t})\n\t\tif err != nil {\n\t\t\treturn err\n\t\t}\n\t\treturn nil\n\t})\n}\n```\n```java\npackage generated_program;\n\nimport com.pulumi.Context;\nimport com.pulumi.Pulumi;\nimport com.pulumi.core.Output;\nimport com.pulumi.ctfd.ChallengeDynamic;\nimport com.pulumi.ctfd.ChallengeDynamicArgs;\nimport com.pulumi.ctfd.Flag;\nimport com.pulumi.ctfd.FlagArgs;\nimport com.pulumi.ctfd.Hint;\nimport com.pulumi.ctfd.HintArgs;\nimport com.pulumi.ctfd.File;\nimport com.pulumi.ctfd.FileArgs;\nimport java.util.List;\nimport java.util.ArrayList;\nimport java.util.Map;\nimport java.io.File;\nimport java.nio.file.Files;\nimport java.nio.file.Paths;\n\npublic class App {\n    public static void main(String[] args) {\n        Pulumi.run(App::stack);\n    }\n\n    public static void stack(Context ctx) {\n        var http = new ChallengeDynamic(\"http\", ChallengeDynamicArgs.builder()\n            .category(\"misc\")\n            .description(\"...\")\n            .value(500)\n            .decay(100)\n            .minimum(50)\n            .state(\"visible\")\n            .function(\"logarithmic\")\n            .topics(\"Misc\")\n            .tags(            \n                \"misc\",\n                \"basic\")\n            .build());\n\n        var httpFlag = new Flag(\"httpFlag\", FlagArgs.builder()\n            .challengeId(http.id())\n            .content(\"CTF{some_flag}\")\n            .build());\n\n        var httpHint1 = new Hint(\"httpHint1\", HintArgs.builder()\n            .challengeId(http.id())\n            .content(\"Some super-helpful hint\")\n            .cost(50)\n            .build());\n\n        var httpHint2 = new Hint(\"httpHint2\", HintArgs.builder()\n            .challengeId(http.id())\n            .content(\"Even more helpful hint !\")\n            .cost(50)\n            .requirements(httpHint1.id())\n            .build());\n\n        var httpFile = new File(\"httpFile\", FileArgs.builder()\n            .challengeId(http.id())\n            .contentb64(Base64.getEncoder().encodeToString(Files.readAllBytes(Paths.get(\".../image.png\"))))\n            .build());\n\n    }\n}\n```\n\u003c!--End PulumiCodeChooser --\u003e\n",
             "properties": {
@@ -1079,6 +1306,10 @@
                     "type": "boolean",
                     "description": "Is true if the team is banned from the CTF.\n"
                 },
+                "bracketId": {
+                    "type": "string",
+                    "description": "The bracket id the user plays in.\n"
+                },
                 "captain": {
                     "type": "string",
                     "description": "Member who is captain of the team. Must be part of the members too. Note it could cause a fatal error in case of resource import with an inconsistent CTFd configuration i.e. if a team has no captain yet (should not be possible).\n"
@@ -1133,6 +1364,10 @@
                     "type": "boolean",
                     "description": "Is true if the team is banned from the CTF.\n"
                 },
+                "bracketId": {
+                    "type": "string",
+                    "description": "The bracket id the user plays in.\n"
+                },
                 "captain": {
                     "type": "string",
                     "description": "Member who is captain of the team. Must be part of the members too. Note it could cause a fatal error in case of resource import with an inconsistent CTFd configuration i.e. if a team has no captain yet (should not be possible).\n"
@@ -1186,6 +1421,10 @@
                         "type": "boolean",
                         "description": "Is true if the team is banned from the CTF.\n"
                     },
+                    "bracketId": {
+                        "type": "string",
+                        "description": "The bracket id the user plays in.\n"
+                    },
                     "captain": {
                         "type": "string",
                         "description": "Member who is captain of the team. Must be part of the members too. Note it could cause a fatal error in case of resource import with an inconsistent CTFd configuration i.e. if a team has no captain yet (should not be possible).\n"
@@ -1235,6 +1474,10 @@
                 "banned": {
                     "type": "boolean",
                     "description": "Is true if the user is banned from the CTF.\n"
+                },
+                "bracketId": {
+                    "type": "string",
+                    "description": "The bracket id the user plays in.\n"
                 },
                 "country": {
                     "type": "string",
@@ -1293,6 +1536,10 @@
                     "type": "boolean",
                     "description": "Is true if the user is banned from the CTF.\n"
                 },
+                "bracketId": {
+                    "type": "string",
+                    "description": "The bracket id the user plays in.\n"
+                },
                 "country": {
                     "type": "string",
                     "description": "Country the user represent or is native from.\n"
@@ -1347,6 +1594,10 @@
                         "type": "boolean",
                         "description": "Is true if the user is banned from the CTF.\n"
                     },
+                    "bracketId": {
+                        "type": "string",
+                        "description": "The bracket id the user plays in.\n"
+                    },
                     "country": {
                         "type": "string",
                         "description": "Country the user represent or is native from.\n"
@@ -1391,6 +1642,28 @@
         }
     },
     "functions": {
+        "ctfd:index/getBrackets:getBrackets": {
+            "outputs": {
+                "description": "A collection of values returned by getBrackets.\n",
+                "properties": {
+                    "id": {
+                        "type": "string",
+                        "description": "The ID of this resource.\n"
+                    },
+                    "users": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/types/ctfd:index/getBracketsUser:getBracketsUser"
+                        }
+                    }
+                },
+                "type": "object",
+                "required": [
+                    "id",
+                    "users"
+                ]
+            }
+        },
         "ctfd:index/getChallengesDynamic:getChallengesDynamic": {
             "outputs": {
                 "description": "A collection of values returned by getChallengesDynamic.\n",
@@ -1439,67 +1712,21 @@
             "outputs": {
                 "description": "A collection of values returned by getTeams.\n",
                 "properties": {
-                    "affiliation": {
-                        "type": "string",
-                        "description": "Affiliation to a company or agency.\n"
-                    },
-                    "banned": {
-                        "type": "boolean",
-                        "description": "Is true if the team is banned from the CTF.\n"
-                    },
-                    "captain": {
-                        "type": "string",
-                        "description": "Member who is captain of the team. Must be part of the members too. Note it could cause a fatal error in case of resource import with an inconsistent CTFd configuration i.e. if a team has no captain yet (should not be possible).\n"
-                    },
-                    "country": {
-                        "type": "string",
-                        "description": "Country the team represent or is hail from.\n"
-                    },
-                    "email": {
-                        "type": "string",
-                        "description": "Email of the team.\n"
-                    },
-                    "hidden": {
-                        "type": "boolean",
-                        "description": "Is true if the team is hidden to the participants.\n"
-                    },
                     "id": {
                         "type": "string",
-                        "description": "Identifier of the user.\n"
+                        "description": "The ID of this resource.\n"
                     },
-                    "members": {
+                    "teams": {
                         "type": "array",
                         "items": {
-                            "type": "string"
-                        },
-                        "description": "List of members (User), defined by their IDs.\n"
-                    },
-                    "name": {
-                        "type": "string",
-                        "description": "Name of the team.\n"
-                    },
-                    "password": {
-                        "type": "string",
-                        "description": "Password of the team. Notice that during a CTF you may not want to update those to avoid defaulting team accesses.\n"
-                    },
-                    "website": {
-                        "type": "string",
-                        "description": "Website, blog, or anything similar (displayed to other participants).\n"
+                            "$ref": "#/types/ctfd:index/getTeamsTeam:getTeamsTeam"
+                        }
                     }
                 },
                 "type": "object",
                 "required": [
-                    "affiliation",
-                    "banned",
-                    "captain",
-                    "country",
-                    "email",
-                    "hidden",
                     "id",
-                    "members",
-                    "name",
-                    "password",
-                    "website"
+                    "teams"
                 ]
             }
         },
@@ -1507,69 +1734,21 @@
             "outputs": {
                 "description": "A collection of values returned by getUsers.\n",
                 "properties": {
-                    "affiliation": {
-                        "type": "string",
-                        "description": "Affiliation to a team, company or agency.\n"
-                    },
-                    "banned": {
-                        "type": "boolean",
-                        "description": "Is true if the user is banned from the CTF.\n"
-                    },
-                    "country": {
-                        "type": "string",
-                        "description": "Country the user represent or is native from.\n"
-                    },
-                    "email": {
-                        "type": "string",
-                        "description": "Email of the user, may be used to verify the account.\n"
-                    },
-                    "hidden": {
-                        "type": "boolean",
-                        "description": "Is true if the user is hidden to the participants.\n"
-                    },
                     "id": {
                         "type": "string",
-                        "description": "Identifier of the user.\n"
+                        "description": "The ID of this resource.\n"
                     },
-                    "language": {
-                        "type": "string",
-                        "description": "Language the user is fluent in.\n"
-                    },
-                    "name": {
-                        "type": "string",
-                        "description": "Name or pseudo of the user.\n"
-                    },
-                    "password": {
-                        "type": "string",
-                        "description": "Password of the user. Notice that during a CTF you may not want to update those to avoid defaulting user accesses.\n"
-                    },
-                    "type": {
-                        "type": "string",
-                        "description": "Generic type for RBAC purposes.\n"
-                    },
-                    "verified": {
-                        "type": "boolean",
-                        "description": "Is true if the user has verified its account by email, or if set by an admin.\n"
-                    },
-                    "website": {
-                        "type": "string",
-                        "description": "Website, blog, or anything similar (displayed to other participants).\n"
+                    "users": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/types/ctfd:index/getUsersUser:getUsersUser"
+                        }
                     }
                 },
                 "type": "object",
                 "required": [
-                    "affiliation",
-                    "banned",
-                    "country",
-                    "email",
-                    "hidden",
                     "id",
-                    "language",
-                    "name",
-                    "password",
-                    "type",
-                    "verified",
-                    "website"
+                    "users"
                 ]
             }
         }

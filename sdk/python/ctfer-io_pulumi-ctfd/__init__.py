@@ -6,10 +6,12 @@ import builtins
 from . import _utilities
 import typing
 # Export this package's modules as members:
+from .bracket import *
 from .challenge_dynamic import *
 from .challenge_standard import *
 from .file import *
 from .flag import *
+from .get_brackets import *
 from .get_challenges_dynamic import *
 from .get_challenges_standard import *
 from .get_teams import *
@@ -31,6 +33,14 @@ else:
 _utilities.register(
     resource_modules="""
 [
+ {
+  "pkg": "ctfd",
+  "mod": "index/bracket",
+  "fqn": "ctfer-io_pulumi-ctfd",
+  "classes": {
+   "ctfd:index/bracket:Bracket": "Bracket"
+  }
+ },
  {
   "pkg": "ctfd",
   "mod": "index/challengeDynamic",

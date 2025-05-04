@@ -5,6 +5,11 @@ import * as pulumi from "@pulumi/pulumi";
 import * as utilities from "./utilities";
 
 // Export members:
+export { BracketArgs, BracketState } from "./bracket";
+export type Bracket = import("./bracket").Bracket;
+export const Bracket: typeof import("./bracket").Bracket = null as any;
+utilities.lazyLoad(exports, ["Bracket"], () => require("./bracket"));
+
 export { ChallengeDynamicArgs, ChallengeDynamicState } from "./challengeDynamic";
 export type ChallengeDynamic = import("./challengeDynamic").ChallengeDynamic;
 export const ChallengeDynamic: typeof import("./challengeDynamic").ChallengeDynamic = null as any;
@@ -24,6 +29,11 @@ export { FlagArgs, FlagState } from "./flag";
 export type Flag = import("./flag").Flag;
 export const Flag: typeof import("./flag").Flag = null as any;
 utilities.lazyLoad(exports, ["Flag"], () => require("./flag"));
+
+export { GetBracketsResult } from "./getBrackets";
+export const getBrackets: typeof import("./getBrackets").getBrackets = null as any;
+export const getBracketsOutput: typeof import("./getBrackets").getBracketsOutput = null as any;
+utilities.lazyLoad(exports, ["getBrackets","getBracketsOutput"], () => require("./getBrackets"));
 
 export { GetChallengesDynamicResult } from "./getChallengesDynamic";
 export const getChallengesDynamic: typeof import("./getChallengesDynamic").getChallengesDynamic = null as any;
@@ -79,6 +89,8 @@ const _module = {
     version: utilities.getVersion(),
     construct: (name: string, type: string, urn: string): pulumi.Resource => {
         switch (type) {
+            case "ctfd:index/bracket:Bracket":
+                return new Bracket(name, <any>undefined, { urn })
             case "ctfd:index/challengeDynamic:ChallengeDynamic":
                 return new ChallengeDynamic(name, <any>undefined, { urn })
             case "ctfd:index/challengeStandard:ChallengeStandard":
@@ -98,6 +110,7 @@ const _module = {
         }
     },
 };
+pulumi.runtime.registerResourceModule("ctfd", "index/bracket", _module)
 pulumi.runtime.registerResourceModule("ctfd", "index/challengeDynamic", _module)
 pulumi.runtime.registerResourceModule("ctfd", "index/challengeStandard", _module)
 pulumi.runtime.registerResourceModule("ctfd", "index/file", _module)

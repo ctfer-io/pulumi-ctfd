@@ -17,24 +17,24 @@ from . import _utilities
 from . import outputs
 
 __all__ = [
-    'GetTeamsResult',
-    'AwaitableGetTeamsResult',
-    'get_teams',
-    'get_teams_output',
+    'GetBracketsResult',
+    'AwaitableGetBracketsResult',
+    'get_brackets',
+    'get_brackets_output',
 ]
 
 @pulumi.output_type
-class GetTeamsResult:
+class GetBracketsResult:
     """
-    A collection of values returned by getTeams.
+    A collection of values returned by getBrackets.
     """
-    def __init__(__self__, id=None, teams=None):
+    def __init__(__self__, id=None, users=None):
         if id and not isinstance(id, str):
             raise TypeError("Expected argument 'id' to be a str")
         pulumi.set(__self__, "id", id)
-        if teams and not isinstance(teams, list):
-            raise TypeError("Expected argument 'teams' to be a list")
-        pulumi.set(__self__, "teams", teams)
+        if users and not isinstance(users, list):
+            raise TypeError("Expected argument 'users' to be a list")
+        pulumi.set(__self__, "users", users)
 
     @property
     @pulumi.getter
@@ -46,38 +46,38 @@ class GetTeamsResult:
 
     @property
     @pulumi.getter
-    def teams(self) -> Sequence['outputs.GetTeamsTeamResult']:
-        return pulumi.get(self, "teams")
+    def users(self) -> Sequence['outputs.GetBracketsUserResult']:
+        return pulumi.get(self, "users")
 
 
-class AwaitableGetTeamsResult(GetTeamsResult):
+class AwaitableGetBracketsResult(GetBracketsResult):
     # pylint: disable=using-constant-test
     def __await__(self):
         if False:
             yield self
-        return GetTeamsResult(
+        return GetBracketsResult(
             id=self.id,
-            teams=self.teams)
+            users=self.users)
 
 
-def get_teams(opts: Optional[pulumi.InvokeOptions] = None) -> AwaitableGetTeamsResult:
+def get_brackets(opts: Optional[pulumi.InvokeOptions] = None) -> AwaitableGetBracketsResult:
     """
     Use this data source to access information about an existing resource.
     """
     __args__ = dict()
     opts = pulumi.InvokeOptions.merge(_utilities.get_invoke_opts_defaults(), opts)
-    __ret__ = pulumi.runtime.invoke('ctfd:index/getTeams:getTeams', __args__, opts=opts, typ=GetTeamsResult).value
+    __ret__ = pulumi.runtime.invoke('ctfd:index/getBrackets:getBrackets', __args__, opts=opts, typ=GetBracketsResult).value
 
-    return AwaitableGetTeamsResult(
+    return AwaitableGetBracketsResult(
         id=pulumi.get(__ret__, 'id'),
-        teams=pulumi.get(__ret__, 'teams'))
-def get_teams_output(opts: Optional[Union[pulumi.InvokeOptions, pulumi.InvokeOutputOptions]] = None) -> pulumi.Output[GetTeamsResult]:
+        users=pulumi.get(__ret__, 'users'))
+def get_brackets_output(opts: Optional[Union[pulumi.InvokeOptions, pulumi.InvokeOutputOptions]] = None) -> pulumi.Output[GetBracketsResult]:
     """
     Use this data source to access information about an existing resource.
     """
     __args__ = dict()
     opts = pulumi.InvokeOutputOptions.merge(_utilities.get_invoke_opts_defaults(), opts)
-    __ret__ = pulumi.runtime.invoke_output('ctfd:index/getTeams:getTeams', __args__, opts=opts, typ=GetTeamsResult)
-    return __ret__.apply(lambda __response__: GetTeamsResult(
+    __ret__ = pulumi.runtime.invoke_output('ctfd:index/getBrackets:getBrackets', __args__, opts=opts, typ=GetBracketsResult)
+    return __ret__.apply(lambda __response__: GetBracketsResult(
         id=pulumi.get(__response__, 'id'),
-        teams=pulumi.get(__response__, 'teams')))
+        users=pulumi.get(__response__, 'users')))
