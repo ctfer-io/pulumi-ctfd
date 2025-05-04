@@ -51,6 +51,12 @@ namespace CTFerio.Ctfd
         public Output<bool> Banned { get; private set; } = null!;
 
         /// <summary>
+        /// The bracket id the user plays in.
+        /// </summary>
+        [Output("bracketId")]
+        public Output<string?> BracketId { get; private set; } = null!;
+
+        /// <summary>
         /// Country the user represent or is native from.
         /// </summary>
         [Output("country")]
@@ -169,6 +175,12 @@ namespace CTFerio.Ctfd
         public Input<bool>? Banned { get; set; }
 
         /// <summary>
+        /// The bracket id the user plays in.
+        /// </summary>
+        [Input("bracketId")]
+        public Input<string>? BracketId { get; set; }
+
+        /// <summary>
         /// Country the user represent or is native from.
         /// </summary>
         [Input("country")]
@@ -261,6 +273,12 @@ namespace CTFerio.Ctfd
         /// </summary>
         [Input("banned")]
         public Input<bool>? Banned { get; set; }
+
+        /// <summary>
+        /// The bracket id the user plays in.
+        /// </summary>
+        [Input("bracketId")]
+        public Input<string>? BracketId { get; set; }
 
         /// <summary>
         /// Country the user represent or is native from.

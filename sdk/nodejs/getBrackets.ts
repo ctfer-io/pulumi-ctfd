@@ -6,24 +6,24 @@ import * as inputs from "./types/input";
 import * as outputs from "./types/output";
 import * as utilities from "./utilities";
 
-export function getTeams(opts?: pulumi.InvokeOptions): Promise<GetTeamsResult> {
+export function getBrackets(opts?: pulumi.InvokeOptions): Promise<GetBracketsResult> {
     opts = pulumi.mergeOptions(utilities.resourceOptsDefaults(), opts || {});
-    return pulumi.runtime.invoke("ctfd:index/getTeams:getTeams", {
+    return pulumi.runtime.invoke("ctfd:index/getBrackets:getBrackets", {
     }, opts);
 }
 
 /**
- * A collection of values returned by getTeams.
+ * A collection of values returned by getBrackets.
  */
-export interface GetTeamsResult {
+export interface GetBracketsResult {
     /**
      * The ID of this resource.
      */
     readonly id: string;
-    readonly teams: outputs.GetTeamsTeam[];
+    readonly users: outputs.GetBracketsUser[];
 }
-export function getTeamsOutput(opts?: pulumi.InvokeOutputOptions): pulumi.Output<GetTeamsResult> {
+export function getBracketsOutput(opts?: pulumi.InvokeOutputOptions): pulumi.Output<GetBracketsResult> {
     opts = pulumi.mergeOptions(utilities.resourceOptsDefaults(), opts || {});
-    return pulumi.runtime.invokeOutput("ctfd:index/getTeams:getTeams", {
+    return pulumi.runtime.invokeOutput("ctfd:index/getBrackets:getBrackets", {
     }, opts);
 }

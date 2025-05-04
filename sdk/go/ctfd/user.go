@@ -50,6 +50,8 @@ type User struct {
 	Affiliation pulumi.StringPtrOutput `pulumi:"affiliation"`
 	// Is true if the user is banned from the CTF.
 	Banned pulumi.BoolOutput `pulumi:"banned"`
+	// The bracket id the user plays in.
+	BracketId pulumi.StringPtrOutput `pulumi:"bracketId"`
 	// Country the user represent or is native from.
 	Country pulumi.StringPtrOutput `pulumi:"country"`
 	// Email of the user, may be used to verify the account.
@@ -121,6 +123,8 @@ type userState struct {
 	Affiliation *string `pulumi:"affiliation"`
 	// Is true if the user is banned from the CTF.
 	Banned *bool `pulumi:"banned"`
+	// The bracket id the user plays in.
+	BracketId *string `pulumi:"bracketId"`
 	// Country the user represent or is native from.
 	Country *string `pulumi:"country"`
 	// Email of the user, may be used to verify the account.
@@ -146,6 +150,8 @@ type UserState struct {
 	Affiliation pulumi.StringPtrInput
 	// Is true if the user is banned from the CTF.
 	Banned pulumi.BoolPtrInput
+	// The bracket id the user plays in.
+	BracketId pulumi.StringPtrInput
 	// Country the user represent or is native from.
 	Country pulumi.StringPtrInput
 	// Email of the user, may be used to verify the account.
@@ -175,6 +181,8 @@ type userArgs struct {
 	Affiliation *string `pulumi:"affiliation"`
 	// Is true if the user is banned from the CTF.
 	Banned *bool `pulumi:"banned"`
+	// The bracket id the user plays in.
+	BracketId *string `pulumi:"bracketId"`
 	// Country the user represent or is native from.
 	Country *string `pulumi:"country"`
 	// Email of the user, may be used to verify the account.
@@ -201,6 +209,8 @@ type UserArgs struct {
 	Affiliation pulumi.StringPtrInput
 	// Is true if the user is banned from the CTF.
 	Banned pulumi.BoolPtrInput
+	// The bracket id the user plays in.
+	BracketId pulumi.StringPtrInput
 	// Country the user represent or is native from.
 	Country pulumi.StringPtrInput
 	// Email of the user, may be used to verify the account.
@@ -316,6 +326,11 @@ func (o UserOutput) Affiliation() pulumi.StringPtrOutput {
 // Is true if the user is banned from the CTF.
 func (o UserOutput) Banned() pulumi.BoolOutput {
 	return o.ApplyT(func(v *User) pulumi.BoolOutput { return v.Banned }).(pulumi.BoolOutput)
+}
+
+// The bracket id the user plays in.
+func (o UserOutput) BracketId() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v *User) pulumi.StringPtrOutput { return v.BracketId }).(pulumi.StringPtrOutput)
 }
 
 // Country the user represent or is native from.

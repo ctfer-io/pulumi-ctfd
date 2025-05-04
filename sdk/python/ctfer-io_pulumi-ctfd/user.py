@@ -24,6 +24,7 @@ class UserArgs:
                  password: pulumi.Input[builtins.str],
                  affiliation: Optional[pulumi.Input[builtins.str]] = None,
                  banned: Optional[pulumi.Input[builtins.bool]] = None,
+                 bracket_id: Optional[pulumi.Input[builtins.str]] = None,
                  country: Optional[pulumi.Input[builtins.str]] = None,
                  hidden: Optional[pulumi.Input[builtins.bool]] = None,
                  language: Optional[pulumi.Input[builtins.str]] = None,
@@ -37,6 +38,7 @@ class UserArgs:
         :param pulumi.Input[builtins.str] password: Password of the user. Notice than during a CTF you may not want to update those to avoid defaulting user accesses.
         :param pulumi.Input[builtins.str] affiliation: Affiliation to a team, company or agency.
         :param pulumi.Input[builtins.bool] banned: Is true if the user is banned from the CTF.
+        :param pulumi.Input[builtins.str] bracket_id: The bracket id the user plays in.
         :param pulumi.Input[builtins.str] country: Country the user represent or is native from.
         :param pulumi.Input[builtins.bool] hidden: Is true if the user is hidden to the participants.
         :param pulumi.Input[builtins.str] language: Language the user is fluent in.
@@ -51,6 +53,8 @@ class UserArgs:
             pulumi.set(__self__, "affiliation", affiliation)
         if banned is not None:
             pulumi.set(__self__, "banned", banned)
+        if bracket_id is not None:
+            pulumi.set(__self__, "bracket_id", bracket_id)
         if country is not None:
             pulumi.set(__self__, "country", country)
         if hidden is not None:
@@ -113,6 +117,18 @@ class UserArgs:
     @banned.setter
     def banned(self, value: Optional[pulumi.Input[builtins.bool]]):
         pulumi.set(self, "banned", value)
+
+    @property
+    @pulumi.getter(name="bracketId")
+    def bracket_id(self) -> Optional[pulumi.Input[builtins.str]]:
+        """
+        The bracket id the user plays in.
+        """
+        return pulumi.get(self, "bracket_id")
+
+    @bracket_id.setter
+    def bracket_id(self, value: Optional[pulumi.Input[builtins.str]]):
+        pulumi.set(self, "bracket_id", value)
 
     @property
     @pulumi.getter
@@ -204,6 +220,7 @@ class _UserState:
     def __init__(__self__, *,
                  affiliation: Optional[pulumi.Input[builtins.str]] = None,
                  banned: Optional[pulumi.Input[builtins.bool]] = None,
+                 bracket_id: Optional[pulumi.Input[builtins.str]] = None,
                  country: Optional[pulumi.Input[builtins.str]] = None,
                  email: Optional[pulumi.Input[builtins.str]] = None,
                  hidden: Optional[pulumi.Input[builtins.bool]] = None,
@@ -217,6 +234,7 @@ class _UserState:
         Input properties used for looking up and filtering User resources.
         :param pulumi.Input[builtins.str] affiliation: Affiliation to a team, company or agency.
         :param pulumi.Input[builtins.bool] banned: Is true if the user is banned from the CTF.
+        :param pulumi.Input[builtins.str] bracket_id: The bracket id the user plays in.
         :param pulumi.Input[builtins.str] country: Country the user represent or is native from.
         :param pulumi.Input[builtins.str] email: Email of the user, may be used to verify the account.
         :param pulumi.Input[builtins.bool] hidden: Is true if the user is hidden to the participants.
@@ -231,6 +249,8 @@ class _UserState:
             pulumi.set(__self__, "affiliation", affiliation)
         if banned is not None:
             pulumi.set(__self__, "banned", banned)
+        if bracket_id is not None:
+            pulumi.set(__self__, "bracket_id", bracket_id)
         if country is not None:
             pulumi.set(__self__, "country", country)
         if email is not None:
@@ -273,6 +293,18 @@ class _UserState:
     @banned.setter
     def banned(self, value: Optional[pulumi.Input[builtins.bool]]):
         pulumi.set(self, "banned", value)
+
+    @property
+    @pulumi.getter(name="bracketId")
+    def bracket_id(self) -> Optional[pulumi.Input[builtins.str]]:
+        """
+        The bracket id the user plays in.
+        """
+        return pulumi.get(self, "bracket_id")
+
+    @bracket_id.setter
+    def bracket_id(self, value: Optional[pulumi.Input[builtins.str]]):
+        pulumi.set(self, "bracket_id", value)
 
     @property
     @pulumi.getter
@@ -390,6 +422,7 @@ class User(pulumi.CustomResource):
                  opts: Optional[pulumi.ResourceOptions] = None,
                  affiliation: Optional[pulumi.Input[builtins.str]] = None,
                  banned: Optional[pulumi.Input[builtins.bool]] = None,
+                 bracket_id: Optional[pulumi.Input[builtins.str]] = None,
                  country: Optional[pulumi.Input[builtins.str]] = None,
                  email: Optional[pulumi.Input[builtins.str]] = None,
                  hidden: Optional[pulumi.Input[builtins.bool]] = None,
@@ -421,6 +454,7 @@ class User(pulumi.CustomResource):
         :param pulumi.ResourceOptions opts: Options for the resource.
         :param pulumi.Input[builtins.str] affiliation: Affiliation to a team, company or agency.
         :param pulumi.Input[builtins.bool] banned: Is true if the user is banned from the CTF.
+        :param pulumi.Input[builtins.str] bracket_id: The bracket id the user plays in.
         :param pulumi.Input[builtins.str] country: Country the user represent or is native from.
         :param pulumi.Input[builtins.str] email: Email of the user, may be used to verify the account.
         :param pulumi.Input[builtins.bool] hidden: Is true if the user is hidden to the participants.
@@ -471,6 +505,7 @@ class User(pulumi.CustomResource):
                  opts: Optional[pulumi.ResourceOptions] = None,
                  affiliation: Optional[pulumi.Input[builtins.str]] = None,
                  banned: Optional[pulumi.Input[builtins.bool]] = None,
+                 bracket_id: Optional[pulumi.Input[builtins.str]] = None,
                  country: Optional[pulumi.Input[builtins.str]] = None,
                  email: Optional[pulumi.Input[builtins.str]] = None,
                  hidden: Optional[pulumi.Input[builtins.bool]] = None,
@@ -491,6 +526,7 @@ class User(pulumi.CustomResource):
 
             __props__.__dict__["affiliation"] = affiliation
             __props__.__dict__["banned"] = banned
+            __props__.__dict__["bracket_id"] = bracket_id
             __props__.__dict__["country"] = country
             if email is None and not opts.urn:
                 raise TypeError("Missing required property 'email'")
@@ -518,6 +554,7 @@ class User(pulumi.CustomResource):
             opts: Optional[pulumi.ResourceOptions] = None,
             affiliation: Optional[pulumi.Input[builtins.str]] = None,
             banned: Optional[pulumi.Input[builtins.bool]] = None,
+            bracket_id: Optional[pulumi.Input[builtins.str]] = None,
             country: Optional[pulumi.Input[builtins.str]] = None,
             email: Optional[pulumi.Input[builtins.str]] = None,
             hidden: Optional[pulumi.Input[builtins.bool]] = None,
@@ -536,6 +573,7 @@ class User(pulumi.CustomResource):
         :param pulumi.ResourceOptions opts: Options for the resource.
         :param pulumi.Input[builtins.str] affiliation: Affiliation to a team, company or agency.
         :param pulumi.Input[builtins.bool] banned: Is true if the user is banned from the CTF.
+        :param pulumi.Input[builtins.str] bracket_id: The bracket id the user plays in.
         :param pulumi.Input[builtins.str] country: Country the user represent or is native from.
         :param pulumi.Input[builtins.str] email: Email of the user, may be used to verify the account.
         :param pulumi.Input[builtins.bool] hidden: Is true if the user is hidden to the participants.
@@ -552,6 +590,7 @@ class User(pulumi.CustomResource):
 
         __props__.__dict__["affiliation"] = affiliation
         __props__.__dict__["banned"] = banned
+        __props__.__dict__["bracket_id"] = bracket_id
         __props__.__dict__["country"] = country
         __props__.__dict__["email"] = email
         __props__.__dict__["hidden"] = hidden
@@ -578,6 +617,14 @@ class User(pulumi.CustomResource):
         Is true if the user is banned from the CTF.
         """
         return pulumi.get(self, "banned")
+
+    @property
+    @pulumi.getter(name="bracketId")
+    def bracket_id(self) -> pulumi.Output[Optional[builtins.str]]:
+        """
+        The bracket id the user plays in.
+        """
+        return pulumi.get(self, "bracket_id")
 
     @property
     @pulumi.getter

@@ -62,6 +62,10 @@ export class Team extends pulumi.CustomResource {
      */
     public readonly banned!: pulumi.Output<boolean>;
     /**
+     * The bracket id the user plays in.
+     */
+    public readonly bracketId!: pulumi.Output<string | undefined>;
+    /**
      * Member who is captain of the team. Must be part of the members too. Note it could cause a fatal error in case of resource import with an inconsistent CTFd configuration i.e. if a team has no captain yet (should not be possible).
      */
     public readonly captain!: pulumi.Output<string>;
@@ -109,6 +113,7 @@ export class Team extends pulumi.CustomResource {
             const state = argsOrState as TeamState | undefined;
             resourceInputs["affiliation"] = state ? state.affiliation : undefined;
             resourceInputs["banned"] = state ? state.banned : undefined;
+            resourceInputs["bracketId"] = state ? state.bracketId : undefined;
             resourceInputs["captain"] = state ? state.captain : undefined;
             resourceInputs["country"] = state ? state.country : undefined;
             resourceInputs["email"] = state ? state.email : undefined;
@@ -133,6 +138,7 @@ export class Team extends pulumi.CustomResource {
             }
             resourceInputs["affiliation"] = args ? args.affiliation : undefined;
             resourceInputs["banned"] = args ? args.banned : undefined;
+            resourceInputs["bracketId"] = args ? args.bracketId : undefined;
             resourceInputs["captain"] = args ? args.captain : undefined;
             resourceInputs["country"] = args ? args.country : undefined;
             resourceInputs["email"] = args ? args.email : undefined;
@@ -159,6 +165,10 @@ export interface TeamState {
      * Is true if the team is banned from the CTF.
      */
     banned?: pulumi.Input<boolean>;
+    /**
+     * The bracket id the user plays in.
+     */
+    bracketId?: pulumi.Input<string>;
     /**
      * Member who is captain of the team. Must be part of the members too. Note it could cause a fatal error in case of resource import with an inconsistent CTFd configuration i.e. if a team has no captain yet (should not be possible).
      */
@@ -205,6 +215,10 @@ export interface TeamArgs {
      * Is true if the team is banned from the CTF.
      */
     banned?: pulumi.Input<boolean>;
+    /**
+     * The bracket id the user plays in.
+     */
+    bracketId?: pulumi.Input<string>;
     /**
      * Member who is captain of the team. Must be part of the members too. Note it could cause a fatal error in case of resource import with an inconsistent CTFd configuration i.e. if a team has no captain yet (should not be possible).
      */

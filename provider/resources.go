@@ -41,6 +41,9 @@ func Provider() tfbridge.ProviderInfo {
 		MetadataInfo:            tfbridge.NewProviderMetadata(metadata),
 		Config:                  map[string]*tfbridge.SchemaInfo{},
 		Resources: map[string]*tfbridge.ResourceInfo{
+			"ctfd_bracket": {
+				Tok: tfbridge.MakeResource(mainPkg, mainMod, "Bracket"),
+			},
 			"ctfd_challenge_standard": {
 				Tok: tfbridge.MakeResource(mainPkg, mainMod, "ChallengeStandard"),
 			},
@@ -64,6 +67,9 @@ func Provider() tfbridge.ProviderInfo {
 			},
 		},
 		DataSources: map[string]*tfbridge.DataSourceInfo{
+			"ctfd_brackets": {
+				Tok: tfbridge.MakeDataSource(mainPkg, mainMod, "getBrackets"),
+			},
 			"ctfd_challenges_standard": {
 				Tok: tfbridge.MakeDataSource(mainPkg, mainMod, "getChallengesStandard"),
 			},

@@ -59,6 +59,10 @@ export class User extends pulumi.CustomResource {
      */
     public readonly banned!: pulumi.Output<boolean>;
     /**
+     * The bracket id the user plays in.
+     */
+    public readonly bracketId!: pulumi.Output<string | undefined>;
+    /**
      * Country the user represent or is native from.
      */
     public readonly country!: pulumi.Output<string | undefined>;
@@ -110,6 +114,7 @@ export class User extends pulumi.CustomResource {
             const state = argsOrState as UserState | undefined;
             resourceInputs["affiliation"] = state ? state.affiliation : undefined;
             resourceInputs["banned"] = state ? state.banned : undefined;
+            resourceInputs["bracketId"] = state ? state.bracketId : undefined;
             resourceInputs["country"] = state ? state.country : undefined;
             resourceInputs["email"] = state ? state.email : undefined;
             resourceInputs["hidden"] = state ? state.hidden : undefined;
@@ -129,6 +134,7 @@ export class User extends pulumi.CustomResource {
             }
             resourceInputs["affiliation"] = args ? args.affiliation : undefined;
             resourceInputs["banned"] = args ? args.banned : undefined;
+            resourceInputs["bracketId"] = args ? args.bracketId : undefined;
             resourceInputs["country"] = args ? args.country : undefined;
             resourceInputs["email"] = args?.email ? pulumi.secret(args.email) : undefined;
             resourceInputs["hidden"] = args ? args.hidden : undefined;
@@ -158,6 +164,10 @@ export interface UserState {
      * Is true if the user is banned from the CTF.
      */
     banned?: pulumi.Input<boolean>;
+    /**
+     * The bracket id the user plays in.
+     */
+    bracketId?: pulumi.Input<string>;
     /**
      * Country the user represent or is native from.
      */
@@ -208,6 +218,10 @@ export interface UserArgs {
      * Is true if the user is banned from the CTF.
      */
     banned?: pulumi.Input<boolean>;
+    /**
+     * The bracket id the user plays in.
+     */
+    bracketId?: pulumi.Input<string>;
     /**
      * Country the user represent or is native from.
      */

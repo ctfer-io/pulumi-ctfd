@@ -27,92 +27,19 @@ namespace CTFerio.Ctfd
     public sealed class GetUsersResult
     {
         /// <summary>
-        /// Affiliation to a team, company or agency.
-        /// </summary>
-        public readonly string Affiliation;
-        /// <summary>
-        /// Is true if the user is banned from the CTF.
-        /// </summary>
-        public readonly bool Banned;
-        /// <summary>
-        /// Country the user represent or is native from.
-        /// </summary>
-        public readonly string Country;
-        /// <summary>
-        /// Email of the user, may be used to verify the account.
-        /// </summary>
-        public readonly string Email;
-        /// <summary>
-        /// Is true if the user is hidden to the participants.
-        /// </summary>
-        public readonly bool Hidden;
-        /// <summary>
-        /// Identifier of the user.
+        /// The ID of this resource.
         /// </summary>
         public readonly string Id;
-        /// <summary>
-        /// Language the user is fluent in.
-        /// </summary>
-        public readonly string Language;
-        /// <summary>
-        /// Name or pseudo of the user.
-        /// </summary>
-        public readonly string Name;
-        /// <summary>
-        /// Password of the user. Notice that during a CTF you may not want to update those to avoid defaulting user accesses.
-        /// </summary>
-        public readonly string Password;
-        /// <summary>
-        /// Generic type for RBAC purposes.
-        /// </summary>
-        public readonly string Type;
-        /// <summary>
-        /// Is true if the user has verified its account by email, or if set by an admin.
-        /// </summary>
-        public readonly bool Verified;
-        /// <summary>
-        /// Website, blog, or anything similar (displayed to other participants).
-        /// </summary>
-        public readonly string Website;
+        public readonly ImmutableArray<Outputs.GetUsersUserResult> Users;
 
         [OutputConstructor]
         private GetUsersResult(
-            string affiliation,
-
-            bool banned,
-
-            string country,
-
-            string email,
-
-            bool hidden,
-
             string id,
 
-            string language,
-
-            string name,
-
-            string password,
-
-            string type,
-
-            bool verified,
-
-            string website)
+            ImmutableArray<Outputs.GetUsersUserResult> users)
         {
-            Affiliation = affiliation;
-            Banned = banned;
-            Country = country;
-            Email = email;
-            Hidden = hidden;
             Id = id;
-            Language = language;
-            Name = name;
-            Password = password;
-            Type = type;
-            Verified = verified;
-            Website = website;
+            Users = users;
         }
     }
 }

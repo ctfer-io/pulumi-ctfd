@@ -325,6 +325,130 @@ func (o ChallengeStandardRequirementsPtrOutput) Prerequisites() pulumi.StringArr
 	}).(pulumi.StringArrayOutput)
 }
 
+type GetBracketsUser struct {
+	// Description that explains the goal of this bracket.
+	Description string `pulumi:"description"`
+	// Identifier of the bracket, used internally to handle the CTFd corresponding object.
+	Id string `pulumi:"id"`
+	// Name displayed to end-users (e.g. "Students", "Interns", "Engineers").
+	Name string `pulumi:"name"`
+	// Type of the bracket, either "users" or "teams".
+	Type string `pulumi:"type"`
+}
+
+// GetBracketsUserInput is an input type that accepts GetBracketsUserArgs and GetBracketsUserOutput values.
+// You can construct a concrete instance of `GetBracketsUserInput` via:
+//
+//	GetBracketsUserArgs{...}
+type GetBracketsUserInput interface {
+	pulumi.Input
+
+	ToGetBracketsUserOutput() GetBracketsUserOutput
+	ToGetBracketsUserOutputWithContext(context.Context) GetBracketsUserOutput
+}
+
+type GetBracketsUserArgs struct {
+	// Description that explains the goal of this bracket.
+	Description pulumi.StringInput `pulumi:"description"`
+	// Identifier of the bracket, used internally to handle the CTFd corresponding object.
+	Id pulumi.StringInput `pulumi:"id"`
+	// Name displayed to end-users (e.g. "Students", "Interns", "Engineers").
+	Name pulumi.StringInput `pulumi:"name"`
+	// Type of the bracket, either "users" or "teams".
+	Type pulumi.StringInput `pulumi:"type"`
+}
+
+func (GetBracketsUserArgs) ElementType() reflect.Type {
+	return reflect.TypeOf((*GetBracketsUser)(nil)).Elem()
+}
+
+func (i GetBracketsUserArgs) ToGetBracketsUserOutput() GetBracketsUserOutput {
+	return i.ToGetBracketsUserOutputWithContext(context.Background())
+}
+
+func (i GetBracketsUserArgs) ToGetBracketsUserOutputWithContext(ctx context.Context) GetBracketsUserOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(GetBracketsUserOutput)
+}
+
+// GetBracketsUserArrayInput is an input type that accepts GetBracketsUserArray and GetBracketsUserArrayOutput values.
+// You can construct a concrete instance of `GetBracketsUserArrayInput` via:
+//
+//	GetBracketsUserArray{ GetBracketsUserArgs{...} }
+type GetBracketsUserArrayInput interface {
+	pulumi.Input
+
+	ToGetBracketsUserArrayOutput() GetBracketsUserArrayOutput
+	ToGetBracketsUserArrayOutputWithContext(context.Context) GetBracketsUserArrayOutput
+}
+
+type GetBracketsUserArray []GetBracketsUserInput
+
+func (GetBracketsUserArray) ElementType() reflect.Type {
+	return reflect.TypeOf((*[]GetBracketsUser)(nil)).Elem()
+}
+
+func (i GetBracketsUserArray) ToGetBracketsUserArrayOutput() GetBracketsUserArrayOutput {
+	return i.ToGetBracketsUserArrayOutputWithContext(context.Background())
+}
+
+func (i GetBracketsUserArray) ToGetBracketsUserArrayOutputWithContext(ctx context.Context) GetBracketsUserArrayOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(GetBracketsUserArrayOutput)
+}
+
+type GetBracketsUserOutput struct{ *pulumi.OutputState }
+
+func (GetBracketsUserOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*GetBracketsUser)(nil)).Elem()
+}
+
+func (o GetBracketsUserOutput) ToGetBracketsUserOutput() GetBracketsUserOutput {
+	return o
+}
+
+func (o GetBracketsUserOutput) ToGetBracketsUserOutputWithContext(ctx context.Context) GetBracketsUserOutput {
+	return o
+}
+
+// Description that explains the goal of this bracket.
+func (o GetBracketsUserOutput) Description() pulumi.StringOutput {
+	return o.ApplyT(func(v GetBracketsUser) string { return v.Description }).(pulumi.StringOutput)
+}
+
+// Identifier of the bracket, used internally to handle the CTFd corresponding object.
+func (o GetBracketsUserOutput) Id() pulumi.StringOutput {
+	return o.ApplyT(func(v GetBracketsUser) string { return v.Id }).(pulumi.StringOutput)
+}
+
+// Name displayed to end-users (e.g. "Students", "Interns", "Engineers").
+func (o GetBracketsUserOutput) Name() pulumi.StringOutput {
+	return o.ApplyT(func(v GetBracketsUser) string { return v.Name }).(pulumi.StringOutput)
+}
+
+// Type of the bracket, either "users" or "teams".
+func (o GetBracketsUserOutput) Type() pulumi.StringOutput {
+	return o.ApplyT(func(v GetBracketsUser) string { return v.Type }).(pulumi.StringOutput)
+}
+
+type GetBracketsUserArrayOutput struct{ *pulumi.OutputState }
+
+func (GetBracketsUserArrayOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*[]GetBracketsUser)(nil)).Elem()
+}
+
+func (o GetBracketsUserArrayOutput) ToGetBracketsUserArrayOutput() GetBracketsUserArrayOutput {
+	return o
+}
+
+func (o GetBracketsUserArrayOutput) ToGetBracketsUserArrayOutputWithContext(ctx context.Context) GetBracketsUserArrayOutput {
+	return o
+}
+
+func (o GetBracketsUserArrayOutput) Index(i pulumi.IntInput) GetBracketsUserOutput {
+	return pulumi.All(o, i).ApplyT(func(vs []interface{}) GetBracketsUser {
+		return vs[0].([]GetBracketsUser)[vs[1].(int)]
+	}).(GetBracketsUserOutput)
+}
+
 type GetChallengesDynamicChallenge struct {
 	// Attribution to the creator(s) of the challenge.
 	Attribution string `pulumi:"attribution"`
@@ -883,25 +1007,420 @@ func (o GetChallengesStandardChallengeRequirementsOutput) Prerequisites() pulumi
 	return o.ApplyT(func(v GetChallengesStandardChallengeRequirements) []string { return v.Prerequisites }).(pulumi.StringArrayOutput)
 }
 
+type GetTeamsTeam struct {
+	// Affiliation to a company or agency.
+	Affiliation string `pulumi:"affiliation"`
+	// Is true if the team is banned from the CTF.
+	Banned bool `pulumi:"banned"`
+	// Member who is captain of the team. Must be part of the members too. Note it could cause a fatal error in case of resource import with an inconsistent CTFd configuration i.e. if a team has no captain yet (should not be possible).
+	Captain string `pulumi:"captain"`
+	// Country the team represent or is hail from.
+	Country string `pulumi:"country"`
+	// Email of the team.
+	Email string `pulumi:"email"`
+	// Is true if the team is hidden to the participants.
+	Hidden bool `pulumi:"hidden"`
+	// Identifier of the user.
+	Id string `pulumi:"id"`
+	// List of members (User), defined by their IDs.
+	Members []string `pulumi:"members"`
+	// Name of the team.
+	Name string `pulumi:"name"`
+	// Password of the team. Notice that during a CTF you may not want to update those to avoid defaulting team accesses.
+	Password string `pulumi:"password"`
+	// Website, blog, or anything similar (displayed to other participants).
+	Website string `pulumi:"website"`
+}
+
+// GetTeamsTeamInput is an input type that accepts GetTeamsTeamArgs and GetTeamsTeamOutput values.
+// You can construct a concrete instance of `GetTeamsTeamInput` via:
+//
+//	GetTeamsTeamArgs{...}
+type GetTeamsTeamInput interface {
+	pulumi.Input
+
+	ToGetTeamsTeamOutput() GetTeamsTeamOutput
+	ToGetTeamsTeamOutputWithContext(context.Context) GetTeamsTeamOutput
+}
+
+type GetTeamsTeamArgs struct {
+	// Affiliation to a company or agency.
+	Affiliation pulumi.StringInput `pulumi:"affiliation"`
+	// Is true if the team is banned from the CTF.
+	Banned pulumi.BoolInput `pulumi:"banned"`
+	// Member who is captain of the team. Must be part of the members too. Note it could cause a fatal error in case of resource import with an inconsistent CTFd configuration i.e. if a team has no captain yet (should not be possible).
+	Captain pulumi.StringInput `pulumi:"captain"`
+	// Country the team represent or is hail from.
+	Country pulumi.StringInput `pulumi:"country"`
+	// Email of the team.
+	Email pulumi.StringInput `pulumi:"email"`
+	// Is true if the team is hidden to the participants.
+	Hidden pulumi.BoolInput `pulumi:"hidden"`
+	// Identifier of the user.
+	Id pulumi.StringInput `pulumi:"id"`
+	// List of members (User), defined by their IDs.
+	Members pulumi.StringArrayInput `pulumi:"members"`
+	// Name of the team.
+	Name pulumi.StringInput `pulumi:"name"`
+	// Password of the team. Notice that during a CTF you may not want to update those to avoid defaulting team accesses.
+	Password pulumi.StringInput `pulumi:"password"`
+	// Website, blog, or anything similar (displayed to other participants).
+	Website pulumi.StringInput `pulumi:"website"`
+}
+
+func (GetTeamsTeamArgs) ElementType() reflect.Type {
+	return reflect.TypeOf((*GetTeamsTeam)(nil)).Elem()
+}
+
+func (i GetTeamsTeamArgs) ToGetTeamsTeamOutput() GetTeamsTeamOutput {
+	return i.ToGetTeamsTeamOutputWithContext(context.Background())
+}
+
+func (i GetTeamsTeamArgs) ToGetTeamsTeamOutputWithContext(ctx context.Context) GetTeamsTeamOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(GetTeamsTeamOutput)
+}
+
+// GetTeamsTeamArrayInput is an input type that accepts GetTeamsTeamArray and GetTeamsTeamArrayOutput values.
+// You can construct a concrete instance of `GetTeamsTeamArrayInput` via:
+//
+//	GetTeamsTeamArray{ GetTeamsTeamArgs{...} }
+type GetTeamsTeamArrayInput interface {
+	pulumi.Input
+
+	ToGetTeamsTeamArrayOutput() GetTeamsTeamArrayOutput
+	ToGetTeamsTeamArrayOutputWithContext(context.Context) GetTeamsTeamArrayOutput
+}
+
+type GetTeamsTeamArray []GetTeamsTeamInput
+
+func (GetTeamsTeamArray) ElementType() reflect.Type {
+	return reflect.TypeOf((*[]GetTeamsTeam)(nil)).Elem()
+}
+
+func (i GetTeamsTeamArray) ToGetTeamsTeamArrayOutput() GetTeamsTeamArrayOutput {
+	return i.ToGetTeamsTeamArrayOutputWithContext(context.Background())
+}
+
+func (i GetTeamsTeamArray) ToGetTeamsTeamArrayOutputWithContext(ctx context.Context) GetTeamsTeamArrayOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(GetTeamsTeamArrayOutput)
+}
+
+type GetTeamsTeamOutput struct{ *pulumi.OutputState }
+
+func (GetTeamsTeamOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*GetTeamsTeam)(nil)).Elem()
+}
+
+func (o GetTeamsTeamOutput) ToGetTeamsTeamOutput() GetTeamsTeamOutput {
+	return o
+}
+
+func (o GetTeamsTeamOutput) ToGetTeamsTeamOutputWithContext(ctx context.Context) GetTeamsTeamOutput {
+	return o
+}
+
+// Affiliation to a company or agency.
+func (o GetTeamsTeamOutput) Affiliation() pulumi.StringOutput {
+	return o.ApplyT(func(v GetTeamsTeam) string { return v.Affiliation }).(pulumi.StringOutput)
+}
+
+// Is true if the team is banned from the CTF.
+func (o GetTeamsTeamOutput) Banned() pulumi.BoolOutput {
+	return o.ApplyT(func(v GetTeamsTeam) bool { return v.Banned }).(pulumi.BoolOutput)
+}
+
+// Member who is captain of the team. Must be part of the members too. Note it could cause a fatal error in case of resource import with an inconsistent CTFd configuration i.e. if a team has no captain yet (should not be possible).
+func (o GetTeamsTeamOutput) Captain() pulumi.StringOutput {
+	return o.ApplyT(func(v GetTeamsTeam) string { return v.Captain }).(pulumi.StringOutput)
+}
+
+// Country the team represent or is hail from.
+func (o GetTeamsTeamOutput) Country() pulumi.StringOutput {
+	return o.ApplyT(func(v GetTeamsTeam) string { return v.Country }).(pulumi.StringOutput)
+}
+
+// Email of the team.
+func (o GetTeamsTeamOutput) Email() pulumi.StringOutput {
+	return o.ApplyT(func(v GetTeamsTeam) string { return v.Email }).(pulumi.StringOutput)
+}
+
+// Is true if the team is hidden to the participants.
+func (o GetTeamsTeamOutput) Hidden() pulumi.BoolOutput {
+	return o.ApplyT(func(v GetTeamsTeam) bool { return v.Hidden }).(pulumi.BoolOutput)
+}
+
+// Identifier of the user.
+func (o GetTeamsTeamOutput) Id() pulumi.StringOutput {
+	return o.ApplyT(func(v GetTeamsTeam) string { return v.Id }).(pulumi.StringOutput)
+}
+
+// List of members (User), defined by their IDs.
+func (o GetTeamsTeamOutput) Members() pulumi.StringArrayOutput {
+	return o.ApplyT(func(v GetTeamsTeam) []string { return v.Members }).(pulumi.StringArrayOutput)
+}
+
+// Name of the team.
+func (o GetTeamsTeamOutput) Name() pulumi.StringOutput {
+	return o.ApplyT(func(v GetTeamsTeam) string { return v.Name }).(pulumi.StringOutput)
+}
+
+// Password of the team. Notice that during a CTF you may not want to update those to avoid defaulting team accesses.
+func (o GetTeamsTeamOutput) Password() pulumi.StringOutput {
+	return o.ApplyT(func(v GetTeamsTeam) string { return v.Password }).(pulumi.StringOutput)
+}
+
+// Website, blog, or anything similar (displayed to other participants).
+func (o GetTeamsTeamOutput) Website() pulumi.StringOutput {
+	return o.ApplyT(func(v GetTeamsTeam) string { return v.Website }).(pulumi.StringOutput)
+}
+
+type GetTeamsTeamArrayOutput struct{ *pulumi.OutputState }
+
+func (GetTeamsTeamArrayOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*[]GetTeamsTeam)(nil)).Elem()
+}
+
+func (o GetTeamsTeamArrayOutput) ToGetTeamsTeamArrayOutput() GetTeamsTeamArrayOutput {
+	return o
+}
+
+func (o GetTeamsTeamArrayOutput) ToGetTeamsTeamArrayOutputWithContext(ctx context.Context) GetTeamsTeamArrayOutput {
+	return o
+}
+
+func (o GetTeamsTeamArrayOutput) Index(i pulumi.IntInput) GetTeamsTeamOutput {
+	return pulumi.All(o, i).ApplyT(func(vs []interface{}) GetTeamsTeam {
+		return vs[0].([]GetTeamsTeam)[vs[1].(int)]
+	}).(GetTeamsTeamOutput)
+}
+
+type GetUsersUser struct {
+	// Affiliation to a team, company or agency.
+	Affiliation string `pulumi:"affiliation"`
+	// Is true if the user is banned from the CTF.
+	Banned bool `pulumi:"banned"`
+	// Country the user represent or is native from.
+	Country string `pulumi:"country"`
+	// Email of the user, may be used to verify the account.
+	Email string `pulumi:"email"`
+	// Is true if the user is hidden to the participants.
+	Hidden bool `pulumi:"hidden"`
+	// Identifier of the user.
+	Id string `pulumi:"id"`
+	// Language the user is fluent in.
+	Language string `pulumi:"language"`
+	// Name or pseudo of the user.
+	Name string `pulumi:"name"`
+	// Password of the user. Notice that during a CTF you may not want to update those to avoid defaulting user accesses.
+	Password string `pulumi:"password"`
+	// Generic type for RBAC purposes.
+	Type string `pulumi:"type"`
+	// Is true if the user has verified its account by email, or if set by an admin.
+	Verified bool `pulumi:"verified"`
+	// Website, blog, or anything similar (displayed to other participants).
+	Website string `pulumi:"website"`
+}
+
+// GetUsersUserInput is an input type that accepts GetUsersUserArgs and GetUsersUserOutput values.
+// You can construct a concrete instance of `GetUsersUserInput` via:
+//
+//	GetUsersUserArgs{...}
+type GetUsersUserInput interface {
+	pulumi.Input
+
+	ToGetUsersUserOutput() GetUsersUserOutput
+	ToGetUsersUserOutputWithContext(context.Context) GetUsersUserOutput
+}
+
+type GetUsersUserArgs struct {
+	// Affiliation to a team, company or agency.
+	Affiliation pulumi.StringInput `pulumi:"affiliation"`
+	// Is true if the user is banned from the CTF.
+	Banned pulumi.BoolInput `pulumi:"banned"`
+	// Country the user represent or is native from.
+	Country pulumi.StringInput `pulumi:"country"`
+	// Email of the user, may be used to verify the account.
+	Email pulumi.StringInput `pulumi:"email"`
+	// Is true if the user is hidden to the participants.
+	Hidden pulumi.BoolInput `pulumi:"hidden"`
+	// Identifier of the user.
+	Id pulumi.StringInput `pulumi:"id"`
+	// Language the user is fluent in.
+	Language pulumi.StringInput `pulumi:"language"`
+	// Name or pseudo of the user.
+	Name pulumi.StringInput `pulumi:"name"`
+	// Password of the user. Notice that during a CTF you may not want to update those to avoid defaulting user accesses.
+	Password pulumi.StringInput `pulumi:"password"`
+	// Generic type for RBAC purposes.
+	Type pulumi.StringInput `pulumi:"type"`
+	// Is true if the user has verified its account by email, or if set by an admin.
+	Verified pulumi.BoolInput `pulumi:"verified"`
+	// Website, blog, or anything similar (displayed to other participants).
+	Website pulumi.StringInput `pulumi:"website"`
+}
+
+func (GetUsersUserArgs) ElementType() reflect.Type {
+	return reflect.TypeOf((*GetUsersUser)(nil)).Elem()
+}
+
+func (i GetUsersUserArgs) ToGetUsersUserOutput() GetUsersUserOutput {
+	return i.ToGetUsersUserOutputWithContext(context.Background())
+}
+
+func (i GetUsersUserArgs) ToGetUsersUserOutputWithContext(ctx context.Context) GetUsersUserOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(GetUsersUserOutput)
+}
+
+// GetUsersUserArrayInput is an input type that accepts GetUsersUserArray and GetUsersUserArrayOutput values.
+// You can construct a concrete instance of `GetUsersUserArrayInput` via:
+//
+//	GetUsersUserArray{ GetUsersUserArgs{...} }
+type GetUsersUserArrayInput interface {
+	pulumi.Input
+
+	ToGetUsersUserArrayOutput() GetUsersUserArrayOutput
+	ToGetUsersUserArrayOutputWithContext(context.Context) GetUsersUserArrayOutput
+}
+
+type GetUsersUserArray []GetUsersUserInput
+
+func (GetUsersUserArray) ElementType() reflect.Type {
+	return reflect.TypeOf((*[]GetUsersUser)(nil)).Elem()
+}
+
+func (i GetUsersUserArray) ToGetUsersUserArrayOutput() GetUsersUserArrayOutput {
+	return i.ToGetUsersUserArrayOutputWithContext(context.Background())
+}
+
+func (i GetUsersUserArray) ToGetUsersUserArrayOutputWithContext(ctx context.Context) GetUsersUserArrayOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(GetUsersUserArrayOutput)
+}
+
+type GetUsersUserOutput struct{ *pulumi.OutputState }
+
+func (GetUsersUserOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*GetUsersUser)(nil)).Elem()
+}
+
+func (o GetUsersUserOutput) ToGetUsersUserOutput() GetUsersUserOutput {
+	return o
+}
+
+func (o GetUsersUserOutput) ToGetUsersUserOutputWithContext(ctx context.Context) GetUsersUserOutput {
+	return o
+}
+
+// Affiliation to a team, company or agency.
+func (o GetUsersUserOutput) Affiliation() pulumi.StringOutput {
+	return o.ApplyT(func(v GetUsersUser) string { return v.Affiliation }).(pulumi.StringOutput)
+}
+
+// Is true if the user is banned from the CTF.
+func (o GetUsersUserOutput) Banned() pulumi.BoolOutput {
+	return o.ApplyT(func(v GetUsersUser) bool { return v.Banned }).(pulumi.BoolOutput)
+}
+
+// Country the user represent or is native from.
+func (o GetUsersUserOutput) Country() pulumi.StringOutput {
+	return o.ApplyT(func(v GetUsersUser) string { return v.Country }).(pulumi.StringOutput)
+}
+
+// Email of the user, may be used to verify the account.
+func (o GetUsersUserOutput) Email() pulumi.StringOutput {
+	return o.ApplyT(func(v GetUsersUser) string { return v.Email }).(pulumi.StringOutput)
+}
+
+// Is true if the user is hidden to the participants.
+func (o GetUsersUserOutput) Hidden() pulumi.BoolOutput {
+	return o.ApplyT(func(v GetUsersUser) bool { return v.Hidden }).(pulumi.BoolOutput)
+}
+
+// Identifier of the user.
+func (o GetUsersUserOutput) Id() pulumi.StringOutput {
+	return o.ApplyT(func(v GetUsersUser) string { return v.Id }).(pulumi.StringOutput)
+}
+
+// Language the user is fluent in.
+func (o GetUsersUserOutput) Language() pulumi.StringOutput {
+	return o.ApplyT(func(v GetUsersUser) string { return v.Language }).(pulumi.StringOutput)
+}
+
+// Name or pseudo of the user.
+func (o GetUsersUserOutput) Name() pulumi.StringOutput {
+	return o.ApplyT(func(v GetUsersUser) string { return v.Name }).(pulumi.StringOutput)
+}
+
+// Password of the user. Notice that during a CTF you may not want to update those to avoid defaulting user accesses.
+func (o GetUsersUserOutput) Password() pulumi.StringOutput {
+	return o.ApplyT(func(v GetUsersUser) string { return v.Password }).(pulumi.StringOutput)
+}
+
+// Generic type for RBAC purposes.
+func (o GetUsersUserOutput) Type() pulumi.StringOutput {
+	return o.ApplyT(func(v GetUsersUser) string { return v.Type }).(pulumi.StringOutput)
+}
+
+// Is true if the user has verified its account by email, or if set by an admin.
+func (o GetUsersUserOutput) Verified() pulumi.BoolOutput {
+	return o.ApplyT(func(v GetUsersUser) bool { return v.Verified }).(pulumi.BoolOutput)
+}
+
+// Website, blog, or anything similar (displayed to other participants).
+func (o GetUsersUserOutput) Website() pulumi.StringOutput {
+	return o.ApplyT(func(v GetUsersUser) string { return v.Website }).(pulumi.StringOutput)
+}
+
+type GetUsersUserArrayOutput struct{ *pulumi.OutputState }
+
+func (GetUsersUserArrayOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*[]GetUsersUser)(nil)).Elem()
+}
+
+func (o GetUsersUserArrayOutput) ToGetUsersUserArrayOutput() GetUsersUserArrayOutput {
+	return o
+}
+
+func (o GetUsersUserArrayOutput) ToGetUsersUserArrayOutputWithContext(ctx context.Context) GetUsersUserArrayOutput {
+	return o
+}
+
+func (o GetUsersUserArrayOutput) Index(i pulumi.IntInput) GetUsersUserOutput {
+	return pulumi.All(o, i).ApplyT(func(vs []interface{}) GetUsersUser {
+		return vs[0].([]GetUsersUser)[vs[1].(int)]
+	}).(GetUsersUserOutput)
+}
+
 func init() {
 	pulumi.RegisterInputType(reflect.TypeOf((*ChallengeDynamicRequirementsInput)(nil)).Elem(), ChallengeDynamicRequirementsArgs{})
 	pulumi.RegisterInputType(reflect.TypeOf((*ChallengeDynamicRequirementsPtrInput)(nil)).Elem(), ChallengeDynamicRequirementsArgs{})
 	pulumi.RegisterInputType(reflect.TypeOf((*ChallengeStandardRequirementsInput)(nil)).Elem(), ChallengeStandardRequirementsArgs{})
 	pulumi.RegisterInputType(reflect.TypeOf((*ChallengeStandardRequirementsPtrInput)(nil)).Elem(), ChallengeStandardRequirementsArgs{})
+	pulumi.RegisterInputType(reflect.TypeOf((*GetBracketsUserInput)(nil)).Elem(), GetBracketsUserArgs{})
+	pulumi.RegisterInputType(reflect.TypeOf((*GetBracketsUserArrayInput)(nil)).Elem(), GetBracketsUserArray{})
 	pulumi.RegisterInputType(reflect.TypeOf((*GetChallengesDynamicChallengeInput)(nil)).Elem(), GetChallengesDynamicChallengeArgs{})
 	pulumi.RegisterInputType(reflect.TypeOf((*GetChallengesDynamicChallengeArrayInput)(nil)).Elem(), GetChallengesDynamicChallengeArray{})
 	pulumi.RegisterInputType(reflect.TypeOf((*GetChallengesDynamicChallengeRequirementsInput)(nil)).Elem(), GetChallengesDynamicChallengeRequirementsArgs{})
 	pulumi.RegisterInputType(reflect.TypeOf((*GetChallengesStandardChallengeInput)(nil)).Elem(), GetChallengesStandardChallengeArgs{})
 	pulumi.RegisterInputType(reflect.TypeOf((*GetChallengesStandardChallengeArrayInput)(nil)).Elem(), GetChallengesStandardChallengeArray{})
 	pulumi.RegisterInputType(reflect.TypeOf((*GetChallengesStandardChallengeRequirementsInput)(nil)).Elem(), GetChallengesStandardChallengeRequirementsArgs{})
+	pulumi.RegisterInputType(reflect.TypeOf((*GetTeamsTeamInput)(nil)).Elem(), GetTeamsTeamArgs{})
+	pulumi.RegisterInputType(reflect.TypeOf((*GetTeamsTeamArrayInput)(nil)).Elem(), GetTeamsTeamArray{})
+	pulumi.RegisterInputType(reflect.TypeOf((*GetUsersUserInput)(nil)).Elem(), GetUsersUserArgs{})
+	pulumi.RegisterInputType(reflect.TypeOf((*GetUsersUserArrayInput)(nil)).Elem(), GetUsersUserArray{})
 	pulumi.RegisterOutputType(ChallengeDynamicRequirementsOutput{})
 	pulumi.RegisterOutputType(ChallengeDynamicRequirementsPtrOutput{})
 	pulumi.RegisterOutputType(ChallengeStandardRequirementsOutput{})
 	pulumi.RegisterOutputType(ChallengeStandardRequirementsPtrOutput{})
+	pulumi.RegisterOutputType(GetBracketsUserOutput{})
+	pulumi.RegisterOutputType(GetBracketsUserArrayOutput{})
 	pulumi.RegisterOutputType(GetChallengesDynamicChallengeOutput{})
 	pulumi.RegisterOutputType(GetChallengesDynamicChallengeArrayOutput{})
 	pulumi.RegisterOutputType(GetChallengesDynamicChallengeRequirementsOutput{})
 	pulumi.RegisterOutputType(GetChallengesStandardChallengeOutput{})
 	pulumi.RegisterOutputType(GetChallengesStandardChallengeArrayOutput{})
 	pulumi.RegisterOutputType(GetChallengesStandardChallengeRequirementsOutput{})
+	pulumi.RegisterOutputType(GetTeamsTeamOutput{})
+	pulumi.RegisterOutputType(GetTeamsTeamArrayOutput{})
+	pulumi.RegisterOutputType(GetUsersUserOutput{})
+	pulumi.RegisterOutputType(GetUsersUserArrayOutput{})
 }

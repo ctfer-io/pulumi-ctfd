@@ -23,28 +23,9 @@ func GetTeams(ctx *pulumi.Context, opts ...pulumi.InvokeOption) (*GetTeamsResult
 
 // A collection of values returned by getTeams.
 type GetTeamsResult struct {
-	// Affiliation to a company or agency.
-	Affiliation string `pulumi:"affiliation"`
-	// Is true if the team is banned from the CTF.
-	Banned bool `pulumi:"banned"`
-	// Member who is captain of the team. Must be part of the members too. Note it could cause a fatal error in case of resource import with an inconsistent CTFd configuration i.e. if a team has no captain yet (should not be possible).
-	Captain string `pulumi:"captain"`
-	// Country the team represent or is hail from.
-	Country string `pulumi:"country"`
-	// Email of the team.
-	Email string `pulumi:"email"`
-	// Is true if the team is hidden to the participants.
-	Hidden bool `pulumi:"hidden"`
-	// Identifier of the user.
-	Id string `pulumi:"id"`
-	// List of members (User), defined by their IDs.
-	Members []string `pulumi:"members"`
-	// Name of the team.
-	Name string `pulumi:"name"`
-	// Password of the team. Notice that during a CTF you may not want to update those to avoid defaulting team accesses.
-	Password string `pulumi:"password"`
-	// Website, blog, or anything similar (displayed to other participants).
-	Website string `pulumi:"website"`
+	// The ID of this resource.
+	Id    string         `pulumi:"id"`
+	Teams []GetTeamsTeam `pulumi:"teams"`
 }
 
 func GetTeamsOutput(ctx *pulumi.Context, opts ...pulumi.InvokeOption) GetTeamsResultOutput {
@@ -69,59 +50,13 @@ func (o GetTeamsResultOutput) ToGetTeamsResultOutputWithContext(ctx context.Cont
 	return o
 }
 
-// Affiliation to a company or agency.
-func (o GetTeamsResultOutput) Affiliation() pulumi.StringOutput {
-	return o.ApplyT(func(v GetTeamsResult) string { return v.Affiliation }).(pulumi.StringOutput)
-}
-
-// Is true if the team is banned from the CTF.
-func (o GetTeamsResultOutput) Banned() pulumi.BoolOutput {
-	return o.ApplyT(func(v GetTeamsResult) bool { return v.Banned }).(pulumi.BoolOutput)
-}
-
-// Member who is captain of the team. Must be part of the members too. Note it could cause a fatal error in case of resource import with an inconsistent CTFd configuration i.e. if a team has no captain yet (should not be possible).
-func (o GetTeamsResultOutput) Captain() pulumi.StringOutput {
-	return o.ApplyT(func(v GetTeamsResult) string { return v.Captain }).(pulumi.StringOutput)
-}
-
-// Country the team represent or is hail from.
-func (o GetTeamsResultOutput) Country() pulumi.StringOutput {
-	return o.ApplyT(func(v GetTeamsResult) string { return v.Country }).(pulumi.StringOutput)
-}
-
-// Email of the team.
-func (o GetTeamsResultOutput) Email() pulumi.StringOutput {
-	return o.ApplyT(func(v GetTeamsResult) string { return v.Email }).(pulumi.StringOutput)
-}
-
-// Is true if the team is hidden to the participants.
-func (o GetTeamsResultOutput) Hidden() pulumi.BoolOutput {
-	return o.ApplyT(func(v GetTeamsResult) bool { return v.Hidden }).(pulumi.BoolOutput)
-}
-
-// Identifier of the user.
+// The ID of this resource.
 func (o GetTeamsResultOutput) Id() pulumi.StringOutput {
 	return o.ApplyT(func(v GetTeamsResult) string { return v.Id }).(pulumi.StringOutput)
 }
 
-// List of members (User), defined by their IDs.
-func (o GetTeamsResultOutput) Members() pulumi.StringArrayOutput {
-	return o.ApplyT(func(v GetTeamsResult) []string { return v.Members }).(pulumi.StringArrayOutput)
-}
-
-// Name of the team.
-func (o GetTeamsResultOutput) Name() pulumi.StringOutput {
-	return o.ApplyT(func(v GetTeamsResult) string { return v.Name }).(pulumi.StringOutput)
-}
-
-// Password of the team. Notice that during a CTF you may not want to update those to avoid defaulting team accesses.
-func (o GetTeamsResultOutput) Password() pulumi.StringOutput {
-	return o.ApplyT(func(v GetTeamsResult) string { return v.Password }).(pulumi.StringOutput)
-}
-
-// Website, blog, or anything similar (displayed to other participants).
-func (o GetTeamsResultOutput) Website() pulumi.StringOutput {
-	return o.ApplyT(func(v GetTeamsResult) string { return v.Website }).(pulumi.StringOutput)
+func (o GetTeamsResultOutput) Teams() GetTeamsTeamArrayOutput {
+	return o.ApplyT(func(v GetTeamsResult) []GetTeamsTeam { return v.Teams }).(GetTeamsTeamArrayOutput)
 }
 
 func init() {

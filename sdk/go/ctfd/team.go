@@ -58,6 +58,8 @@ type Team struct {
 	Affiliation pulumi.StringPtrOutput `pulumi:"affiliation"`
 	// Is true if the team is banned from the CTF.
 	Banned pulumi.BoolOutput `pulumi:"banned"`
+	// The bracket id the user plays in.
+	BracketId pulumi.StringPtrOutput `pulumi:"bracketId"`
 	// Member who is captain of the team. Must be part of the members too. Note it could cause a fatal error in case of resource import with an inconsistent CTFd configuration i.e. if a team has no captain yet (should not be possible).
 	Captain pulumi.StringOutput `pulumi:"captain"`
 	// Country the team represent or is hail from.
@@ -122,6 +124,8 @@ type teamState struct {
 	Affiliation *string `pulumi:"affiliation"`
 	// Is true if the team is banned from the CTF.
 	Banned *bool `pulumi:"banned"`
+	// The bracket id the user plays in.
+	BracketId *string `pulumi:"bracketId"`
 	// Member who is captain of the team. Must be part of the members too. Note it could cause a fatal error in case of resource import with an inconsistent CTFd configuration i.e. if a team has no captain yet (should not be possible).
 	Captain *string `pulumi:"captain"`
 	// Country the team represent or is hail from.
@@ -145,6 +149,8 @@ type TeamState struct {
 	Affiliation pulumi.StringPtrInput
 	// Is true if the team is banned from the CTF.
 	Banned pulumi.BoolPtrInput
+	// The bracket id the user plays in.
+	BracketId pulumi.StringPtrInput
 	// Member who is captain of the team. Must be part of the members too. Note it could cause a fatal error in case of resource import with an inconsistent CTFd configuration i.e. if a team has no captain yet (should not be possible).
 	Captain pulumi.StringPtrInput
 	// Country the team represent or is hail from.
@@ -172,6 +178,8 @@ type teamArgs struct {
 	Affiliation *string `pulumi:"affiliation"`
 	// Is true if the team is banned from the CTF.
 	Banned *bool `pulumi:"banned"`
+	// The bracket id the user plays in.
+	BracketId *string `pulumi:"bracketId"`
 	// Member who is captain of the team. Must be part of the members too. Note it could cause a fatal error in case of resource import with an inconsistent CTFd configuration i.e. if a team has no captain yet (should not be possible).
 	Captain string `pulumi:"captain"`
 	// Country the team represent or is hail from.
@@ -196,6 +204,8 @@ type TeamArgs struct {
 	Affiliation pulumi.StringPtrInput
 	// Is true if the team is banned from the CTF.
 	Banned pulumi.BoolPtrInput
+	// The bracket id the user plays in.
+	BracketId pulumi.StringPtrInput
 	// Member who is captain of the team. Must be part of the members too. Note it could cause a fatal error in case of resource import with an inconsistent CTFd configuration i.e. if a team has no captain yet (should not be possible).
 	Captain pulumi.StringInput
 	// Country the team represent or is hail from.
@@ -309,6 +319,11 @@ func (o TeamOutput) Affiliation() pulumi.StringPtrOutput {
 // Is true if the team is banned from the CTF.
 func (o TeamOutput) Banned() pulumi.BoolOutput {
 	return o.ApplyT(func(v *Team) pulumi.BoolOutput { return v.Banned }).(pulumi.BoolOutput)
+}
+
+// The bracket id the user plays in.
+func (o TeamOutput) BracketId() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v *Team) pulumi.StringPtrOutput { return v.BracketId }).(pulumi.StringPtrOutput)
 }
 
 // Member who is captain of the team. Must be part of the members too. Note it could cause a fatal error in case of resource import with an inconsistent CTFd configuration i.e. if a team has no captain yet (should not be possible).

@@ -19,10 +19,13 @@ from . import outputs
 __all__ = [
     'ChallengeDynamicRequirements',
     'ChallengeStandardRequirements',
+    'GetBracketsUserResult',
     'GetChallengesDynamicChallengeResult',
     'GetChallengesDynamicChallengeRequirementsResult',
     'GetChallengesStandardChallengeResult',
     'GetChallengesStandardChallengeRequirementsResult',
+    'GetTeamsTeamResult',
+    'GetUsersUserResult',
 ]
 
 @pulumi.output_type
@@ -85,6 +88,57 @@ class ChallengeStandardRequirements(dict):
         List of the challenges ID.
         """
         return pulumi.get(self, "prerequisites")
+
+
+@pulumi.output_type
+class GetBracketsUserResult(dict):
+    def __init__(__self__, *,
+                 description: builtins.str,
+                 id: builtins.str,
+                 name: builtins.str,
+                 type: builtins.str):
+        """
+        :param builtins.str description: Description that explains the goal of this bracket.
+        :param builtins.str id: Identifier of the bracket, used internally to handle the CTFd corresponding object.
+        :param builtins.str name: Name displayed to end-users (e.g. "Students", "Interns", "Engineers").
+        :param builtins.str type: Type of the bracket, either "users" or "teams".
+        """
+        pulumi.set(__self__, "description", description)
+        pulumi.set(__self__, "id", id)
+        pulumi.set(__self__, "name", name)
+        pulumi.set(__self__, "type", type)
+
+    @property
+    @pulumi.getter
+    def description(self) -> builtins.str:
+        """
+        Description that explains the goal of this bracket.
+        """
+        return pulumi.get(self, "description")
+
+    @property
+    @pulumi.getter
+    def id(self) -> builtins.str:
+        """
+        Identifier of the bracket, used internally to handle the CTFd corresponding object.
+        """
+        return pulumi.get(self, "id")
+
+    @property
+    @pulumi.getter
+    def name(self) -> builtins.str:
+        """
+        Name displayed to end-users (e.g. "Students", "Interns", "Engineers").
+        """
+        return pulumi.get(self, "name")
+
+    @property
+    @pulumi.getter
+    def type(self) -> builtins.str:
+        """
+        Type of the bracket, either "users" or "teams".
+        """
+        return pulumi.get(self, "type")
 
 
 @pulumi.output_type
@@ -472,5 +526,272 @@ class GetChallengesStandardChallengeRequirementsResult(dict):
         List of the challenges ID.
         """
         return pulumi.get(self, "prerequisites")
+
+
+@pulumi.output_type
+class GetTeamsTeamResult(dict):
+    def __init__(__self__, *,
+                 affiliation: builtins.str,
+                 banned: builtins.bool,
+                 captain: builtins.str,
+                 country: builtins.str,
+                 email: builtins.str,
+                 hidden: builtins.bool,
+                 id: builtins.str,
+                 members: Sequence[builtins.str],
+                 name: builtins.str,
+                 password: builtins.str,
+                 website: builtins.str):
+        """
+        :param builtins.str affiliation: Affiliation to a company or agency.
+        :param builtins.bool banned: Is true if the team is banned from the CTF.
+        :param builtins.str captain: Member who is captain of the team. Must be part of the members too. Note it could cause a fatal error in case of resource import with an inconsistent CTFd configuration i.e. if a team has no captain yet (should not be possible).
+        :param builtins.str country: Country the team represent or is hail from.
+        :param builtins.str email: Email of the team.
+        :param builtins.bool hidden: Is true if the team is hidden to the participants.
+        :param builtins.str id: Identifier of the user.
+        :param Sequence[builtins.str] members: List of members (User), defined by their IDs.
+        :param builtins.str name: Name of the team.
+        :param builtins.str password: Password of the team. Notice that during a CTF you may not want to update those to avoid defaulting team accesses.
+        :param builtins.str website: Website, blog, or anything similar (displayed to other participants).
+        """
+        pulumi.set(__self__, "affiliation", affiliation)
+        pulumi.set(__self__, "banned", banned)
+        pulumi.set(__self__, "captain", captain)
+        pulumi.set(__self__, "country", country)
+        pulumi.set(__self__, "email", email)
+        pulumi.set(__self__, "hidden", hidden)
+        pulumi.set(__self__, "id", id)
+        pulumi.set(__self__, "members", members)
+        pulumi.set(__self__, "name", name)
+        pulumi.set(__self__, "password", password)
+        pulumi.set(__self__, "website", website)
+
+    @property
+    @pulumi.getter
+    def affiliation(self) -> builtins.str:
+        """
+        Affiliation to a company or agency.
+        """
+        return pulumi.get(self, "affiliation")
+
+    @property
+    @pulumi.getter
+    def banned(self) -> builtins.bool:
+        """
+        Is true if the team is banned from the CTF.
+        """
+        return pulumi.get(self, "banned")
+
+    @property
+    @pulumi.getter
+    def captain(self) -> builtins.str:
+        """
+        Member who is captain of the team. Must be part of the members too. Note it could cause a fatal error in case of resource import with an inconsistent CTFd configuration i.e. if a team has no captain yet (should not be possible).
+        """
+        return pulumi.get(self, "captain")
+
+    @property
+    @pulumi.getter
+    def country(self) -> builtins.str:
+        """
+        Country the team represent or is hail from.
+        """
+        return pulumi.get(self, "country")
+
+    @property
+    @pulumi.getter
+    def email(self) -> builtins.str:
+        """
+        Email of the team.
+        """
+        return pulumi.get(self, "email")
+
+    @property
+    @pulumi.getter
+    def hidden(self) -> builtins.bool:
+        """
+        Is true if the team is hidden to the participants.
+        """
+        return pulumi.get(self, "hidden")
+
+    @property
+    @pulumi.getter
+    def id(self) -> builtins.str:
+        """
+        Identifier of the user.
+        """
+        return pulumi.get(self, "id")
+
+    @property
+    @pulumi.getter
+    def members(self) -> Sequence[builtins.str]:
+        """
+        List of members (User), defined by their IDs.
+        """
+        return pulumi.get(self, "members")
+
+    @property
+    @pulumi.getter
+    def name(self) -> builtins.str:
+        """
+        Name of the team.
+        """
+        return pulumi.get(self, "name")
+
+    @property
+    @pulumi.getter
+    def password(self) -> builtins.str:
+        """
+        Password of the team. Notice that during a CTF you may not want to update those to avoid defaulting team accesses.
+        """
+        return pulumi.get(self, "password")
+
+    @property
+    @pulumi.getter
+    def website(self) -> builtins.str:
+        """
+        Website, blog, or anything similar (displayed to other participants).
+        """
+        return pulumi.get(self, "website")
+
+
+@pulumi.output_type
+class GetUsersUserResult(dict):
+    def __init__(__self__, *,
+                 affiliation: builtins.str,
+                 banned: builtins.bool,
+                 country: builtins.str,
+                 email: builtins.str,
+                 hidden: builtins.bool,
+                 id: builtins.str,
+                 language: builtins.str,
+                 name: builtins.str,
+                 password: builtins.str,
+                 type: builtins.str,
+                 verified: builtins.bool,
+                 website: builtins.str):
+        """
+        :param builtins.str affiliation: Affiliation to a team, company or agency.
+        :param builtins.bool banned: Is true if the user is banned from the CTF.
+        :param builtins.str country: Country the user represent or is native from.
+        :param builtins.str email: Email of the user, may be used to verify the account.
+        :param builtins.bool hidden: Is true if the user is hidden to the participants.
+        :param builtins.str id: Identifier of the user.
+        :param builtins.str language: Language the user is fluent in.
+        :param builtins.str name: Name or pseudo of the user.
+        :param builtins.str password: Password of the user. Notice that during a CTF you may not want to update those to avoid defaulting user accesses.
+        :param builtins.str type: Generic type for RBAC purposes.
+        :param builtins.bool verified: Is true if the user has verified its account by email, or if set by an admin.
+        :param builtins.str website: Website, blog, or anything similar (displayed to other participants).
+        """
+        pulumi.set(__self__, "affiliation", affiliation)
+        pulumi.set(__self__, "banned", banned)
+        pulumi.set(__self__, "country", country)
+        pulumi.set(__self__, "email", email)
+        pulumi.set(__self__, "hidden", hidden)
+        pulumi.set(__self__, "id", id)
+        pulumi.set(__self__, "language", language)
+        pulumi.set(__self__, "name", name)
+        pulumi.set(__self__, "password", password)
+        pulumi.set(__self__, "type", type)
+        pulumi.set(__self__, "verified", verified)
+        pulumi.set(__self__, "website", website)
+
+    @property
+    @pulumi.getter
+    def affiliation(self) -> builtins.str:
+        """
+        Affiliation to a team, company or agency.
+        """
+        return pulumi.get(self, "affiliation")
+
+    @property
+    @pulumi.getter
+    def banned(self) -> builtins.bool:
+        """
+        Is true if the user is banned from the CTF.
+        """
+        return pulumi.get(self, "banned")
+
+    @property
+    @pulumi.getter
+    def country(self) -> builtins.str:
+        """
+        Country the user represent or is native from.
+        """
+        return pulumi.get(self, "country")
+
+    @property
+    @pulumi.getter
+    def email(self) -> builtins.str:
+        """
+        Email of the user, may be used to verify the account.
+        """
+        return pulumi.get(self, "email")
+
+    @property
+    @pulumi.getter
+    def hidden(self) -> builtins.bool:
+        """
+        Is true if the user is hidden to the participants.
+        """
+        return pulumi.get(self, "hidden")
+
+    @property
+    @pulumi.getter
+    def id(self) -> builtins.str:
+        """
+        Identifier of the user.
+        """
+        return pulumi.get(self, "id")
+
+    @property
+    @pulumi.getter
+    def language(self) -> builtins.str:
+        """
+        Language the user is fluent in.
+        """
+        return pulumi.get(self, "language")
+
+    @property
+    @pulumi.getter
+    def name(self) -> builtins.str:
+        """
+        Name or pseudo of the user.
+        """
+        return pulumi.get(self, "name")
+
+    @property
+    @pulumi.getter
+    def password(self) -> builtins.str:
+        """
+        Password of the user. Notice that during a CTF you may not want to update those to avoid defaulting user accesses.
+        """
+        return pulumi.get(self, "password")
+
+    @property
+    @pulumi.getter
+    def type(self) -> builtins.str:
+        """
+        Generic type for RBAC purposes.
+        """
+        return pulumi.get(self, "type")
+
+    @property
+    @pulumi.getter
+    def verified(self) -> builtins.bool:
+        """
+        Is true if the user has verified its account by email, or if set by an admin.
+        """
+        return pulumi.get(self, "verified")
+
+    @property
+    @pulumi.getter
+    def website(self) -> builtins.str:
+        """
+        Website, blog, or anything similar (displayed to other participants).
+        """
+        return pulumi.get(self, "website")
 
 

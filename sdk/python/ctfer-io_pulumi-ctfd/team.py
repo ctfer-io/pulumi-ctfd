@@ -26,6 +26,7 @@ class TeamArgs:
                  password: pulumi.Input[builtins.str],
                  affiliation: Optional[pulumi.Input[builtins.str]] = None,
                  banned: Optional[pulumi.Input[builtins.bool]] = None,
+                 bracket_id: Optional[pulumi.Input[builtins.str]] = None,
                  country: Optional[pulumi.Input[builtins.str]] = None,
                  hidden: Optional[pulumi.Input[builtins.bool]] = None,
                  name: Optional[pulumi.Input[builtins.str]] = None,
@@ -38,6 +39,7 @@ class TeamArgs:
         :param pulumi.Input[builtins.str] password: Password of the team. Notice that during a CTF you may not want to update those to avoid defaulting team accesses.
         :param pulumi.Input[builtins.str] affiliation: Affiliation to a company or agency.
         :param pulumi.Input[builtins.bool] banned: Is true if the team is banned from the CTF.
+        :param pulumi.Input[builtins.str] bracket_id: The bracket id the user plays in.
         :param pulumi.Input[builtins.str] country: Country the team represent or is hail from.
         :param pulumi.Input[builtins.bool] hidden: Is true if the team is hidden to the participants.
         :param pulumi.Input[builtins.str] name: Name of the team.
@@ -51,6 +53,8 @@ class TeamArgs:
             pulumi.set(__self__, "affiliation", affiliation)
         if banned is not None:
             pulumi.set(__self__, "banned", banned)
+        if bracket_id is not None:
+            pulumi.set(__self__, "bracket_id", bracket_id)
         if country is not None:
             pulumi.set(__self__, "country", country)
         if hidden is not None:
@@ -133,6 +137,18 @@ class TeamArgs:
         pulumi.set(self, "banned", value)
 
     @property
+    @pulumi.getter(name="bracketId")
+    def bracket_id(self) -> Optional[pulumi.Input[builtins.str]]:
+        """
+        The bracket id the user plays in.
+        """
+        return pulumi.get(self, "bracket_id")
+
+    @bracket_id.setter
+    def bracket_id(self, value: Optional[pulumi.Input[builtins.str]]):
+        pulumi.set(self, "bracket_id", value)
+
+    @property
     @pulumi.getter
     def country(self) -> Optional[pulumi.Input[builtins.str]]:
         """
@@ -186,6 +202,7 @@ class _TeamState:
     def __init__(__self__, *,
                  affiliation: Optional[pulumi.Input[builtins.str]] = None,
                  banned: Optional[pulumi.Input[builtins.bool]] = None,
+                 bracket_id: Optional[pulumi.Input[builtins.str]] = None,
                  captain: Optional[pulumi.Input[builtins.str]] = None,
                  country: Optional[pulumi.Input[builtins.str]] = None,
                  email: Optional[pulumi.Input[builtins.str]] = None,
@@ -198,6 +215,7 @@ class _TeamState:
         Input properties used for looking up and filtering Team resources.
         :param pulumi.Input[builtins.str] affiliation: Affiliation to a company or agency.
         :param pulumi.Input[builtins.bool] banned: Is true if the team is banned from the CTF.
+        :param pulumi.Input[builtins.str] bracket_id: The bracket id the user plays in.
         :param pulumi.Input[builtins.str] captain: Member who is captain of the team. Must be part of the members too. Note it could cause a fatal error in case of resource import with an inconsistent CTFd configuration i.e. if a team has no captain yet (should not be possible).
         :param pulumi.Input[builtins.str] country: Country the team represent or is hail from.
         :param pulumi.Input[builtins.str] email: Email of the team.
@@ -211,6 +229,8 @@ class _TeamState:
             pulumi.set(__self__, "affiliation", affiliation)
         if banned is not None:
             pulumi.set(__self__, "banned", banned)
+        if bracket_id is not None:
+            pulumi.set(__self__, "bracket_id", bracket_id)
         if captain is not None:
             pulumi.set(__self__, "captain", captain)
         if country is not None:
@@ -251,6 +271,18 @@ class _TeamState:
     @banned.setter
     def banned(self, value: Optional[pulumi.Input[builtins.bool]]):
         pulumi.set(self, "banned", value)
+
+    @property
+    @pulumi.getter(name="bracketId")
+    def bracket_id(self) -> Optional[pulumi.Input[builtins.str]]:
+        """
+        The bracket id the user plays in.
+        """
+        return pulumi.get(self, "bracket_id")
+
+    @bracket_id.setter
+    def bracket_id(self, value: Optional[pulumi.Input[builtins.str]]):
+        pulumi.set(self, "bracket_id", value)
 
     @property
     @pulumi.getter
@@ -356,6 +388,7 @@ class Team(pulumi.CustomResource):
                  opts: Optional[pulumi.ResourceOptions] = None,
                  affiliation: Optional[pulumi.Input[builtins.str]] = None,
                  banned: Optional[pulumi.Input[builtins.bool]] = None,
+                 bracket_id: Optional[pulumi.Input[builtins.str]] = None,
                  captain: Optional[pulumi.Input[builtins.str]] = None,
                  country: Optional[pulumi.Input[builtins.str]] = None,
                  email: Optional[pulumi.Input[builtins.str]] = None,
@@ -388,6 +421,7 @@ class Team(pulumi.CustomResource):
         :param pulumi.ResourceOptions opts: Options for the resource.
         :param pulumi.Input[builtins.str] affiliation: Affiliation to a company or agency.
         :param pulumi.Input[builtins.bool] banned: Is true if the team is banned from the CTF.
+        :param pulumi.Input[builtins.str] bracket_id: The bracket id the user plays in.
         :param pulumi.Input[builtins.str] captain: Member who is captain of the team. Must be part of the members too. Note it could cause a fatal error in case of resource import with an inconsistent CTFd configuration i.e. if a team has no captain yet (should not be possible).
         :param pulumi.Input[builtins.str] country: Country the team represent or is hail from.
         :param pulumi.Input[builtins.str] email: Email of the team.
@@ -439,6 +473,7 @@ class Team(pulumi.CustomResource):
                  opts: Optional[pulumi.ResourceOptions] = None,
                  affiliation: Optional[pulumi.Input[builtins.str]] = None,
                  banned: Optional[pulumi.Input[builtins.bool]] = None,
+                 bracket_id: Optional[pulumi.Input[builtins.str]] = None,
                  captain: Optional[pulumi.Input[builtins.str]] = None,
                  country: Optional[pulumi.Input[builtins.str]] = None,
                  email: Optional[pulumi.Input[builtins.str]] = None,
@@ -458,6 +493,7 @@ class Team(pulumi.CustomResource):
 
             __props__.__dict__["affiliation"] = affiliation
             __props__.__dict__["banned"] = banned
+            __props__.__dict__["bracket_id"] = bracket_id
             if captain is None and not opts.urn:
                 raise TypeError("Missing required property 'captain'")
             __props__.__dict__["captain"] = captain
@@ -486,6 +522,7 @@ class Team(pulumi.CustomResource):
             opts: Optional[pulumi.ResourceOptions] = None,
             affiliation: Optional[pulumi.Input[builtins.str]] = None,
             banned: Optional[pulumi.Input[builtins.bool]] = None,
+            bracket_id: Optional[pulumi.Input[builtins.str]] = None,
             captain: Optional[pulumi.Input[builtins.str]] = None,
             country: Optional[pulumi.Input[builtins.str]] = None,
             email: Optional[pulumi.Input[builtins.str]] = None,
@@ -503,6 +540,7 @@ class Team(pulumi.CustomResource):
         :param pulumi.ResourceOptions opts: Options for the resource.
         :param pulumi.Input[builtins.str] affiliation: Affiliation to a company or agency.
         :param pulumi.Input[builtins.bool] banned: Is true if the team is banned from the CTF.
+        :param pulumi.Input[builtins.str] bracket_id: The bracket id the user plays in.
         :param pulumi.Input[builtins.str] captain: Member who is captain of the team. Must be part of the members too. Note it could cause a fatal error in case of resource import with an inconsistent CTFd configuration i.e. if a team has no captain yet (should not be possible).
         :param pulumi.Input[builtins.str] country: Country the team represent or is hail from.
         :param pulumi.Input[builtins.str] email: Email of the team.
@@ -518,6 +556,7 @@ class Team(pulumi.CustomResource):
 
         __props__.__dict__["affiliation"] = affiliation
         __props__.__dict__["banned"] = banned
+        __props__.__dict__["bracket_id"] = bracket_id
         __props__.__dict__["captain"] = captain
         __props__.__dict__["country"] = country
         __props__.__dict__["email"] = email
@@ -543,6 +582,14 @@ class Team(pulumi.CustomResource):
         Is true if the team is banned from the CTF.
         """
         return pulumi.get(self, "banned")
+
+    @property
+    @pulumi.getter(name="bracketId")
+    def bracket_id(self) -> pulumi.Output[Optional[builtins.str]]:
+        """
+        The bracket id the user plays in.
+        """
+        return pulumi.get(self, "bracket_id")
 
     @property
     @pulumi.getter
