@@ -1,8 +1,8 @@
 module github.com/ctfer-io/pulumi-ctfd/examples
 
-go 1.23.0
+go 1.23.11
 
-require github.com/pulumi/pulumi/pkg/v3 v3.184.0
+require github.com/pulumi/pulumi/pkg/v3 v3.186.0
 
 require (
 	cloud.google.com/go v0.112.1 // indirect
@@ -119,7 +119,7 @@ require (
 	github.com/pmezard/go-difflib v1.0.0 // indirect
 	github.com/pulumi/appdash v0.0.0-20231130102222-75f619a67231 // indirect
 	github.com/pulumi/esc v0.14.3 // indirect
-	github.com/pulumi/pulumi/sdk/v3 v3.184.0 // indirect
+	github.com/pulumi/pulumi/sdk/v3 v3.186.0 // indirect
 	github.com/rivo/uniseg v0.4.4 // indirect
 	github.com/rogpeppe/go-internal v1.13.1 // indirect
 	github.com/ryanuber/go-glob v1.0.0 // indirect
@@ -154,7 +154,7 @@ require (
 	golang.org/x/exp v0.0.0-20240719175910-8a7402abbf56 // indirect
 	golang.org/x/mod v0.25.0 // indirect
 	golang.org/x/net v0.40.0 // indirect
-	golang.org/x/oauth2 v0.27.0 // indirect
+	golang.org/x/oauth2 v0.30.0 // indirect
 	golang.org/x/sync v0.15.0 // indirect
 	golang.org/x/sys v0.33.0 // indirect
 	golang.org/x/term v0.32.0 // indirect
