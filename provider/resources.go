@@ -44,11 +44,11 @@ func Provider() tfbridge.ProviderInfo {
 			"ctfd_bracket": {
 				Tok: tfbridge.MakeResource(mainPkg, mainMod, "Bracket"),
 			},
-			"ctfd_challenge_standard": {
-				Tok: tfbridge.MakeResource(mainPkg, mainMod, "ChallengeStandard"),
-			},
 			"ctfd_challenge_dynamic": {
 				Tok: tfbridge.MakeResource(mainPkg, mainMod, "ChallengeDynamic"),
+			},
+			"ctfd_challenge_standard": {
+				Tok: tfbridge.MakeResource(mainPkg, mainMod, "ChallengeStandard"),
 			},
 			"ctfd_file": {
 				Tok: tfbridge.MakeResource(mainPkg, mainMod, "File"),
@@ -58,6 +58,9 @@ func Provider() tfbridge.ProviderInfo {
 			},
 			"ctfd_hint": {
 				Tok: tfbridge.MakeResource(mainPkg, mainMod, "Hint"),
+			},
+			"ctfd_solution": {
+				Tok: tfbridge.MakeResource(mainPkg, mainMod, "Solution"),
 			},
 			"ctfd_team": {
 				Tok: tfbridge.MakeResource(mainPkg, mainMod, "Team"),
@@ -70,11 +73,11 @@ func Provider() tfbridge.ProviderInfo {
 			"ctfd_brackets": {
 				Tok: tfbridge.MakeDataSource(mainPkg, mainMod, "getBrackets"),
 			},
-			"ctfd_challenges_standard": {
-				Tok: tfbridge.MakeDataSource(mainPkg, mainMod, "getChallengesStandard"),
-			},
 			"ctfd_challenges_dynamic": {
 				Tok: tfbridge.MakeDataSource(mainPkg, mainMod, "getChallengesDynamic"),
+			},
+			"ctfd_challenges_standard": {
+				Tok: tfbridge.MakeDataSource(mainPkg, mainMod, "getChallengesStandard"),
 			},
 			"ctfd_teams": {
 				Tok: tfbridge.MakeDataSource(mainPkg, mainMod, "getTeams"),

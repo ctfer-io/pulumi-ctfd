@@ -28,6 +28,7 @@
         "hint.ts",
         "index.ts",
         "provider.ts",
+        "solution.ts",
         "team.ts",
         "types/index.ts",
         "types/input.ts",

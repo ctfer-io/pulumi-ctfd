@@ -11,7 +11,7 @@ using Pulumi;
 namespace CTFerio.Ctfd
 {
     /// <summary>
-    /// A flag to solve the challenge.
+    /// The solution to a challenge.
     /// 
     /// ## Example Usage
     /// 
@@ -23,77 +23,59 @@ namespace CTFerio.Ctfd
     /// 
     /// return await Deployment.RunAsync(() =&gt; 
     /// {
-    ///     var http = new Ctfd.ChallengeDynamic("http", new()
+    ///     var example = new Ctfd.ChallengeStandard("example", new()
     ///     {
-    ///         Category = "misc",
-    ///         Description = "...",
+    ///         Category = "test",
+    ///         Description = "Example challenge description...",
     ///         Value = 500,
-    ///         Decay = 100,
-    ///         Minimum = 50,
-    ///         State = "visible",
-    ///         Function = "logarithmic",
-    ///         Topics = new[]
-    ///         {
-    ///             "Misc",
-    ///         },
-    ///         Tags = new[]
-    ///         {
-    ///             "misc",
-    ///             "basic",
-    ///         },
     ///     });
     /// 
-    ///     var httpFlag = new Ctfd.Flag("httpFlag", new()
+    ///     var wu = new Ctfd.Solution("wu", new()
     ///     {
-    ///         ChallengeId = http.Id,
-    ///         Content = "CTF{some_flag}",
+    ///         ChallengeId = example.Id,
+    ///         Content = "Here is how to solve the challenge: ...",
+    ///         State = "visible",
     ///     });
     /// 
     /// });
     /// ```
     /// </summary>
-    [CtfdResourceType("ctfd:index/flag:Flag")]
-    public partial class Flag : global::Pulumi.CustomResource
+    [CtfdResourceType("ctfd:index/solution:Solution")]
+    public partial class Solution : global::Pulumi.CustomResource
     {
         /// <summary>
-        /// Challenge of the flag.
+        /// Challenge of the solution.
         /// </summary>
         [Output("challengeId")]
         public Output<string> ChallengeId { get; private set; } = null!;
 
         /// <summary>
-        /// The actual flag to match. Consider using the convention `MYCTF{value}` with `MYCTF` being the shortcode of your event's name and `value` depending on each challenge.
+        /// The solution to the challenge, in markdown.
         /// </summary>
         [Output("content")]
-        public Output<string> Content { get; private set; } = null!;
+        public Output<string?> Content { get; private set; } = null!;
 
         /// <summary>
-        /// The flag sensitivity information, either case*sensitive or case*insensitive
+        /// State of the solution, either hidden or visible.
         /// </summary>
-        [Output("data")]
-        public Output<string> Data { get; private set; } = null!;
-
-        /// <summary>
-        /// The type of the flag, could be either static or regex
-        /// </summary>
-        [Output("type")]
-        public Output<string> Type { get; private set; } = null!;
+        [Output("state")]
+        public Output<string> State { get; private set; } = null!;
 
 
         /// <summary>
-        /// Create a Flag resource with the given unique name, arguments, and options.
+        /// Create a Solution resource with the given unique name, arguments, and options.
         /// </summary>
         ///
         /// <param name="name">The unique name of the resource</param>
         /// <param name="args">The arguments used to populate this resource's properties</param>
         /// <param name="options">A bag of options that control this resource's behavior</param>
-        public Flag(string name, FlagArgs args, CustomResourceOptions? options = null)
-            : base("ctfd:index/flag:Flag", name, args ?? new FlagArgs(), MakeResourceOptions(options, ""))
+        public Solution(string name, SolutionArgs args, CustomResourceOptions? options = null)
+            : base("ctfd:index/solution:Solution", name, args ?? new SolutionArgs(), MakeResourceOptions(options, ""))
         {
         }
 
-        private Flag(string name, Input<string> id, FlagState? state = null, CustomResourceOptions? options = null)
-            : base("ctfd:index/flag:Flag", name, state, MakeResourceOptions(options, id))
+        private Solution(string name, Input<string> id, SolutionState? state = null, CustomResourceOptions? options = null)
+            : base("ctfd:index/solution:Solution", name, state, MakeResourceOptions(options, id))
         {
         }
 
@@ -114,7 +96,7 @@ namespace CTFerio.Ctfd
             return merged;
         }
         /// <summary>
-        /// Get an existing Flag resource's state with the given name, ID, and optional extra
+        /// Get an existing Solution resource's state with the given name, ID, and optional extra
         /// properties used to qualify the lookup.
         /// </summary>
         ///
@@ -122,25 +104,25 @@ namespace CTFerio.Ctfd
         /// <param name="id">The unique provider ID of the resource to lookup.</param>
         /// <param name="state">Any extra arguments used during the lookup.</param>
         /// <param name="options">A bag of options that control this resource's behavior</param>
-        public static Flag Get(string name, Input<string> id, FlagState? state = null, CustomResourceOptions? options = null)
+        public static Solution Get(string name, Input<string> id, SolutionState? state = null, CustomResourceOptions? options = null)
         {
-            return new Flag(name, id, state, options);
+            return new Solution(name, id, state, options);
         }
     }
 
-    public sealed class FlagArgs : global::Pulumi.ResourceArgs
+    public sealed class SolutionArgs : global::Pulumi.ResourceArgs
     {
         /// <summary>
-        /// Challenge of the flag.
+        /// Challenge of the solution.
         /// </summary>
         [Input("challengeId", required: true)]
         public Input<string> ChallengeId { get; set; } = null!;
 
-        [Input("content", required: true)]
+        [Input("content")]
         private Input<string>? _content;
 
         /// <summary>
-        /// The actual flag to match. Consider using the convention `MYCTF{value}` with `MYCTF` being the shortcode of your event's name and `value` depending on each challenge.
+        /// The solution to the challenge, in markdown.
         /// </summary>
         public Input<string>? Content
         {
@@ -153,27 +135,21 @@ namespace CTFerio.Ctfd
         }
 
         /// <summary>
-        /// The flag sensitivity information, either case*sensitive or case*insensitive
+        /// State of the solution, either hidden or visible.
         /// </summary>
-        [Input("data")]
-        public Input<string>? Data { get; set; }
+        [Input("state")]
+        public Input<string>? State { get; set; }
 
-        /// <summary>
-        /// The type of the flag, could be either static or regex
-        /// </summary>
-        [Input("type")]
-        public Input<string>? Type { get; set; }
-
-        public FlagArgs()
+        public SolutionArgs()
         {
         }
-        public static new FlagArgs Empty => new FlagArgs();
+        public static new SolutionArgs Empty => new SolutionArgs();
     }
 
-    public sealed class FlagState : global::Pulumi.ResourceArgs
+    public sealed class SolutionState : global::Pulumi.ResourceArgs
     {
         /// <summary>
-        /// Challenge of the flag.
+        /// Challenge of the solution.
         /// </summary>
         [Input("challengeId")]
         public Input<string>? ChallengeId { get; set; }
@@ -182,7 +158,7 @@ namespace CTFerio.Ctfd
         private Input<string>? _content;
 
         /// <summary>
-        /// The actual flag to match. Consider using the convention `MYCTF{value}` with `MYCTF` being the shortcode of your event's name and `value` depending on each challenge.
+        /// The solution to the challenge, in markdown.
         /// </summary>
         public Input<string>? Content
         {
@@ -195,20 +171,14 @@ namespace CTFerio.Ctfd
         }
 
         /// <summary>
-        /// The flag sensitivity information, either case*sensitive or case*insensitive
+        /// State of the solution, either hidden or visible.
         /// </summary>
-        [Input("data")]
-        public Input<string>? Data { get; set; }
+        [Input("state")]
+        public Input<string>? State { get; set; }
 
-        /// <summary>
-        /// The type of the flag, could be either static or regex
-        /// </summary>
-        [Input("type")]
-        public Input<string>? Type { get; set; }
-
-        public FlagState()
+        public SolutionState()
         {
         }
-        public static new FlagState Empty => new FlagState();
+        public static new SolutionState Empty => new SolutionState();
     }
 }

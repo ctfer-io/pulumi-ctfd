@@ -572,6 +572,9 @@
                 "description": "The administrator or service account username to login with. Could use `CTFD_ADMIN_USERNAME` environment variable\ninstead.\n",
                 "secret": true
             }
+        },
+        "methods": {
+            "terraformConfig": "pulumi:providers:ctfd/terraformConfig"
         }
     },
     "resources": {
@@ -655,6 +658,10 @@
                     "type": "string",
                     "description": "Decay function to define how the challenge value evolve through solves, either linear or logarithmic.\n"
                 },
+                "logic": {
+                    "type": "string",
+                    "description": "The flag validation logic.\n"
+                },
                 "maxAttempts": {
                     "type": "integer",
                     "description": "Maximum amount of attempts before being unable to flag the challenge.\n"
@@ -704,6 +711,7 @@
                 "decay",
                 "description",
                 "function",
+                "logic",
                 "maxAttempts",
                 "minimum",
                 "name",
@@ -736,6 +744,10 @@
                 "function": {
                     "type": "string",
                     "description": "Decay function to define how the challenge value evolve through solves, either linear or logarithmic.\n"
+                },
+                "logic": {
+                    "type": "string",
+                    "description": "The flag validation logic.\n"
                 },
                 "maxAttempts": {
                     "type": "integer",
@@ -814,6 +826,10 @@
                         "type": "string",
                         "description": "Decay function to define how the challenge value evolve through solves, either linear or logarithmic.\n"
                     },
+                    "logic": {
+                        "type": "string",
+                        "description": "The flag validation logic.\n"
+                    },
                     "maxAttempts": {
                         "type": "integer",
                         "description": "Maximum amount of attempts before being unable to flag the challenge.\n"
@@ -879,6 +895,10 @@
                     "type": "string",
                     "description": "Description of the challenge, consider using multiline descriptions for better style.\n"
                 },
+                "logic": {
+                    "type": "string",
+                    "description": "The flag validation logic.\n"
+                },
                 "maxAttempts": {
                     "type": "integer",
                     "description": "Maximum amount of attempts before being unable to flag the challenge.\n"
@@ -922,6 +942,7 @@
                 "category",
                 "connectionInfo",
                 "description",
+                "logic",
                 "maxAttempts",
                 "name",
                 "state",
@@ -945,6 +966,10 @@
                 "description": {
                     "type": "string",
                     "description": "Description of the challenge, consider using multiline descriptions for better style.\n"
+                },
+                "logic": {
+                    "type": "string",
+                    "description": "The flag validation logic.\n"
                 },
                 "maxAttempts": {
                     "type": "integer",
@@ -1008,6 +1033,10 @@
                     "description": {
                         "type": "string",
                         "description": "Description of the challenge, consider using multiline descriptions for better style.\n"
+                    },
+                    "logic": {
+                        "type": "string",
+                        "description": "The flag validation logic.\n"
                     },
                     "maxAttempts": {
                         "type": "integer",
@@ -1290,6 +1319,65 @@
                     "title": {
                         "type": "string",
                         "description": "Title of the hint, displayed to end users before unlocking.\n"
+                    }
+                },
+                "type": "object"
+            }
+        },
+        "ctfd:index/solution:Solution": {
+            "description": "The solution to a challenge.\n\n## Example Usage\n\n\u003c!--Start PulumiCodeChooser --\u003e\n```typescript\nimport * as pulumi from \"@pulumi/pulumi\";\nimport * as ctfd from \"@ctfer-io/pulumi-ctfd\";\n\nconst example = new ctfd.ChallengeStandard(\"example\", {\n    category: \"test\",\n    description: \"Example challenge description...\",\n    value: 500,\n});\nconst wu = new ctfd.Solution(\"wu\", {\n    challengeId: example.id,\n    content: \"Here is how to solve the challenge: ...\",\n    state: \"visible\",\n});\n```\n```python\nimport pulumi\nimport ctfer-io_pulumi-ctfd as ctfd\n\nexample = ctfd.ChallengeStandard(\"example\",\n    category=\"test\",\n    description=\"Example challenge description...\",\n    value=500)\nwu = ctfd.Solution(\"wu\",\n    challenge_id=example.id,\n    content=\"Here is how to solve the challenge: ...\",\n    state=\"visible\")\n```\n```csharp\nusing System.Collections.Generic;\nusing System.Linq;\nusing Pulumi;\nusing Ctfd = CTFerio.Ctfd;\n\nreturn await Deployment.RunAsync(() =\u003e \n{\n    var example = new Ctfd.ChallengeStandard(\"example\", new()\n    {\n        Category = \"test\",\n        Description = \"Example challenge description...\",\n        Value = 500,\n    });\n\n    var wu = new Ctfd.Solution(\"wu\", new()\n    {\n        ChallengeId = example.Id,\n        Content = \"Here is how to solve the challenge: ...\",\n        State = \"visible\",\n    });\n\n});\n```\n```go\npackage main\n\nimport (\n\t\"github.com/ctfer-io/pulumi-ctfd/sdk/v2/go/ctfd\"\n\t\"github.com/pulumi/pulumi/sdk/v3/go/pulumi\"\n)\n\nfunc main() {\n\tpulumi.Run(func(ctx *pulumi.Context) error {\n\t\texample, err := ctfd.NewChallengeStandard(ctx, \"example\", \u0026ctfd.ChallengeStandardArgs{\n\t\t\tCategory:    pulumi.String(\"test\"),\n\t\t\tDescription: pulumi.String(\"Example challenge description...\"),\n\t\t\tValue:       pulumi.Int(500),\n\t\t})\n\t\tif err != nil {\n\t\t\treturn err\n\t\t}\n\t\t_, err = ctfd.NewSolution(ctx, \"wu\", \u0026ctfd.SolutionArgs{\n\t\t\tChallengeId: example.ID(),\n\t\t\tContent:     pulumi.String(\"Here is how to solve the challenge: ...\"),\n\t\t\tState:       pulumi.String(\"visible\"),\n\t\t})\n\t\tif err != nil {\n\t\t\treturn err\n\t\t}\n\t\treturn nil\n\t})\n}\n```\n```java\npackage generated_program;\n\nimport com.pulumi.Context;\nimport com.pulumi.Pulumi;\nimport com.pulumi.core.Output;\nimport com.pulumi.ctfd.ChallengeStandard;\nimport com.pulumi.ctfd.ChallengeStandardArgs;\nimport com.pulumi.ctfd.Solution;\nimport com.pulumi.ctfd.SolutionArgs;\nimport java.util.List;\nimport java.util.ArrayList;\nimport java.util.Map;\nimport java.io.File;\nimport java.nio.file.Files;\nimport java.nio.file.Paths;\n\npublic class App {\n    public static void main(String[] args) {\n        Pulumi.run(App::stack);\n    }\n\n    public static void stack(Context ctx) {\n        var example = new ChallengeStandard(\"example\", ChallengeStandardArgs.builder()\n            .category(\"test\")\n            .description(\"Example challenge description...\")\n            .value(500)\n            .build());\n\n        var wu = new Solution(\"wu\", SolutionArgs.builder()\n            .challengeId(example.id())\n            .content(\"Here is how to solve the challenge: ...\")\n            .state(\"visible\")\n            .build());\n\n    }\n}\n```\n```yaml\nresources:\n  example:\n    type: ctfd:ChallengeStandard\n    properties:\n      category: test\n      description: Example challenge description...\n      value: 500\n  wu:\n    type: ctfd:Solution\n    properties:\n      challengeId: ${example.id}\n      content: 'Here is how to solve the challenge: ...'\n      state: visible\n```\n\u003c!--End PulumiCodeChooser --\u003e\n",
+            "properties": {
+                "challengeId": {
+                    "type": "string",
+                    "description": "Challenge of the solution.\n"
+                },
+                "content": {
+                    "type": "string",
+                    "description": "The solution to the challenge, in markdown.\n",
+                    "secret": true
+                },
+                "state": {
+                    "type": "string",
+                    "description": "State of the solution, either hidden or visible.\n"
+                }
+            },
+            "required": [
+                "challengeId",
+                "state"
+            ],
+            "inputProperties": {
+                "challengeId": {
+                    "type": "string",
+                    "description": "Challenge of the solution.\n"
+                },
+                "content": {
+                    "type": "string",
+                    "description": "The solution to the challenge, in markdown.\n",
+                    "secret": true
+                },
+                "state": {
+                    "type": "string",
+                    "description": "State of the solution, either hidden or visible.\n"
+                }
+            },
+            "requiredInputs": [
+                "challengeId"
+            ],
+            "stateInputs": {
+                "description": "Input properties used for looking up and filtering Solution resources.\n",
+                "properties": {
+                    "challengeId": {
+                        "type": "string",
+                        "description": "Challenge of the solution.\n"
+                    },
+                    "content": {
+                        "type": "string",
+                        "description": "The solution to the challenge, in markdown.\n",
+                        "secret": true
+                    },
+                    "state": {
+                        "type": "string",
+                        "description": "State of the solution, either hidden or visible.\n"
                     }
                 },
                 "type": "object"
@@ -1750,6 +1838,35 @@
                     "id",
                     "users"
                 ]
+            }
+        },
+        "pulumi:providers:ctfd/terraformConfig": {
+            "description": "This function returns a Terraform config object with terraform-namecased keys,to be used with the Terraform Module Provider.",
+            "inputs": {
+                "properties": {
+                    "__self__": {
+                        "type": "ref",
+                        "$ref": "#/resources/pulumi:providers:ctfd"
+                    }
+                },
+                "type": "pulumi:providers:ctfd/terraformConfig",
+                "required": [
+                    "__self__"
+                ]
+            },
+            "outputs": {
+                "properties": {
+                    "result": {
+                        "additionalProperties": {
+                            "$ref": "pulumi.json#/Any"
+                        },
+                        "type": "object"
+                    }
+                },
+                "required": [
+                    "result"
+                ],
+                "type": "object"
             }
         }
     }

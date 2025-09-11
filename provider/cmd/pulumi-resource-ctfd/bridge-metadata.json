@@ -60,6 +60,10 @@
                     }
                 }
             },
+            "ctfd_solution": {
+                "current": "ctfd:index/solution:Solution",
+                "majorVersion": 2
+            },
             "ctfd_team": {
                 "current": "ctfd:index/team:Team",
                 "majorVersion": 2,
