@@ -56,47 +56,47 @@ export class Team extends pulumi.CustomResource {
     /**
      * Affiliation to a company or agency.
      */
-    public readonly affiliation!: pulumi.Output<string | undefined>;
+    declare public readonly affiliation: pulumi.Output<string | undefined>;
     /**
      * Is true if the team is banned from the CTF.
      */
-    public readonly banned!: pulumi.Output<boolean>;
+    declare public readonly banned: pulumi.Output<boolean>;
     /**
      * The bracket id the user plays in.
      */
-    public readonly bracketId!: pulumi.Output<string | undefined>;
+    declare public readonly bracketId: pulumi.Output<string | undefined>;
     /**
      * Member who is captain of the team. Must be part of the members too. Note it could cause a fatal error in case of resource import with an inconsistent CTFd configuration i.e. if a team has no captain yet (should not be possible).
      */
-    public readonly captain!: pulumi.Output<string>;
+    declare public readonly captain: pulumi.Output<string>;
     /**
      * Country the team represent or is hail from.
      */
-    public readonly country!: pulumi.Output<string | undefined>;
+    declare public readonly country: pulumi.Output<string | undefined>;
     /**
      * Email of the team.
      */
-    public readonly email!: pulumi.Output<string>;
+    declare public readonly email: pulumi.Output<string>;
     /**
      * Is true if the team is hidden to the participants.
      */
-    public readonly hidden!: pulumi.Output<boolean>;
+    declare public readonly hidden: pulumi.Output<boolean>;
     /**
      * List of members (User), defined by their IDs.
      */
-    public readonly members!: pulumi.Output<string[]>;
+    declare public readonly members: pulumi.Output<string[]>;
     /**
      * Name of the team.
      */
-    public readonly name!: pulumi.Output<string>;
+    declare public readonly name: pulumi.Output<string>;
     /**
      * Password of the team. Notice that during a CTF you may not want to update those to avoid defaulting team accesses.
      */
-    public readonly password!: pulumi.Output<string>;
+    declare public readonly password: pulumi.Output<string>;
     /**
      * Website, blog, or anything similar (displayed to other participants).
      */
-    public readonly website!: pulumi.Output<string | undefined>;
+    declare public readonly website: pulumi.Output<string | undefined>;
 
     /**
      * Create a Team resource with the given unique name, arguments, and options.
@@ -111,42 +111,42 @@ export class Team extends pulumi.CustomResource {
         opts = opts || {};
         if (opts.id) {
             const state = argsOrState as TeamState | undefined;
-            resourceInputs["affiliation"] = state ? state.affiliation : undefined;
-            resourceInputs["banned"] = state ? state.banned : undefined;
-            resourceInputs["bracketId"] = state ? state.bracketId : undefined;
-            resourceInputs["captain"] = state ? state.captain : undefined;
-            resourceInputs["country"] = state ? state.country : undefined;
-            resourceInputs["email"] = state ? state.email : undefined;
-            resourceInputs["hidden"] = state ? state.hidden : undefined;
-            resourceInputs["members"] = state ? state.members : undefined;
-            resourceInputs["name"] = state ? state.name : undefined;
-            resourceInputs["password"] = state ? state.password : undefined;
-            resourceInputs["website"] = state ? state.website : undefined;
+            resourceInputs["affiliation"] = state?.affiliation;
+            resourceInputs["banned"] = state?.banned;
+            resourceInputs["bracketId"] = state?.bracketId;
+            resourceInputs["captain"] = state?.captain;
+            resourceInputs["country"] = state?.country;
+            resourceInputs["email"] = state?.email;
+            resourceInputs["hidden"] = state?.hidden;
+            resourceInputs["members"] = state?.members;
+            resourceInputs["name"] = state?.name;
+            resourceInputs["password"] = state?.password;
+            resourceInputs["website"] = state?.website;
         } else {
             const args = argsOrState as TeamArgs | undefined;
-            if ((!args || args.captain === undefined) && !opts.urn) {
+            if (args?.captain === undefined && !opts.urn) {
                 throw new Error("Missing required property 'captain'");
             }
-            if ((!args || args.email === undefined) && !opts.urn) {
+            if (args?.email === undefined && !opts.urn) {
                 throw new Error("Missing required property 'email'");
             }
-            if ((!args || args.members === undefined) && !opts.urn) {
+            if (args?.members === undefined && !opts.urn) {
                 throw new Error("Missing required property 'members'");
             }
-            if ((!args || args.password === undefined) && !opts.urn) {
+            if (args?.password === undefined && !opts.urn) {
                 throw new Error("Missing required property 'password'");
             }
-            resourceInputs["affiliation"] = args ? args.affiliation : undefined;
-            resourceInputs["banned"] = args ? args.banned : undefined;
-            resourceInputs["bracketId"] = args ? args.bracketId : undefined;
-            resourceInputs["captain"] = args ? args.captain : undefined;
-            resourceInputs["country"] = args ? args.country : undefined;
-            resourceInputs["email"] = args ? args.email : undefined;
-            resourceInputs["hidden"] = args ? args.hidden : undefined;
-            resourceInputs["members"] = args ? args.members : undefined;
-            resourceInputs["name"] = args ? args.name : undefined;
-            resourceInputs["password"] = args ? args.password : undefined;
-            resourceInputs["website"] = args ? args.website : undefined;
+            resourceInputs["affiliation"] = args?.affiliation;
+            resourceInputs["banned"] = args?.banned;
+            resourceInputs["bracketId"] = args?.bracketId;
+            resourceInputs["captain"] = args?.captain;
+            resourceInputs["country"] = args?.country;
+            resourceInputs["email"] = args?.email;
+            resourceInputs["hidden"] = args?.hidden;
+            resourceInputs["members"] = args?.members;
+            resourceInputs["name"] = args?.name;
+            resourceInputs["password"] = args?.password;
+            resourceInputs["website"] = args?.website;
         }
         opts = pulumi.mergeOptions(utilities.resourceOptsDefaults(), opts);
         super(Team.__pulumiType, name, resourceInputs, opts);

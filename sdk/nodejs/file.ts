@@ -65,23 +65,23 @@ export class File extends pulumi.CustomResource {
     /**
      * Challenge of the file.
      */
-    public readonly challengeId!: pulumi.Output<string | undefined>;
+    declare public readonly challengeId: pulumi.Output<string | undefined>;
     /**
      * Base 64 content of the file, perfectly fit the use-cases of complex binaries. You could provide it from the file-system using `filebase64("${path.module}/...")`.
      */
-    public readonly contentb64!: pulumi.Output<string>;
+    declare public readonly contentb64: pulumi.Output<string>;
     /**
      * Location where the file is stored on the CTFd instance, for download purposes.
      */
-    public readonly location!: pulumi.Output<string>;
+    declare public readonly location: pulumi.Output<string>;
     /**
      * Name of the file as displayed to end-users.
      */
-    public readonly name!: pulumi.Output<string>;
+    declare public readonly name: pulumi.Output<string>;
     /**
      * The sha1 sum of the file.
      */
-    public /*out*/ readonly sha1sum!: pulumi.Output<string>;
+    declare public /*out*/ readonly sha1sum: pulumi.Output<string>;
 
     /**
      * Create a File resource with the given unique name, arguments, and options.
@@ -96,17 +96,17 @@ export class File extends pulumi.CustomResource {
         opts = opts || {};
         if (opts.id) {
             const state = argsOrState as FileState | undefined;
-            resourceInputs["challengeId"] = state ? state.challengeId : undefined;
-            resourceInputs["contentb64"] = state ? state.contentb64 : undefined;
-            resourceInputs["location"] = state ? state.location : undefined;
-            resourceInputs["name"] = state ? state.name : undefined;
-            resourceInputs["sha1sum"] = state ? state.sha1sum : undefined;
+            resourceInputs["challengeId"] = state?.challengeId;
+            resourceInputs["contentb64"] = state?.contentb64;
+            resourceInputs["location"] = state?.location;
+            resourceInputs["name"] = state?.name;
+            resourceInputs["sha1sum"] = state?.sha1sum;
         } else {
             const args = argsOrState as FileArgs | undefined;
-            resourceInputs["challengeId"] = args ? args.challengeId : undefined;
+            resourceInputs["challengeId"] = args?.challengeId;
             resourceInputs["contentb64"] = args?.contentb64 ? pulumi.secret(args.contentb64) : undefined;
-            resourceInputs["location"] = args ? args.location : undefined;
-            resourceInputs["name"] = args ? args.name : undefined;
+            resourceInputs["location"] = args?.location;
+            resourceInputs["name"] = args?.name;
             resourceInputs["sha1sum"] = undefined /*out*/;
         }
         opts = pulumi.mergeOptions(utilities.resourceOptsDefaults(), opts);

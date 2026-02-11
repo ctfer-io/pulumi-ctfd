@@ -64,19 +64,19 @@ export class Flag extends pulumi.CustomResource {
     /**
      * Challenge of the flag.
      */
-    public readonly challengeId!: pulumi.Output<string>;
+    declare public readonly challengeId: pulumi.Output<string>;
     /**
      * The actual flag to match. Consider using the convention `MYCTF{value}` with `MYCTF` being the shortcode of your event's name and `value` depending on each challenge.
      */
-    public readonly content!: pulumi.Output<string>;
+    declare public readonly content: pulumi.Output<string>;
     /**
      * The flag sensitivity information, either case*sensitive or case*insensitive
      */
-    public readonly data!: pulumi.Output<string>;
+    declare public readonly data: pulumi.Output<string>;
     /**
      * The type of the flag, could be either static or regex
      */
-    public readonly type!: pulumi.Output<string>;
+    declare public readonly type: pulumi.Output<string>;
 
     /**
      * Create a Flag resource with the given unique name, arguments, and options.
@@ -91,22 +91,22 @@ export class Flag extends pulumi.CustomResource {
         opts = opts || {};
         if (opts.id) {
             const state = argsOrState as FlagState | undefined;
-            resourceInputs["challengeId"] = state ? state.challengeId : undefined;
-            resourceInputs["content"] = state ? state.content : undefined;
-            resourceInputs["data"] = state ? state.data : undefined;
-            resourceInputs["type"] = state ? state.type : undefined;
+            resourceInputs["challengeId"] = state?.challengeId;
+            resourceInputs["content"] = state?.content;
+            resourceInputs["data"] = state?.data;
+            resourceInputs["type"] = state?.type;
         } else {
             const args = argsOrState as FlagArgs | undefined;
-            if ((!args || args.challengeId === undefined) && !opts.urn) {
+            if (args?.challengeId === undefined && !opts.urn) {
                 throw new Error("Missing required property 'challengeId'");
             }
-            if ((!args || args.content === undefined) && !opts.urn) {
+            if (args?.content === undefined && !opts.urn) {
                 throw new Error("Missing required property 'content'");
             }
-            resourceInputs["challengeId"] = args ? args.challengeId : undefined;
+            resourceInputs["challengeId"] = args?.challengeId;
             resourceInputs["content"] = args?.content ? pulumi.secret(args.content) : undefined;
-            resourceInputs["data"] = args ? args.data : undefined;
-            resourceInputs["type"] = args ? args.type : undefined;
+            resourceInputs["data"] = args?.data;
+            resourceInputs["type"] = args?.type;
         }
         opts = pulumi.mergeOptions(utilities.resourceOptsDefaults(), opts);
         const secretOpts = { additionalSecretOutputs: ["content"] };
