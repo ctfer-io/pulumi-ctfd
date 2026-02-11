@@ -20,6 +20,14 @@ linters:
       - third_party$
       - builtin$
       - examples$
+  settings:
+    revive:
+      rules:
+        - name: var-naming
+          arguments:
+            - []
+            - []
+            - - skipPackageNameChecks: true
 formatters:
   exclusions:
     generated: lax
