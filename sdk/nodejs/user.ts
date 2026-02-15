@@ -53,51 +53,51 @@ export class User extends pulumi.CustomResource {
     /**
      * Affiliation to a team, company or agency.
      */
-    public readonly affiliation!: pulumi.Output<string | undefined>;
+    declare public readonly affiliation: pulumi.Output<string | undefined>;
     /**
      * Is true if the user is banned from the CTF.
      */
-    public readonly banned!: pulumi.Output<boolean>;
+    declare public readonly banned: pulumi.Output<boolean>;
     /**
      * The bracket id the user plays in.
      */
-    public readonly bracketId!: pulumi.Output<string | undefined>;
+    declare public readonly bracketId: pulumi.Output<string | undefined>;
     /**
      * Country the user represent or is native from.
      */
-    public readonly country!: pulumi.Output<string | undefined>;
+    declare public readonly country: pulumi.Output<string | undefined>;
     /**
      * Email of the user, may be used to verify the account.
      */
-    public readonly email!: pulumi.Output<string>;
+    declare public readonly email: pulumi.Output<string>;
     /**
      * Is true if the user is hidden to the participants.
      */
-    public readonly hidden!: pulumi.Output<boolean>;
+    declare public readonly hidden: pulumi.Output<boolean>;
     /**
      * Language the user is fluent in.
      */
-    public readonly language!: pulumi.Output<string | undefined>;
+    declare public readonly language: pulumi.Output<string | undefined>;
     /**
      * Name or pseudo of the user.
      */
-    public readonly name!: pulumi.Output<string>;
+    declare public readonly name: pulumi.Output<string>;
     /**
      * Password of the user. Notice than during a CTF you may not want to update those to avoid defaulting user accesses.
      */
-    public readonly password!: pulumi.Output<string>;
+    declare public readonly password: pulumi.Output<string>;
     /**
      * Generic type for RBAC purposes.
      */
-    public readonly type!: pulumi.Output<string>;
+    declare public readonly type: pulumi.Output<string>;
     /**
      * Is true if the user has verified its account by email, or if set by an admin.
      */
-    public readonly verified!: pulumi.Output<boolean>;
+    declare public readonly verified: pulumi.Output<boolean>;
     /**
      * Website, blog, or anything similar (displayed to other participants).
      */
-    public readonly website!: pulumi.Output<string | undefined>;
+    declare public readonly website: pulumi.Output<string | undefined>;
 
     /**
      * Create a User resource with the given unique name, arguments, and options.
@@ -112,38 +112,38 @@ export class User extends pulumi.CustomResource {
         opts = opts || {};
         if (opts.id) {
             const state = argsOrState as UserState | undefined;
-            resourceInputs["affiliation"] = state ? state.affiliation : undefined;
-            resourceInputs["banned"] = state ? state.banned : undefined;
-            resourceInputs["bracketId"] = state ? state.bracketId : undefined;
-            resourceInputs["country"] = state ? state.country : undefined;
-            resourceInputs["email"] = state ? state.email : undefined;
-            resourceInputs["hidden"] = state ? state.hidden : undefined;
-            resourceInputs["language"] = state ? state.language : undefined;
-            resourceInputs["name"] = state ? state.name : undefined;
-            resourceInputs["password"] = state ? state.password : undefined;
-            resourceInputs["type"] = state ? state.type : undefined;
-            resourceInputs["verified"] = state ? state.verified : undefined;
-            resourceInputs["website"] = state ? state.website : undefined;
+            resourceInputs["affiliation"] = state?.affiliation;
+            resourceInputs["banned"] = state?.banned;
+            resourceInputs["bracketId"] = state?.bracketId;
+            resourceInputs["country"] = state?.country;
+            resourceInputs["email"] = state?.email;
+            resourceInputs["hidden"] = state?.hidden;
+            resourceInputs["language"] = state?.language;
+            resourceInputs["name"] = state?.name;
+            resourceInputs["password"] = state?.password;
+            resourceInputs["type"] = state?.type;
+            resourceInputs["verified"] = state?.verified;
+            resourceInputs["website"] = state?.website;
         } else {
             const args = argsOrState as UserArgs | undefined;
-            if ((!args || args.email === undefined) && !opts.urn) {
+            if (args?.email === undefined && !opts.urn) {
                 throw new Error("Missing required property 'email'");
             }
-            if ((!args || args.password === undefined) && !opts.urn) {
+            if (args?.password === undefined && !opts.urn) {
                 throw new Error("Missing required property 'password'");
             }
-            resourceInputs["affiliation"] = args ? args.affiliation : undefined;
-            resourceInputs["banned"] = args ? args.banned : undefined;
-            resourceInputs["bracketId"] = args ? args.bracketId : undefined;
-            resourceInputs["country"] = args ? args.country : undefined;
+            resourceInputs["affiliation"] = args?.affiliation;
+            resourceInputs["banned"] = args?.banned;
+            resourceInputs["bracketId"] = args?.bracketId;
+            resourceInputs["country"] = args?.country;
             resourceInputs["email"] = args?.email ? pulumi.secret(args.email) : undefined;
-            resourceInputs["hidden"] = args ? args.hidden : undefined;
-            resourceInputs["language"] = args ? args.language : undefined;
-            resourceInputs["name"] = args ? args.name : undefined;
+            resourceInputs["hidden"] = args?.hidden;
+            resourceInputs["language"] = args?.language;
+            resourceInputs["name"] = args?.name;
             resourceInputs["password"] = args?.password ? pulumi.secret(args.password) : undefined;
-            resourceInputs["type"] = args ? args.type : undefined;
-            resourceInputs["verified"] = args ? args.verified : undefined;
-            resourceInputs["website"] = args ? args.website : undefined;
+            resourceInputs["type"] = args?.type;
+            resourceInputs["verified"] = args?.verified;
+            resourceInputs["website"] = args?.website;
         }
         opts = pulumi.mergeOptions(utilities.resourceOptsDefaults(), opts);
         const secretOpts = { additionalSecretOutputs: ["email", "password"] };

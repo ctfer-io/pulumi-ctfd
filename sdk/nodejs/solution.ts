@@ -56,15 +56,15 @@ export class Solution extends pulumi.CustomResource {
     /**
      * Challenge of the solution.
      */
-    public readonly challengeId!: pulumi.Output<string>;
+    declare public readonly challengeId: pulumi.Output<string>;
     /**
      * The solution to the challenge, in markdown.
      */
-    public readonly content!: pulumi.Output<string | undefined>;
+    declare public readonly content: pulumi.Output<string | undefined>;
     /**
      * State of the solution, either hidden or visible.
      */
-    public readonly state!: pulumi.Output<string>;
+    declare public readonly state: pulumi.Output<string>;
 
     /**
      * Create a Solution resource with the given unique name, arguments, and options.
@@ -79,17 +79,17 @@ export class Solution extends pulumi.CustomResource {
         opts = opts || {};
         if (opts.id) {
             const state = argsOrState as SolutionState | undefined;
-            resourceInputs["challengeId"] = state ? state.challengeId : undefined;
-            resourceInputs["content"] = state ? state.content : undefined;
-            resourceInputs["state"] = state ? state.state : undefined;
+            resourceInputs["challengeId"] = state?.challengeId;
+            resourceInputs["content"] = state?.content;
+            resourceInputs["state"] = state?.state;
         } else {
             const args = argsOrState as SolutionArgs | undefined;
-            if ((!args || args.challengeId === undefined) && !opts.urn) {
+            if (args?.challengeId === undefined && !opts.urn) {
                 throw new Error("Missing required property 'challengeId'");
             }
-            resourceInputs["challengeId"] = args ? args.challengeId : undefined;
+            resourceInputs["challengeId"] = args?.challengeId;
             resourceInputs["content"] = args?.content ? pulumi.secret(args.content) : undefined;
-            resourceInputs["state"] = args ? args.state : undefined;
+            resourceInputs["state"] = args?.state;
         }
         opts = pulumi.mergeOptions(utilities.resourceOptsDefaults(), opts);
         const secretOpts = { additionalSecretOutputs: ["content"] };

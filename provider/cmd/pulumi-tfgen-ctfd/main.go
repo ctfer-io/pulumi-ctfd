@@ -15,6 +15,8 @@
 package main
 
 import (
+	"context"
+
 	ctfd "github.com/ctfer-io/pulumi-ctfd/provider/v2"
 	"github.com/ctfer-io/pulumi-ctfd/provider/v2/pkg/version"
 	"github.com/pulumi/pulumi-terraform-bridge/v3/pkg/tfgen"
@@ -22,5 +24,5 @@ import (
 
 func main() {
 	// Modify the path to point to the new provider
-	tfgen.Main("ctfd", version.Version, ctfd.Provider())
+	tfgen.Main("ctfd", version.Version, ctfd.Provider(context.Background(), nil))
 }

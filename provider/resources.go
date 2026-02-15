@@ -1,6 +1,7 @@
 package ctfd
 
 import (
+	"context"
 	"fmt"
 	"path"
 
@@ -12,6 +13,8 @@ import (
 	pf "github.com/pulumi/pulumi-terraform-bridge/v3/pkg/pf/tfbridge"
 	"github.com/pulumi/pulumi-terraform-bridge/v3/pkg/tfbridge"
 	"github.com/pulumi/pulumi-terraform-bridge/v3/pkg/tfbridge/tokens"
+	"go.opentelemetry.io/otel"
+	"go.opentelemetry.io/otel/trace"
 )
 
 const (
@@ -22,9 +25,12 @@ const (
 //go:embed cmd/pulumi-resource-ctfd/bridge-metadata.json
 var metadata []byte
 
-func Provider() tfbridge.ProviderInfo {
+func Provider(ctx context.Context, tp trace.TracerProvider) tfbridge.ProviderInfo {
+	if tp == nil {
+		tp = otel.GetTracerProvider()
+	}
 	prov := tfbridge.ProviderInfo{
-		P:                       pf.ShimProvider(ctfd.New(version.Version)()),
+		P:                       pf.ShimProviderWithContext(ctx, ctfd.New(version.Version, tp)()),
 		Version:                 version.Version,
 		Name:                    "ctfd",
 		DisplayName:             "CTFd",

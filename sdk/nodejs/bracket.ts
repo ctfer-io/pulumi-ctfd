@@ -55,15 +55,15 @@ export class Bracket extends pulumi.CustomResource {
     /**
      * Description that explains the goal of this bracket.
      */
-    public readonly description!: pulumi.Output<string | undefined>;
+    declare public readonly description: pulumi.Output<string | undefined>;
     /**
      * Name displayed to end-users (e.g. "Students", "Interns", "Engineers").
      */
-    public readonly name!: pulumi.Output<string>;
+    declare public readonly name: pulumi.Output<string>;
     /**
      * Type of the bracket, either "users" or "teams".
      */
-    public readonly type!: pulumi.Output<string>;
+    declare public readonly type: pulumi.Output<string>;
 
     /**
      * Create a Bracket resource with the given unique name, arguments, and options.
@@ -78,14 +78,14 @@ export class Bracket extends pulumi.CustomResource {
         opts = opts || {};
         if (opts.id) {
             const state = argsOrState as BracketState | undefined;
-            resourceInputs["description"] = state ? state.description : undefined;
-            resourceInputs["name"] = state ? state.name : undefined;
-            resourceInputs["type"] = state ? state.type : undefined;
+            resourceInputs["description"] = state?.description;
+            resourceInputs["name"] = state?.name;
+            resourceInputs["type"] = state?.type;
         } else {
             const args = argsOrState as BracketArgs | undefined;
-            resourceInputs["description"] = args ? args.description : undefined;
-            resourceInputs["name"] = args ? args.name : undefined;
-            resourceInputs["type"] = args ? args.type : undefined;
+            resourceInputs["description"] = args?.description;
+            resourceInputs["name"] = args?.name;
+            resourceInputs["type"] = args?.type;
         }
         opts = pulumi.mergeOptions(utilities.resourceOptsDefaults(), opts);
         super(Bracket.__pulumiType, name, resourceInputs, opts);

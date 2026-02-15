@@ -30,21 +30,21 @@ export class Provider extends pulumi.ProviderResource {
      * authenticate yourself, we do not recommend it as you will probably generate a long-live token without any rotation
      * policy.
      */
-    public readonly apiKey!: pulumi.Output<string | undefined>;
+    declare public readonly apiKey: pulumi.Output<string | undefined>;
     /**
      * The administrator or service account password to login with. Could use `CTFD_ADMIN_PASSWORD` environment variable
      * instead.
      */
-    public readonly password!: pulumi.Output<string | undefined>;
+    declare public readonly password: pulumi.Output<string | undefined>;
     /**
      * CTFd base URL (e.g. `https://my-ctf.lan`). Could use `CTFD_URL` environment variable instead.
      */
-    public readonly url!: pulumi.Output<string | undefined>;
+    declare public readonly url: pulumi.Output<string | undefined>;
     /**
      * The administrator or service account username to login with. Could use `CTFD_ADMIN_USERNAME` environment variable
      * instead.
      */
-    public readonly username!: pulumi.Output<string | undefined>;
+    declare public readonly username: pulumi.Output<string | undefined>;
 
     /**
      * Create a Provider resource with the given unique name, arguments, and options.
@@ -59,7 +59,7 @@ export class Provider extends pulumi.ProviderResource {
         {
             resourceInputs["apiKey"] = args?.apiKey ? pulumi.secret(args.apiKey) : undefined;
             resourceInputs["password"] = args?.password ? pulumi.secret(args.password) : undefined;
-            resourceInputs["url"] = args ? args.url : undefined;
+            resourceInputs["url"] = args?.url;
             resourceInputs["username"] = args?.username ? pulumi.secret(args.username) : undefined;
         }
         opts = pulumi.mergeOptions(utilities.resourceOptsDefaults(), opts);

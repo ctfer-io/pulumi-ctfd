@@ -75,23 +75,23 @@ export class Hint extends pulumi.CustomResource {
     /**
      * Challenge of the hint.
      */
-    public readonly challengeId!: pulumi.Output<string>;
+    declare public readonly challengeId: pulumi.Output<string>;
     /**
      * Content of the hint as displayed to the end-user.
      */
-    public readonly content!: pulumi.Output<string>;
+    declare public readonly content: pulumi.Output<string>;
     /**
      * Cost of the hint, and if any specified, the end-user will consume its own (or team) points to get it.
      */
-    public readonly cost!: pulumi.Output<number>;
+    declare public readonly cost: pulumi.Output<number>;
     /**
      * List of the other hints it depends on.
      */
-    public readonly requirements!: pulumi.Output<string[]>;
+    declare public readonly requirements: pulumi.Output<string[]>;
     /**
      * Title of the hint, displayed to end users before unlocking.
      */
-    public readonly title!: pulumi.Output<string | undefined>;
+    declare public readonly title: pulumi.Output<string | undefined>;
 
     /**
      * Create a Hint resource with the given unique name, arguments, and options.
@@ -106,24 +106,24 @@ export class Hint extends pulumi.CustomResource {
         opts = opts || {};
         if (opts.id) {
             const state = argsOrState as HintState | undefined;
-            resourceInputs["challengeId"] = state ? state.challengeId : undefined;
-            resourceInputs["content"] = state ? state.content : undefined;
-            resourceInputs["cost"] = state ? state.cost : undefined;
-            resourceInputs["requirements"] = state ? state.requirements : undefined;
-            resourceInputs["title"] = state ? state.title : undefined;
+            resourceInputs["challengeId"] = state?.challengeId;
+            resourceInputs["content"] = state?.content;
+            resourceInputs["cost"] = state?.cost;
+            resourceInputs["requirements"] = state?.requirements;
+            resourceInputs["title"] = state?.title;
         } else {
             const args = argsOrState as HintArgs | undefined;
-            if ((!args || args.challengeId === undefined) && !opts.urn) {
+            if (args?.challengeId === undefined && !opts.urn) {
                 throw new Error("Missing required property 'challengeId'");
             }
-            if ((!args || args.content === undefined) && !opts.urn) {
+            if (args?.content === undefined && !opts.urn) {
                 throw new Error("Missing required property 'content'");
             }
-            resourceInputs["challengeId"] = args ? args.challengeId : undefined;
-            resourceInputs["content"] = args ? args.content : undefined;
-            resourceInputs["cost"] = args ? args.cost : undefined;
-            resourceInputs["requirements"] = args ? args.requirements : undefined;
-            resourceInputs["title"] = args ? args.title : undefined;
+            resourceInputs["challengeId"] = args?.challengeId;
+            resourceInputs["content"] = args?.content;
+            resourceInputs["cost"] = args?.cost;
+            resourceInputs["requirements"] = args?.requirements;
+            resourceInputs["title"] = args?.title;
         }
         opts = pulumi.mergeOptions(utilities.resourceOptsDefaults(), opts);
         super(Hint.__pulumiType, name, resourceInputs, opts);

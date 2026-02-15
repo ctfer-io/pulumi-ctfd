@@ -80,55 +80,55 @@ export class ChallengeStandard extends pulumi.CustomResource {
     /**
      * Attribution to the creator(s) of the challenge.
      */
-    public readonly attribution!: pulumi.Output<string | undefined>;
+    declare public readonly attribution: pulumi.Output<string | undefined>;
     /**
      * Category of the challenge that CTFd groups by on the web UI.
      */
-    public readonly category!: pulumi.Output<string>;
+    declare public readonly category: pulumi.Output<string>;
     /**
      * Connection Information to connect to the challenge instance, useful for pwn, web and infrastructure pentests.
      */
-    public readonly connectionInfo!: pulumi.Output<string>;
+    declare public readonly connectionInfo: pulumi.Output<string>;
     /**
      * Description of the challenge, consider using multiline descriptions for better style.
      */
-    public readonly description!: pulumi.Output<string>;
+    declare public readonly description: pulumi.Output<string>;
     /**
      * The flag validation logic.
      */
-    public readonly logic!: pulumi.Output<string>;
+    declare public readonly logic: pulumi.Output<string>;
     /**
      * Maximum amount of attempts before being unable to flag the challenge.
      */
-    public readonly maxAttempts!: pulumi.Output<number>;
+    declare public readonly maxAttempts: pulumi.Output<number>;
     /**
      * Name of the challenge, displayed as it.
      */
-    public readonly name!: pulumi.Output<string>;
+    declare public readonly name: pulumi.Output<string>;
     /**
      * Suggestion for the end-user as next challenge to work on.
      */
-    public readonly next!: pulumi.Output<number | undefined>;
+    declare public readonly next: pulumi.Output<number | undefined>;
     /**
      * List of required challenges that needs to get flagged before this one being accessible. Useful for skill-trees-like strategy CTF.
      */
-    public readonly requirements!: pulumi.Output<outputs.ChallengeStandardRequirements | undefined>;
+    declare public readonly requirements: pulumi.Output<outputs.ChallengeStandardRequirements | undefined>;
     /**
      * State of the challenge, either hidden or visible.
      */
-    public readonly state!: pulumi.Output<string>;
+    declare public readonly state: pulumi.Output<string>;
     /**
      * List of challenge tags that will be displayed to the end-user. You could use them to give some quick insights of what a challenge involves.
      */
-    public readonly tags!: pulumi.Output<string[]>;
+    declare public readonly tags: pulumi.Output<string[]>;
     /**
      * List of challenge topics that are displayed to the administrators for maintenance and planification.
      */
-    public readonly topics!: pulumi.Output<string[]>;
+    declare public readonly topics: pulumi.Output<string[]>;
     /**
      * The value (points) of the challenge once solved.
      */
-    public readonly value!: pulumi.Output<number>;
+    declare public readonly value: pulumi.Output<number>;
 
     /**
      * Create a ChallengeStandard resource with the given unique name, arguments, and options.
@@ -143,43 +143,43 @@ export class ChallengeStandard extends pulumi.CustomResource {
         opts = opts || {};
         if (opts.id) {
             const state = argsOrState as ChallengeStandardState | undefined;
-            resourceInputs["attribution"] = state ? state.attribution : undefined;
-            resourceInputs["category"] = state ? state.category : undefined;
-            resourceInputs["connectionInfo"] = state ? state.connectionInfo : undefined;
-            resourceInputs["description"] = state ? state.description : undefined;
-            resourceInputs["logic"] = state ? state.logic : undefined;
-            resourceInputs["maxAttempts"] = state ? state.maxAttempts : undefined;
-            resourceInputs["name"] = state ? state.name : undefined;
-            resourceInputs["next"] = state ? state.next : undefined;
-            resourceInputs["requirements"] = state ? state.requirements : undefined;
-            resourceInputs["state"] = state ? state.state : undefined;
-            resourceInputs["tags"] = state ? state.tags : undefined;
-            resourceInputs["topics"] = state ? state.topics : undefined;
-            resourceInputs["value"] = state ? state.value : undefined;
+            resourceInputs["attribution"] = state?.attribution;
+            resourceInputs["category"] = state?.category;
+            resourceInputs["connectionInfo"] = state?.connectionInfo;
+            resourceInputs["description"] = state?.description;
+            resourceInputs["logic"] = state?.logic;
+            resourceInputs["maxAttempts"] = state?.maxAttempts;
+            resourceInputs["name"] = state?.name;
+            resourceInputs["next"] = state?.next;
+            resourceInputs["requirements"] = state?.requirements;
+            resourceInputs["state"] = state?.state;
+            resourceInputs["tags"] = state?.tags;
+            resourceInputs["topics"] = state?.topics;
+            resourceInputs["value"] = state?.value;
         } else {
             const args = argsOrState as ChallengeStandardArgs | undefined;
-            if ((!args || args.category === undefined) && !opts.urn) {
+            if (args?.category === undefined && !opts.urn) {
                 throw new Error("Missing required property 'category'");
             }
-            if ((!args || args.description === undefined) && !opts.urn) {
+            if (args?.description === undefined && !opts.urn) {
                 throw new Error("Missing required property 'description'");
             }
-            if ((!args || args.value === undefined) && !opts.urn) {
+            if (args?.value === undefined && !opts.urn) {
                 throw new Error("Missing required property 'value'");
             }
-            resourceInputs["attribution"] = args ? args.attribution : undefined;
-            resourceInputs["category"] = args ? args.category : undefined;
-            resourceInputs["connectionInfo"] = args ? args.connectionInfo : undefined;
-            resourceInputs["description"] = args ? args.description : undefined;
-            resourceInputs["logic"] = args ? args.logic : undefined;
-            resourceInputs["maxAttempts"] = args ? args.maxAttempts : undefined;
-            resourceInputs["name"] = args ? args.name : undefined;
-            resourceInputs["next"] = args ? args.next : undefined;
-            resourceInputs["requirements"] = args ? args.requirements : undefined;
-            resourceInputs["state"] = args ? args.state : undefined;
-            resourceInputs["tags"] = args ? args.tags : undefined;
-            resourceInputs["topics"] = args ? args.topics : undefined;
-            resourceInputs["value"] = args ? args.value : undefined;
+            resourceInputs["attribution"] = args?.attribution;
+            resourceInputs["category"] = args?.category;
+            resourceInputs["connectionInfo"] = args?.connectionInfo;
+            resourceInputs["description"] = args?.description;
+            resourceInputs["logic"] = args?.logic;
+            resourceInputs["maxAttempts"] = args?.maxAttempts;
+            resourceInputs["name"] = args?.name;
+            resourceInputs["next"] = args?.next;
+            resourceInputs["requirements"] = args?.requirements;
+            resourceInputs["state"] = args?.state;
+            resourceInputs["tags"] = args?.tags;
+            resourceInputs["topics"] = args?.topics;
+            resourceInputs["value"] = args?.value;
         }
         opts = pulumi.mergeOptions(utilities.resourceOptsDefaults(), opts);
         super(ChallengeStandard.__pulumiType, name, resourceInputs, opts);

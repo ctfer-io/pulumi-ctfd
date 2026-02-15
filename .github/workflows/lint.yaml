@@ -23,24 +23,25 @@ jobs:
     steps:
       - name: Checkout Repo
         uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+
       - name: Markdown lint
         uses: DavidAnson/markdownlint-cli2-action@v22
         with:
           globs: 'docs/*.md'
+
       - name: Install go
         uses: actions/setup-go@7a3fe6cf4cb3a834922a1244abfce67bcef6a0c5 # v6.2.0
         with:
           go-version-file: 'provider/go.mod'
+
       - name: disarm go:embed directives to enable lint
         continue-on-error: true # this fails if there are no go:embed directives
         run: |
           git grep -l 'go:embed' -- provider | xargs sed -i 's/go:embed/ goembed/g'
-      - name: prepare upstream
-        continue-on-error: true
-        run: make upstream
+
       - run: cd provider && go mod tidy
+
       - name: golangci-lint
         uses: golangci/golangci-lint-action@1e7e51e771db61008b38414a730f564565cf7c20 # v9.2.0
         with:
           working-directory: provider
-          skip-pkg-cache: true
