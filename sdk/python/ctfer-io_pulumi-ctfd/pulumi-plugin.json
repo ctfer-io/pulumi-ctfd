@@ -1,5 +1,0 @@
-{
-  "resource": true,
-  "name": "ctfd",
-  "server": "github://api.github.com/ctfer-io/"
-}
