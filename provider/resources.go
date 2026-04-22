@@ -93,7 +93,7 @@ func Provider(ctx context.Context, tp trace.TracerProvider) tfbridge.ProviderInf
 			},
 		},
 		JavaScript: &tfbridge.JavaScriptInfo{
-			PackageName: "@ctfer-io/pulumi-ctfd",
+			PackageName: fmt.Sprintf("@ctfer-io/pulumi-%[1]s", mainPkg),
 			// List any npm dependencies and their versions
 			Dependencies: map[string]string{
 				"@pulumi/pulumi": "^3.0.0",
@@ -104,7 +104,7 @@ func Provider(ctx context.Context, tp trace.TracerProvider) tfbridge.ProviderInf
 			},
 		},
 		Python: &tfbridge.PythonInfo{
-			PackageName: fmt.Sprintf("ctfer-io_pulumi-%[1]s", mainPkg),
+			PackageName: fmt.Sprintf("ctfer_io_pulumi_%[1]s", mainPkg),
 			// List any Python dependencies and their version ranges
 			Requires: map[string]string{
 				"pulumi": ">=3.0.0,<4.0.0",

@@ -18,7 +18,7 @@ def readme():
         return "ctfd Pulumi Package - Development Version"
 
 
-setup(name='ctfer-io_pulumi-ctfd',
+setup(name='ctfer_io_pulumi_ctfd',
       python_requires='>=3.9',
       version=VERSION,
       description="The CTFd provider for Pulumi, to manage its resources as code.",
@@ -32,7 +32,7 @@ setup(name='ctfer-io_pulumi-ctfd',
       license='Apache-2.0',
       packages=find_packages(),
       package_data={
-          'ctfer-io_pulumi-ctfd': [
+          'ctfer_io_pulumi_ctfd': [
               'py.typed',
               'pulumi-plugin.json',
           ]

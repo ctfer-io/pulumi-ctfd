@@ -126,7 +126,7 @@ func main() {
 {{% /choosable %}} {{% choosable language python %}}
 
 ```python
-import ctfer-io_pulumi_ctfd as ctfd
+import ctfer_io_pulumi_ctfd as ctfd
 import pulumi
 
 # Stack configuration, other resources, etc.
