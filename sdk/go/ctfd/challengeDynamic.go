@@ -123,6 +123,8 @@ type ChallengeDynamic struct {
 	Name pulumi.StringOutput `pulumi:"name"`
 	// Suggestion for the end-user as next challenge to work on.
 	Next pulumi.IntPtrOutput `pulumi:"next"`
+	// The challenge position as displayed to players.
+	Position pulumi.IntOutput `pulumi:"position"`
 	// List of required challenges that needs to get flagged before this one being accessible. Useful for skill-trees-like strategy CTF.
 	Requirements ChallengeDynamicRequirementsPtrOutput `pulumi:"requirements"`
 	// State of the challenge, either hidden or visible.
@@ -202,6 +204,8 @@ type challengeDynamicState struct {
 	Name *string `pulumi:"name"`
 	// Suggestion for the end-user as next challenge to work on.
 	Next *int `pulumi:"next"`
+	// The challenge position as displayed to players.
+	Position *int `pulumi:"position"`
 	// List of required challenges that needs to get flagged before this one being accessible. Useful for skill-trees-like strategy CTF.
 	Requirements *ChallengeDynamicRequirements `pulumi:"requirements"`
 	// State of the challenge, either hidden or visible.
@@ -237,6 +241,8 @@ type ChallengeDynamicState struct {
 	Name pulumi.StringPtrInput
 	// Suggestion for the end-user as next challenge to work on.
 	Next pulumi.IntPtrInput
+	// The challenge position as displayed to players.
+	Position pulumi.IntPtrInput
 	// List of required challenges that needs to get flagged before this one being accessible. Useful for skill-trees-like strategy CTF.
 	Requirements ChallengeDynamicRequirementsPtrInput
 	// State of the challenge, either hidden or visible.
@@ -276,6 +282,8 @@ type challengeDynamicArgs struct {
 	Name *string `pulumi:"name"`
 	// Suggestion for the end-user as next challenge to work on.
 	Next *int `pulumi:"next"`
+	// The challenge position as displayed to players.
+	Position *int `pulumi:"position"`
 	// List of required challenges that needs to get flagged before this one being accessible. Useful for skill-trees-like strategy CTF.
 	Requirements *ChallengeDynamicRequirements `pulumi:"requirements"`
 	// State of the challenge, either hidden or visible.
@@ -312,6 +320,8 @@ type ChallengeDynamicArgs struct {
 	Name pulumi.StringPtrInput
 	// Suggestion for the end-user as next challenge to work on.
 	Next pulumi.IntPtrInput
+	// The challenge position as displayed to players.
+	Position pulumi.IntPtrInput
 	// List of required challenges that needs to get flagged before this one being accessible. Useful for skill-trees-like strategy CTF.
 	Requirements ChallengeDynamicRequirementsPtrInput
 	// State of the challenge, either hidden or visible.
@@ -464,6 +474,11 @@ func (o ChallengeDynamicOutput) Name() pulumi.StringOutput {
 // Suggestion for the end-user as next challenge to work on.
 func (o ChallengeDynamicOutput) Next() pulumi.IntPtrOutput {
 	return o.ApplyT(func(v *ChallengeDynamic) pulumi.IntPtrOutput { return v.Next }).(pulumi.IntPtrOutput)
+}
+
+// The challenge position as displayed to players.
+func (o ChallengeDynamicOutput) Position() pulumi.IntOutput {
+	return o.ApplyT(func(v *ChallengeDynamic) pulumi.IntOutput { return v.Position }).(pulumi.IntOutput)
 }
 
 // List of required challenges that needs to get flagged before this one being accessible. Useful for skill-trees-like strategy CTF.
