@@ -156,6 +156,12 @@ namespace CTFerio.Ctfd
         public Output<int?> Next { get; private set; } = null!;
 
         /// <summary>
+        /// The challenge position as displayed to players.
+        /// </summary>
+        [Output("position")]
+        public Output<int> Position { get; private set; } = null!;
+
+        /// <summary>
         /// List of required challenges that needs to get flagged before this one being accessible. Useful for skill-trees-like strategy CTF.
         /// </summary>
         [Output("requirements")]
@@ -299,6 +305,12 @@ namespace CTFerio.Ctfd
         public Input<int>? Next { get; set; }
 
         /// <summary>
+        /// The challenge position as displayed to players.
+        /// </summary>
+        [Input("position")]
+        public Input<int>? Position { get; set; }
+
+        /// <summary>
         /// List of required challenges that needs to get flagged before this one being accessible. Useful for skill-trees-like strategy CTF.
         /// </summary>
         [Input("requirements")]
@@ -413,6 +425,12 @@ namespace CTFerio.Ctfd
         /// </summary>
         [Input("next")]
         public Input<int>? Next { get; set; }
+
+        /// <summary>
+        /// The challenge position as displayed to players.
+        /// </summary>
+        [Input("position")]
+        public Input<int>? Position { get; set; }
 
         /// <summary>
         /// List of required challenges that needs to get flagged before this one being accessible. Useful for skill-trees-like strategy CTF.

@@ -113,6 +113,8 @@ type ChallengeStandard struct {
 	Name pulumi.StringOutput `pulumi:"name"`
 	// Suggestion for the end-user as next challenge to work on.
 	Next pulumi.IntPtrOutput `pulumi:"next"`
+	// The challenge position as displayed to players.
+	Position pulumi.IntOutput `pulumi:"position"`
 	// List of required challenges that needs to get flagged before this one being accessible. Useful for skill-trees-like strategy CTF.
 	Requirements ChallengeStandardRequirementsPtrOutput `pulumi:"requirements"`
 	// State of the challenge, either hidden or visible.
@@ -180,6 +182,8 @@ type challengeStandardState struct {
 	Name *string `pulumi:"name"`
 	// Suggestion for the end-user as next challenge to work on.
 	Next *int `pulumi:"next"`
+	// The challenge position as displayed to players.
+	Position *int `pulumi:"position"`
 	// List of required challenges that needs to get flagged before this one being accessible. Useful for skill-trees-like strategy CTF.
 	Requirements *ChallengeStandardRequirements `pulumi:"requirements"`
 	// State of the challenge, either hidden or visible.
@@ -209,6 +213,8 @@ type ChallengeStandardState struct {
 	Name pulumi.StringPtrInput
 	// Suggestion for the end-user as next challenge to work on.
 	Next pulumi.IntPtrInput
+	// The challenge position as displayed to players.
+	Position pulumi.IntPtrInput
 	// List of required challenges that needs to get flagged before this one being accessible. Useful for skill-trees-like strategy CTF.
 	Requirements ChallengeStandardRequirementsPtrInput
 	// State of the challenge, either hidden or visible.
@@ -242,6 +248,8 @@ type challengeStandardArgs struct {
 	Name *string `pulumi:"name"`
 	// Suggestion for the end-user as next challenge to work on.
 	Next *int `pulumi:"next"`
+	// The challenge position as displayed to players.
+	Position *int `pulumi:"position"`
 	// List of required challenges that needs to get flagged before this one being accessible. Useful for skill-trees-like strategy CTF.
 	Requirements *ChallengeStandardRequirements `pulumi:"requirements"`
 	// State of the challenge, either hidden or visible.
@@ -272,6 +280,8 @@ type ChallengeStandardArgs struct {
 	Name pulumi.StringPtrInput
 	// Suggestion for the end-user as next challenge to work on.
 	Next pulumi.IntPtrInput
+	// The challenge position as displayed to players.
+	Position pulumi.IntPtrInput
 	// List of required challenges that needs to get flagged before this one being accessible. Useful for skill-trees-like strategy CTF.
 	Requirements ChallengeStandardRequirementsPtrInput
 	// State of the challenge, either hidden or visible.
@@ -409,6 +419,11 @@ func (o ChallengeStandardOutput) Name() pulumi.StringOutput {
 // Suggestion for the end-user as next challenge to work on.
 func (o ChallengeStandardOutput) Next() pulumi.IntPtrOutput {
 	return o.ApplyT(func(v *ChallengeStandard) pulumi.IntPtrOutput { return v.Next }).(pulumi.IntPtrOutput)
+}
+
+// The challenge position as displayed to players.
+func (o ChallengeStandardOutput) Position() pulumi.IntOutput {
+	return o.ApplyT(func(v *ChallengeStandard) pulumi.IntOutput { return v.Position }).(pulumi.IntOutput)
 }
 
 // List of required challenges that needs to get flagged before this one being accessible. Useful for skill-trees-like strategy CTF.

@@ -110,6 +110,10 @@ export class ChallengeStandard extends pulumi.CustomResource {
      */
     declare public readonly next: pulumi.Output<number | undefined>;
     /**
+     * The challenge position as displayed to players.
+     */
+    declare public readonly position: pulumi.Output<number>;
+    /**
      * List of required challenges that needs to get flagged before this one being accessible. Useful for skill-trees-like strategy CTF.
      */
     declare public readonly requirements: pulumi.Output<outputs.ChallengeStandardRequirements | undefined>;
@@ -151,6 +155,7 @@ export class ChallengeStandard extends pulumi.CustomResource {
             resourceInputs["maxAttempts"] = state?.maxAttempts;
             resourceInputs["name"] = state?.name;
             resourceInputs["next"] = state?.next;
+            resourceInputs["position"] = state?.position;
             resourceInputs["requirements"] = state?.requirements;
             resourceInputs["state"] = state?.state;
             resourceInputs["tags"] = state?.tags;
@@ -175,6 +180,7 @@ export class ChallengeStandard extends pulumi.CustomResource {
             resourceInputs["maxAttempts"] = args?.maxAttempts;
             resourceInputs["name"] = args?.name;
             resourceInputs["next"] = args?.next;
+            resourceInputs["position"] = args?.position;
             resourceInputs["requirements"] = args?.requirements;
             resourceInputs["state"] = args?.state;
             resourceInputs["tags"] = args?.tags;
@@ -222,6 +228,10 @@ export interface ChallengeStandardState {
      * Suggestion for the end-user as next challenge to work on.
      */
     next?: pulumi.Input<number>;
+    /**
+     * The challenge position as displayed to players.
+     */
+    position?: pulumi.Input<number>;
     /**
      * List of required challenges that needs to get flagged before this one being accessible. Useful for skill-trees-like strategy CTF.
      */
@@ -280,6 +290,10 @@ export interface ChallengeStandardArgs {
      * Suggestion for the end-user as next challenge to work on.
      */
     next?: pulumi.Input<number>;
+    /**
+     * The challenge position as displayed to players.
+     */
+    position?: pulumi.Input<number>;
     /**
      * List of required challenges that needs to get flagged before this one being accessible. Useful for skill-trees-like strategy CTF.
      */

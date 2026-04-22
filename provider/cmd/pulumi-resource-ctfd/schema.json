@@ -678,6 +678,10 @@
                     "type": "integer",
                     "description": "Suggestion for the end-user as next challenge to work on.\n"
                 },
+                "position": {
+                    "type": "integer",
+                    "description": "The challenge position as displayed to players.\n"
+                },
                 "requirements": {
                     "$ref": "#/types/ctfd:index/ChallengeDynamicRequirements:ChallengeDynamicRequirements",
                     "description": "List of required challenges that needs to get flagged before this one being accessible. Useful for skill-trees-like strategy CTF.\n"
@@ -715,6 +719,7 @@
                 "maxAttempts",
                 "minimum",
                 "name",
+                "position",
                 "state",
                 "tags",
                 "topics",
@@ -764,6 +769,10 @@
                 "next": {
                     "type": "integer",
                     "description": "Suggestion for the end-user as next challenge to work on.\n"
+                },
+                "position": {
+                    "type": "integer",
+                    "description": "The challenge position as displayed to players.\n"
                 },
                 "requirements": {
                     "$ref": "#/types/ctfd:index/ChallengeDynamicRequirements:ChallengeDynamicRequirements",
@@ -846,6 +855,10 @@
                         "type": "integer",
                         "description": "Suggestion for the end-user as next challenge to work on.\n"
                     },
+                    "position": {
+                        "type": "integer",
+                        "description": "The challenge position as displayed to players.\n"
+                    },
                     "requirements": {
                         "$ref": "#/types/ctfd:index/ChallengeDynamicRequirements:ChallengeDynamicRequirements",
                         "description": "List of required challenges that needs to get flagged before this one being accessible. Useful for skill-trees-like strategy CTF.\n"
@@ -911,6 +924,10 @@
                     "type": "integer",
                     "description": "Suggestion for the end-user as next challenge to work on.\n"
                 },
+                "position": {
+                    "type": "integer",
+                    "description": "The challenge position as displayed to players.\n"
+                },
                 "requirements": {
                     "$ref": "#/types/ctfd:index/ChallengeStandardRequirements:ChallengeStandardRequirements",
                     "description": "List of required challenges that needs to get flagged before this one being accessible. Useful for skill-trees-like strategy CTF.\n"
@@ -945,6 +962,7 @@
                 "logic",
                 "maxAttempts",
                 "name",
+                "position",
                 "state",
                 "tags",
                 "topics",
@@ -982,6 +1000,10 @@
                 "next": {
                     "type": "integer",
                     "description": "Suggestion for the end-user as next challenge to work on.\n"
+                },
+                "position": {
+                    "type": "integer",
+                    "description": "The challenge position as displayed to players.\n"
                 },
                 "requirements": {
                     "$ref": "#/types/ctfd:index/ChallengeStandardRequirements:ChallengeStandardRequirements",
@@ -1049,6 +1071,10 @@
                     "next": {
                         "type": "integer",
                         "description": "Suggestion for the end-user as next challenge to work on.\n"
+                    },
+                    "position": {
+                        "type": "integer",
+                        "description": "The challenge position as displayed to players.\n"
                     },
                     "requirements": {
                         "$ref": "#/types/ctfd:index/ChallengeStandardRequirements:ChallengeStandardRequirements",

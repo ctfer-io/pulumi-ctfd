@@ -33,6 +33,7 @@ class ChallengeDynamicArgs:
                  max_attempts: Optional[pulumi.Input[_builtins.int]] = None,
                  name: Optional[pulumi.Input[_builtins.str]] = None,
                  next: Optional[pulumi.Input[_builtins.int]] = None,
+                 position: Optional[pulumi.Input[_builtins.int]] = None,
                  requirements: Optional[pulumi.Input['ChallengeDynamicRequirementsArgs']] = None,
                  state: Optional[pulumi.Input[_builtins.str]] = None,
                  tags: Optional[pulumi.Input[Sequence[pulumi.Input[_builtins.str]]]] = None,
@@ -51,6 +52,7 @@ class ChallengeDynamicArgs:
         :param pulumi.Input[_builtins.int] max_attempts: Maximum amount of attempts before being unable to flag the challenge.
         :param pulumi.Input[_builtins.str] name: Name of the challenge, displayed as it.
         :param pulumi.Input[_builtins.int] next: Suggestion for the end-user as next challenge to work on.
+        :param pulumi.Input[_builtins.int] position: The challenge position as displayed to players.
         :param pulumi.Input['ChallengeDynamicRequirementsArgs'] requirements: List of required challenges that needs to get flagged before this one being accessible. Useful for skill-trees-like strategy CTF.
         :param pulumi.Input[_builtins.str] state: State of the challenge, either hidden or visible.
         :param pulumi.Input[Sequence[pulumi.Input[_builtins.str]]] tags: List of challenge tags that will be displayed to the end-user. You could use them to give some quick insights of what a challenge involves.
@@ -75,6 +77,8 @@ class ChallengeDynamicArgs:
             pulumi.set(__self__, "name", name)
         if next is not None:
             pulumi.set(__self__, "next", next)
+        if position is not None:
+            pulumi.set(__self__, "position", position)
         if requirements is not None:
             pulumi.set(__self__, "requirements", requirements)
         if state is not None:
@@ -230,6 +234,18 @@ class ChallengeDynamicArgs:
 
     @_builtins.property
     @pulumi.getter
+    def position(self) -> Optional[pulumi.Input[_builtins.int]]:
+        """
+        The challenge position as displayed to players.
+        """
+        return pulumi.get(self, "position")
+
+    @position.setter
+    def position(self, value: Optional[pulumi.Input[_builtins.int]]):
+        pulumi.set(self, "position", value)
+
+    @_builtins.property
+    @pulumi.getter
     def requirements(self) -> Optional[pulumi.Input['ChallengeDynamicRequirementsArgs']]:
         """
         List of required challenges that needs to get flagged before this one being accessible. Useful for skill-trees-like strategy CTF.
@@ -291,6 +307,7 @@ class _ChallengeDynamicState:
                  minimum: Optional[pulumi.Input[_builtins.int]] = None,
                  name: Optional[pulumi.Input[_builtins.str]] = None,
                  next: Optional[pulumi.Input[_builtins.int]] = None,
+                 position: Optional[pulumi.Input[_builtins.int]] = None,
                  requirements: Optional[pulumi.Input['ChallengeDynamicRequirementsArgs']] = None,
                  state: Optional[pulumi.Input[_builtins.str]] = None,
                  tags: Optional[pulumi.Input[Sequence[pulumi.Input[_builtins.str]]]] = None,
@@ -309,6 +326,7 @@ class _ChallengeDynamicState:
         :param pulumi.Input[_builtins.int] minimum: The minimum points for a dynamic-score challenge to reach with the decay function. Once there, no solve could have more value.
         :param pulumi.Input[_builtins.str] name: Name of the challenge, displayed as it.
         :param pulumi.Input[_builtins.int] next: Suggestion for the end-user as next challenge to work on.
+        :param pulumi.Input[_builtins.int] position: The challenge position as displayed to players.
         :param pulumi.Input['ChallengeDynamicRequirementsArgs'] requirements: List of required challenges that needs to get flagged before this one being accessible. Useful for skill-trees-like strategy CTF.
         :param pulumi.Input[_builtins.str] state: State of the challenge, either hidden or visible.
         :param pulumi.Input[Sequence[pulumi.Input[_builtins.str]]] tags: List of challenge tags that will be displayed to the end-user. You could use them to give some quick insights of what a challenge involves.
@@ -337,6 +355,8 @@ class _ChallengeDynamicState:
             pulumi.set(__self__, "name", name)
         if next is not None:
             pulumi.set(__self__, "next", next)
+        if position is not None:
+            pulumi.set(__self__, "position", position)
         if requirements is not None:
             pulumi.set(__self__, "requirements", requirements)
         if state is not None:
@@ -482,6 +502,18 @@ class _ChallengeDynamicState:
 
     @_builtins.property
     @pulumi.getter
+    def position(self) -> Optional[pulumi.Input[_builtins.int]]:
+        """
+        The challenge position as displayed to players.
+        """
+        return pulumi.get(self, "position")
+
+    @position.setter
+    def position(self, value: Optional[pulumi.Input[_builtins.int]]):
+        pulumi.set(self, "position", value)
+
+    @_builtins.property
+    @pulumi.getter
     def requirements(self) -> Optional[pulumi.Input['ChallengeDynamicRequirementsArgs']]:
         """
         List of required challenges that needs to get flagged before this one being accessible. Useful for skill-trees-like strategy CTF.
@@ -558,6 +590,7 @@ class ChallengeDynamic(pulumi.CustomResource):
                  minimum: Optional[pulumi.Input[_builtins.int]] = None,
                  name: Optional[pulumi.Input[_builtins.str]] = None,
                  next: Optional[pulumi.Input[_builtins.int]] = None,
+                 position: Optional[pulumi.Input[_builtins.int]] = None,
                  requirements: Optional[pulumi.Input[Union['ChallengeDynamicRequirementsArgs', 'ChallengeDynamicRequirementsArgsDict']]] = None,
                  state: Optional[pulumi.Input[_builtins.str]] = None,
                  tags: Optional[pulumi.Input[Sequence[pulumi.Input[_builtins.str]]]] = None,
@@ -619,6 +652,7 @@ class ChallengeDynamic(pulumi.CustomResource):
         :param pulumi.Input[_builtins.int] minimum: The minimum points for a dynamic-score challenge to reach with the decay function. Once there, no solve could have more value.
         :param pulumi.Input[_builtins.str] name: Name of the challenge, displayed as it.
         :param pulumi.Input[_builtins.int] next: Suggestion for the end-user as next challenge to work on.
+        :param pulumi.Input[_builtins.int] position: The challenge position as displayed to players.
         :param pulumi.Input[Union['ChallengeDynamicRequirementsArgs', 'ChallengeDynamicRequirementsArgsDict']] requirements: List of required challenges that needs to get flagged before this one being accessible. Useful for skill-trees-like strategy CTF.
         :param pulumi.Input[_builtins.str] state: State of the challenge, either hidden or visible.
         :param pulumi.Input[Sequence[pulumi.Input[_builtins.str]]] tags: List of challenge tags that will be displayed to the end-user. You could use them to give some quick insights of what a challenge involves.
@@ -699,6 +733,7 @@ class ChallengeDynamic(pulumi.CustomResource):
                  minimum: Optional[pulumi.Input[_builtins.int]] = None,
                  name: Optional[pulumi.Input[_builtins.str]] = None,
                  next: Optional[pulumi.Input[_builtins.int]] = None,
+                 position: Optional[pulumi.Input[_builtins.int]] = None,
                  requirements: Optional[pulumi.Input[Union['ChallengeDynamicRequirementsArgs', 'ChallengeDynamicRequirementsArgsDict']]] = None,
                  state: Optional[pulumi.Input[_builtins.str]] = None,
                  tags: Optional[pulumi.Input[Sequence[pulumi.Input[_builtins.str]]]] = None,
@@ -732,6 +767,7 @@ class ChallengeDynamic(pulumi.CustomResource):
             __props__.__dict__["minimum"] = minimum
             __props__.__dict__["name"] = name
             __props__.__dict__["next"] = next
+            __props__.__dict__["position"] = position
             __props__.__dict__["requirements"] = requirements
             __props__.__dict__["state"] = state
             __props__.__dict__["tags"] = tags
@@ -760,6 +796,7 @@ class ChallengeDynamic(pulumi.CustomResource):
             minimum: Optional[pulumi.Input[_builtins.int]] = None,
             name: Optional[pulumi.Input[_builtins.str]] = None,
             next: Optional[pulumi.Input[_builtins.int]] = None,
+            position: Optional[pulumi.Input[_builtins.int]] = None,
             requirements: Optional[pulumi.Input[Union['ChallengeDynamicRequirementsArgs', 'ChallengeDynamicRequirementsArgsDict']]] = None,
             state: Optional[pulumi.Input[_builtins.str]] = None,
             tags: Optional[pulumi.Input[Sequence[pulumi.Input[_builtins.str]]]] = None,
@@ -783,6 +820,7 @@ class ChallengeDynamic(pulumi.CustomResource):
         :param pulumi.Input[_builtins.int] minimum: The minimum points for a dynamic-score challenge to reach with the decay function. Once there, no solve could have more value.
         :param pulumi.Input[_builtins.str] name: Name of the challenge, displayed as it.
         :param pulumi.Input[_builtins.int] next: Suggestion for the end-user as next challenge to work on.
+        :param pulumi.Input[_builtins.int] position: The challenge position as displayed to players.
         :param pulumi.Input[Union['ChallengeDynamicRequirementsArgs', 'ChallengeDynamicRequirementsArgsDict']] requirements: List of required challenges that needs to get flagged before this one being accessible. Useful for skill-trees-like strategy CTF.
         :param pulumi.Input[_builtins.str] state: State of the challenge, either hidden or visible.
         :param pulumi.Input[Sequence[pulumi.Input[_builtins.str]]] tags: List of challenge tags that will be displayed to the end-user. You could use them to give some quick insights of what a challenge involves.
@@ -804,6 +842,7 @@ class ChallengeDynamic(pulumi.CustomResource):
         __props__.__dict__["minimum"] = minimum
         __props__.__dict__["name"] = name
         __props__.__dict__["next"] = next
+        __props__.__dict__["position"] = position
         __props__.__dict__["requirements"] = requirements
         __props__.__dict__["state"] = state
         __props__.__dict__["tags"] = tags
@@ -898,6 +937,14 @@ class ChallengeDynamic(pulumi.CustomResource):
         Suggestion for the end-user as next challenge to work on.
         """
         return pulumi.get(self, "next")
+
+    @_builtins.property
+    @pulumi.getter
+    def position(self) -> pulumi.Output[_builtins.int]:
+        """
+        The challenge position as displayed to players.
+        """
+        return pulumi.get(self, "position")
 
     @_builtins.property
     @pulumi.getter
