@@ -329,10 +329,10 @@ github.com/containerd/console v1.0.4-0.20230313162750-1ae8d489ac81 h1:q2hJAaP1k2
 github.com/containerd/console v1.0.4-0.20230313162750-1ae8d489ac81/go.mod h1:YynlIjWYF8myEu6sdkwKIvGQq+cOckRm6So2avqoYAk=
 github.com/cpuguy83/go-md2man/v2 v2.0.6/go.mod h1:oOW0eioCTA6cOiMLiUPZOpcVxMig6NIQQ7OS05n1F4g=
 github.com/creack/pty v1.1.9/go.mod h1:oKZEueFk5CKHvIhNR5MUki03XCEU+Q6VDXinZuGJ33E=
-github.com/ctfer-io/go-ctfd v0.17.0 h1:qu/FHjlOSdhRMtHB66OFzHwOnwLwHrr9w4n8EHo8Yhs=
-github.com/ctfer-io/go-ctfd v0.17.0/go.mod h1:A8Mgqm85JtaTEVX8a0ZvHefcL6Nq2Ip2neftdfkgu18=
-github.com/ctfer-io/terraform-provider-ctfd/v2 v2.8.0 h1:78nlWeF8qrNmT6ccTS2yVD8veDISFPNzaqzDJAlOHgg=
-github.com/ctfer-io/terraform-provider-ctfd/v2 v2.8.0/go.mod h1:tWZ6MrUhYRVsd4T5U4K6LPhZST98L/+0eMJ7BYcZmKc=
+github.com/ctfer-io/go-ctfd v0.18.0 h1:rcP1rrIR4DefLOVYd7zM5NNtfB2pHivFfj6odUIZOv0=
+github.com/ctfer-io/go-ctfd v0.18.0/go.mod h1:A8Mgqm85JtaTEVX8a0ZvHefcL6Nq2Ip2neftdfkgu18=
+github.com/ctfer-io/terraform-provider-ctfd/v2 v2.8.1 h1:HWDOaXfA3gbupcjIxJ8obV9Z5QWtF6lsoLw2+603wHw=
+github.com/ctfer-io/terraform-provider-ctfd/v2 v2.8.1/go.mod h1:T2U0EhiteXgwJ9P13uegntkqp9Y8lUTouefOy0qsLMA=
 github.com/cyphar/filepath-securejoin v0.4.1 h1:JyxxyPEaktOD+GAnqIqTf9A8tHyAG22rowi7HkoSU1s=
 github.com/cyphar/filepath-securejoin v0.4.1/go.mod h1:Sdj7gXlvMcPZsbhwhQ33GguGLDGQL7h7bg04C/+u9jI=
 github.com/davecgh/go-spew v1.1.0/go.mod h1:J7Y8YcW2NihsgmVo/mv3lAwl/skON4iLHjSsI+c5H38=
