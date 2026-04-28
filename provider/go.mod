@@ -5,7 +5,7 @@ go 1.25.8
 replace github.com/hashicorp/terraform-plugin-sdk/v2 => github.com/pulumi/terraform-plugin-sdk/v2 v2.0.0-20240202163305-e2a20ae13ef9
 
 require (
-	github.com/ctfer-io/terraform-provider-ctfd/v2 v2.8.0
+	github.com/ctfer-io/terraform-provider-ctfd/v2 v2.8.1
 	github.com/pulumi/pulumi-terraform-bridge/v3 v3.109.0
 	go.opentelemetry.io/contrib/exporters/autoexport v0.68.0
 	go.opentelemetry.io/otel v1.43.0
@@ -47,7 +47,7 @@ require (
 	github.com/cheggaaa/pb v1.0.29 // indirect
 	github.com/cloudflare/circl v1.6.3 // indirect
 	github.com/containerd/console v1.0.4-0.20230313162750-1ae8d489ac81 // indirect
-	github.com/ctfer-io/go-ctfd v0.17.0 // indirect
+	github.com/ctfer-io/go-ctfd v0.18.0 // indirect
 	github.com/cyphar/filepath-securejoin v0.4.1 // indirect
 	github.com/deckarep/golang-set/v2 v2.5.0 // indirect
 	github.com/djherbis/times v1.5.0 // indirect
