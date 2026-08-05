@@ -2,7 +2,7 @@ module github.com/ctfer-io/pulumi-ctfd/provider/v2
 
 go 1.25.11
 
-replace github.com/hashicorp/terraform-plugin-sdk/v2 => github.com/pulumi/terraform-plugin-sdk/v2 v2.0.0-20240202163305-e2a20ae13ef9
+replace github.com/hashicorp/terraform-plugin-sdk/v2 => github.com/pulumi/terraform-plugin-sdk/v2 v2.0.0-20260318212141-5525259d096b
 
 require (
 	github.com/ctfer-io/terraform-provider-ctfd/v2 v2.8.1

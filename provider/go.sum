@@ -512,8 +512,8 @@ github.com/pulumi/pulumi/sdk/v3 v3.253.0 h1:YWdKcZMZC7DtYSqNBn1Yv2UXmFMcgx7RqG3l
 github.com/pulumi/pulumi/sdk/v3 v3.253.0/go.mod h1:iTb2Yb9mn0kfUfMjwHgSuI5sxVUOcXRy0JcV7DLWsrc=
 github.com/pulumi/terraform-diff-reader v0.0.2 h1:kTE4nEXU3/SYXESvAIem+wyHMI3abqkI3OhJ0G04LLI=
 github.com/pulumi/terraform-diff-reader v0.0.2/go.mod h1:sZ9FUzGO+yM41hsQHs/yIcj/Y993qMdBxBU5mpDmAfQ=
-github.com/pulumi/terraform-plugin-sdk/v2 v2.0.0-20240202163305-e2a20ae13ef9 h1:k3SdGlmaJ49yaRV79Ktb5KGdPvuNfeiv4+oHXN+wyhs=
-github.com/pulumi/terraform-plugin-sdk/v2 v2.0.0-20240202163305-e2a20ae13ef9/go.mod h1:qH/34G25Ugdj5FcM95cSoXzUgIbgfhVLXCcEcYaMwq8=
+github.com/pulumi/terraform-plugin-sdk/v2 v2.0.0-20260318212141-5525259d096b h1:efoz3DmFhw7EPJ3JxVfWYwpg5Dl6QTLvzMV0a7Y7mlo=
+github.com/pulumi/terraform-plugin-sdk/v2 v2.0.0-20260318212141-5525259d096b/go.mod h1:PuG4P97Ju3QXW6c6vRkRadWJbvnEu2Xh+oOuqcYOqX4=
 github.com/rhysd/go-fakeio v1.0.0 h1:+TjiKCOs32dONY7DaoVz/VPOdvRkPfBkEyUDIpM8FQY=
 github.com/rhysd/go-fakeio v1.0.0/go.mod h1:joYxF906trVwp2JLrE4jlN7A0z6wrz8O6o1UjarbFzE=
 github.com/rivo/uniseg v0.4.7 h1:WUdvkW8uEhrYfLC4ZzdpI2ztxP1I582+49Oc5Mq64VQ=
