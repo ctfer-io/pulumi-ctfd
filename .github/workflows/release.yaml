@@ -29,7 +29,7 @@ jobs:
           go-version-file: 'provider/go.mod'
 
       - name: Install Syft
-        uses: anchore/sbom-action/download-syft@3ad7283483fc7af8ff2b4ea19663c2d5ca935e26 # v0.24.2
+        uses: anchore/sbom-action/download-syft@66cbf4bc1f1c0d2edc94016e65bc221b6bb0ad6c # v0.24.3
 
       - name: Install pulumictl
         uses: jaxxstorm/action-install-gh-release@25e24d2d23ae098373794ef1d6faecb48ee52da8 # v3.0.0
